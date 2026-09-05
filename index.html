@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0f4c5c">
+<title>Mixer-4 TSS Cloud Check Sheet</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f6f8;font-family:Arial,sans-serif;color:#172033}.app{max-width:760px;margin:auto;min-height:100vh;padding-bottom:40px}
+.header{background:linear-gradient(135deg,#0f4c5c,#1b6b7a);color:#fff;padding:18px 15px;position:sticky;top:0;z-index:5}.header h1{font-size:19px;margin:0}.header small{opacity:.9}.user{margin-top:9px;display:flex;justify-content:space-between;align-items:center;font-size:12px}
+.tabs{display:flex;background:#fff;position:sticky;top:77px;z-index:4;border-bottom:1px solid #d8e1e6}.tab{flex:1;padding:13px 4px;border:0;background:#fff;color:#667085;font-weight:700}.tab.active{color:#0f4c5c;border-bottom:3px solid #0f4c5c}
+.content{padding:14px}.card{background:#fff;border-radius:15px;padding:15px;margin-bottom:13px;box-shadow:0 2px 9px #00000010}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{font-size:12px;font-weight:bold;color:#667085;display:block;margin:4px 0 5px}input,select{width:100%;padding:12px;border:1px solid #d8e1e6;border-radius:9px;font-size:15px;background:#fff}
+button{border:0;border-radius:10px;padding:12px 13px;font-weight:700}.primary{background:#0f4c5c;color:white}.green{background:#15803d;color:white}.light{background:#e9f0f3;color:#0f4c5c}.danger{background:#fee2e2;color:#b91c1c}.actions{display:flex;gap:8px;flex-wrap:wrap}.actions button{flex:1;min-width:120px}
+.counter{text-align:right;color:#667085;font-size:12px}.track{height:9px;background:#e5ecef;border-radius:9px;overflow:hidden;margin:9px 0}.bar{height:100%;background:#15803d;width:0}.section{font-size:12px;color:#0f4c5c;text-transform:uppercase;font-weight:bold;margin-top:8px}.point{font-size:21px;font-weight:bold;line-height:1.35;margin:10px 0 17px}.readrow{display:grid;grid-template-columns:1fr 85px;gap:9px}.unit{display:flex;align-items:center;justify-content:center;background:#edf3f5;border:1px solid #d8e1e6;border-radius:9px;font-weight:bold;color:#667085}
+.badge{display:inline-block;padding:4px 8px;border-radius:20px;background:#e8f3ed;color:#15803d;font-size:11px;font-weight:bold}.record{border:1px solid #d8e1e6;border-radius:11px;padding:11px;margin:8px 0}.record h3{margin:7px 0;font-size:15px}.record small{color:#667085}
+table{width:100%;border-collapse:collapse;font-size:11px}th,td{border:1px solid #d8e1e6;padding:6px;text-align:left}th{background:#edf3f5}.hidden{display:none}.notice{font-size:12px;color:#667085;line-height:1.45}.login{max-width:450px;margin:30px auto;padding:14px}
+@media(max-width:500px){.grid{grid-template-columns:1fr}.point{font-size:19px}}
+</style>
+</head>
+<body>
+<div id="login" class="login hidden"><div class="card">
+<h2>🔐 Mixer-4 TSS Login</h2><p class="notice">Use your authorized company account. The same records are available on every authorized mobile.</p>
+<label>Email</label><input id="email" type="email" placeholder="name@company.com">
+<label>Password</label><input id="password" type="password" placeholder="Password">
+<div class="actions" style="margin-top:14px"><button class="primary" onclick="login()">Login</button><button class="green" onclick="register()">Create Account</button></div>
+<p id="authMsg" class="notice"></p></div></div>
+
+<div id="app" class="app hidden">
+<div class="header"><h1>🛠 MIXER-4 TSS CLOUD CHECK SHEET</h1><small>Central Daily Monitoring System</small><div class="user"><span id="who"></span><button class="light" onclick="logout()">Logout</button></div></div>
+<div class="tabs"><button class="tab active" onclick="page('entry',this)">📝 ENTRY</button><button class="tab" onclick="page('history',this)">📋 HISTORY</button><button class="tab" onclick="page('report',this)">📊 REPORT</button></div>
+<div class="content">
+<section id="entry">
+<div class="card"><div class="grid"><div><label>Date</label><input id="date" type="date"></div><div><label>Shift</label><select id="shift"><option value="">Select</option><option>A</option><option>B</option><option>C</option><option>G</option></select></div><div><label>Checked By</label><input id="checkedBy" placeholder="Engineer / Operator"></div><div><label>Machine</label><input value="Mixer-4 TSS" disabled></div></div></div>
+<div class="card"><div id="counter" class="counter"></div><div class="track"><div id="bar" class="bar"></div></div><div id="section" class="section"></div><div id="point" class="point"></div><label>Reading</label><div class="readrow"><input id="reading" type="number" step="0.01" inputmode="decimal" placeholder="Enter value"><div id="unit" class="unit">°C</div></div><p id="status" class="notice"></p>
+<div class="actions"><button class="light" onclick="prev()">← Previous</button><button class="primary" onclick="next()">Save & Next →</button></div></div>
+<div class="card"><div class="actions"><button class="green" onclick="saveCloud()">☁ SAVE TO CLOUD</button><button class="light" onclick="loadRecord()">↻ LOAD RECORD</button></div><p class="notice">Once saved to Cloud, the record can be checked from another authorized mobile.</p></div>
+</section>
+
+<section id="history" class="hidden"><div class="card"><label>Search Shared Records</label><input id="search" placeholder="Date / shift / person" oninput="renderHistory()"><div id="historyList"></div></div></section>
+<section id="report" class="hidden"><div class="card"><div id="reportBox"></div></div></section>
+</div></div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut}from"https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import{getFirestore,doc,setDoc,getDoc,collection,getDocs,query,orderBy,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+/* REPLACE THESE VALUES WITH YOUR FIREBASE WEB APP CONFIG */
+const firebaseConfig={apiKey:"AIzaSyDztHV-dnII1DeUoxsworjfWqOcYzUw8tY",authDomain:"mixer4-tss.firebaseapp.com",projectId:"mixer4-tss",storageBucket:"mixer4-tss.firebasestorage.app",messagingSenderId:"281329772926",appId:"1:281329772926:web:c2321755e3ad4d54236b2f"};
+
+const checks=[
+["Screw LH Gearbox Temp","Gear 1st stage Rotary side","°C"],["Screw LH Gearbox Temp","Gear 2nd stage Rotary side","°C"],["Screw LH Gearbox Temp","Gear 3rd stage Rotary side","°C"],["Screw LH Gearbox Temp","Gear 1st stage Cal side","°C"],["Screw LH Gearbox Temp","Gear 2nd stage Cal side","°C"],["Screw LH Gearbox Temp","Gear 3rd stage Cal side","°C"],
+["Screw RH Gearbox Temp","Gear 1st stage Rotary side","°C"],["Screw RH Gearbox Temp","Gear 2nd stage Rotary side","°C"],["Screw RH Gearbox Temp","Gear 3rd stage Rotary side","°C"],["Screw RH Gearbox Temp","Gear 1st stage Cal side","°C"],["Screw RH Gearbox Temp","Gear 2nd stage Cal side","°C"],["Screw RH Gearbox Temp","Gear 3rd stage Cal side","°C"],
+["TSS Screw Bearing Temp","Input Universal joint bearing","°C"],["TSS Screw Bearing Temp","Output LH Universal joint bearing","°C"],["TSS Screw Bearing Temp","Screw LH 1st bearing","°C"],["TSS Screw Bearing Temp","Screw LH 2nd bearing","°C"],["TSS Screw Bearing Temp","Screw LH 3rd bearing","°C"],["TSS Screw Bearing Temp","Output RH Universal joint bearing","°C"],["TSS Screw Bearing Temp","Screw RH 1st bearing","°C"],["TSS Screw Bearing Temp","Screw RH 2nd bearing","°C"],["TSS Screw Bearing Temp","Screw RH 3rd bearing","°C"],
+["TSS Calendar TCU","Top roll TCU temp","°C"],["TSS Calendar TCU","Bottom roll TCU temp","°C"],["TSS Calendar TCU","TSS Screw temp","°C"],
+["TSS Calendar Roll Bearing Housing Temp","Top roll Drive side housing","°C"],["TSS Calendar Roll Bearing Housing Temp","Bottom roll Drive side housing","°C"],["TSS Calendar Roll Bearing Housing Temp","Top roll Water side housing","°C"],["TSS Calendar Roll Bearing Housing Temp","Bottom roll Water side housing","°C"],
+["TSS Screw Gearbox FLS","FLS oil pressure","bar"],["TSS Screw Gearbox FLS","FLS oil temp","°C"],
+["TSS Calendar Roll Gearbox Bearing Temp","Input shaft bearing motor side","°C"],["TSS Calendar Roll Gearbox Bearing Temp","2nd stage bearing temp motor side","°C"],["TSS Calendar Roll Gearbox Bearing Temp","3rd stage bearing temp motor side","°C"],["TSS Calendar Roll Gearbox Bearing Temp","Top roll coupling bearing motor side","°C"],["TSS Calendar Roll Gearbox Bearing Temp","Bottom roll coupling bearing motor side","°C"],["TSS Calendar Roll Gearbox Bearing Temp","Input shaft bearing outside","°C"],["TSS Calendar Roll Gearbox Bearing Temp","2nd stage bearing outside","°C"],["TSS Calendar Roll Gearbox Bearing Temp","3rd stage bearing outside","°C"],["TSS Calendar Roll Gearbox Bearing Temp","Top roll coupling bearing outside","°C"],["TSS Calendar Roll Gearbox Bearing Temp","Bottom roll coupling bearing outside","°C"],
+["TSS Calendar Roll Gearbox FLS","FLS oil pressure","bar"],["TSS Calendar Roll Gearbox FLS","FLS oil temp","°C"]];
+
+let auth,db,user,idx=0,values=Array(checks.length).fill(""),history=[];
+const $=x=>document.getElementById(x);$("date").value=new Date().toISOString().slice(0,10);
+
+function render(){let c=checks[idx];$("section").textContent=c[0];$("point").textContent=c[1];$("unit").textContent=c[2];$("counter").textContent=`Reading ${idx+1} of ${checks.length}`;$("bar").style.width=((idx+1)/checks.length*100)+"%";$("reading").value=values[idx]??""}
+window.prev=()=>{values[idx]=$("reading").value;if(idx){idx--;render()}};
+window.next=()=>{values[idx]=$("reading").value;if(idx<checks.length-1){idx++;render()}else $("status").textContent="✓ All readings entered. Save to Cloud."};
+function key(){return `${$("date").value}_${$("shift").value}`}
+
+window.login=async()=>{try{await signInWithEmailAndPassword(auth,$("email").value,$("password").value)}catch(e){$("authMsg").textContent=e.message}};
+window.register=async()=>{try{await createUserWithEmailAndPassword(auth,$("email").value,$("password").value)}catch(e){$("authMsg").textContent=e.message}};
+window.logout=()=>signOut(auth);
+
+window.saveCloud=async()=>{
+ values[idx]=$("reading").value;
+ if(!$("date").value||!$("shift").value){$("status").textContent="Select Date and Shift first.";return}
+ try{ $("status").textContent="Saving...";
+ await setDoc(doc(db,"mixer4_tss_records",key()),{date:$("date").value,shift:$("shift").value,checkedBy:$("checkedBy").value,values:[...values],filled:values.filter(x=>String(x).trim()).length,total:checks.length,updatedBy:user.email,updatedAt:serverTimestamp()},{merge:true});
+ $("status").textContent="✓ Saved to central cloud database. All authorized mobiles can see it.";await loadHistory()
+ }catch(e){$("status").textContent=e.message}
+};
+window.loadRecord=async()=>{
+ if(!$("shift").value){$("status").textContent="Select shift first.";return}
+ const s=await getDoc(doc(db,"mixer4_tss_records",key()));if(!s.exists()){$("status").textContent="No record found.";return}
+ const d=s.data();values=d.values||Array(checks.length).fill("");$("checkedBy").value=d.checkedBy||"";idx=0;render();$("status").textContent="✓ Shared record loaded."
+};
+async function loadHistory(){try{let s=await getDocs(query(collection(db,"mixer4_tss_records"),orderBy("date","desc")));history=s.docs.map(x=>({id:x.id,...x.data()}));renderHistory()}catch(e){console.log(e)}}
+window.renderHistory=()=>{let q=($("search").value||"").toLowerCase();let a=history.filter(r=>`${r.date} ${r.shift} ${r.checkedBy}`.toLowerCase().includes(q));$("historyList").innerHTML=a.length?a.map(r=>`<div class="record"><small>📅 ${r.date} | Shift ${r.shift}</small><h3>${r.checkedBy||"Name not entered"} <span class="badge">${r.filled||0}/${checks.length}</span></h3><small>Updated by: ${r.updatedBy||"-"}</small><div class="actions" style="margin-top:9px"><button class="light" onclick="openRecord('${r.id}')">Open</button></div></div>`).join(""):`<p class="notice">No shared records found.</p>`};
+window.openRecord=async id=>{let s=await getDoc(doc(db,"mixer4_tss_records",id));if(!s.exists())return;let r=s.data();$("date").value=r.date;$("shift").value=r.shift;$("checkedBy").value=r.checkedBy||"";values=r.values||Array(checks.length).fill("");idx=0;render();page("entry",document.querySelector(".tab"));$("status").textContent="✓ Previous shared record opened."};
+window.page=(p,b)=>{["entry","history","report"].forEach(x=>$(x).classList.toggle("hidden",x!==p));document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");if(p==="history")loadHistory();if(p==="report")report()};
+function report(){$("reportBox").innerHTML=`<h2>Current Record</h2><p><b>Date:</b> ${$("date").value} &nbsp; <b>Shift:</b> ${$("shift").value||"-"}<br><b>Checked By:</b> ${$("checkedBy").value||"-"}</p><div style="overflow:auto"><table><tr><th>No.</th><th>Section</th><th>Check Point</th><th>Value</th></tr>${checks.map((c,i)=>`<tr><td>${i+1}</td><td>${c[0]}</td><td>${c[1]}</td><td>${values[i]!==""?values[i]+" "+c[2]:""}</td></tr>`).join("")}</table></div>`}
+
+if(firebaseConfig.apiKey.startsWith("PASTE_")){$("login").classList.remove("hidden");$("authMsg").textContent="Firebase setup is required. See README_SETUP.txt."}
+else{let app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);onAuthStateChanged(auth,u=>{if(u){user=u;$("who").textContent="👤 "+u.email;$("login").classList.add("hidden");$("app").classList.remove("hidden");render();loadHistory()}else{$("app").classList.add("hidden");$("login").classList.remove("hidden")}})}
+render();
+</script></body></html>
