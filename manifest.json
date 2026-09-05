@@ -1,0 +1,10 @@
+{
+  "name": "MIXER-4 TSS Daily Check Sheet",
+  "short_name": "MIXER-4 TSS",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f172a",
+  "description": "MIXER-4 TSS daily check sheet with shared cloud records.",
+  "icons": []
+}
