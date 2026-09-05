@@ -3,24 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#4f46e5">
 
-<title>MIXER-4 TSS Daily Check Sheet</title>
+<title>MIXER-4 TSS Check Sheet</title>
 
 <style>
 
-/* =====================================================
-   MIXER-4 TSS ANIMATED UI
-===================================================== */
-
 *{
   box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
+  margin:0;
+  padding:0;
 }
 
 :root{
-  --primary:#4f46e5;
-  --secondary:#7c3aed;
+  --blue:#2563eb;
+  --purple:#7c3aed;
   --cyan:#06b6d4;
   --green:#16a34a;
   --orange:#f59e0b;
@@ -36,8 +32,6 @@ html{
 }
 
 body{
-  margin:0;
-  min-height:100vh;
   font-family:
     system-ui,
     -apple-system,
@@ -47,126 +41,76 @@ body{
     Arial,
     sans-serif;
 
+  min-height:100vh;
+
   color:var(--dark);
 
   background:
-    linear-gradient(
-      135deg,
-      #eef2ff,
-      #e0f2fe,
-      #ecfeff,
-      #f5f3ff,
-      #fff7ed
-    );
+    radial-gradient(circle at 10% 10%,#dbeafe 0,transparent 30%),
+    radial-gradient(circle at 90% 20%,#ede9fe 0,transparent 30%),
+    radial-gradient(circle at 50% 100%,#cffafe 0,transparent 35%),
+    #f8fafc;
 
-  background-size:400% 400%;
-  animation:bgMove 15s ease infinite;
+  overflow-x:hidden;
 }
 
-@keyframes bgMove{
-  0%{
-    background-position:0% 50%;
-  }
+/* BACKGROUND ANIMATION */
 
-  50%{
-    background-position:100% 50%;
-  }
-
-  100%{
-    background-position:0% 50%;
-  }
-}
-
-
-/* =====================================================
-   FLOATING BACKGROUND
-===================================================== */
-
-.bg-bubble{
+body:before,
+body:after{
+  content:"";
   position:fixed;
+  width:260px;
+  height:260px;
   border-radius:50%;
-  pointer-events:none;
-  z-index:-1;
+  filter:blur(70px);
   opacity:.35;
-  filter:blur(2px);
+  z-index:-1;
+  animation:float 8s ease-in-out infinite alternate;
 }
 
-.bubble1{
-  width:180px;
-  height:180px;
-  background:#818cf8;
-  top:8%;
-  left:-60px;
-  animation:float1 9s ease-in-out infinite;
+body:before{
+  background:#60a5fa;
+  top:-80px;
+  left:-80px;
 }
 
-.bubble2{
-  width:140px;
-  height:140px;
-  background:#22d3ee;
-  right:-40px;
-  top:40%;
-  animation:float2 11s ease-in-out infinite;
-}
-
-.bubble3{
-  width:120px;
-  height:120px;
+body:after{
   background:#c084fc;
-  bottom:5%;
-  left:25%;
-  animation:float3 10s ease-in-out infinite;
+  right:-80px;
+  bottom:-80px;
+  animation-delay:2s;
 }
 
-@keyframes float1{
-  0%,100%{transform:translate(0,0)}
-  50%{transform:translate(40px,50px)}
+@keyframes float{
+  from{
+    transform:translate(0,0) scale(1);
+  }
+  to{
+    transform:translate(40px,30px) scale(1.2);
+  }
 }
 
-@keyframes float2{
-  0%,100%{transform:translate(0,0)}
-  50%{transform:translate(-35px,-40px)}
-}
-
-@keyframes float3{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-45px)}
-}
-
-
-/* =====================================================
-   HEADER
-===================================================== */
+/* HEADER */
 
 header{
-  position:relative;
-  overflow:hidden;
-
   color:#fff;
-
-  padding:22px 16px;
 
   background:
     linear-gradient(
       135deg,
-      #2563eb,
-      #4f46e5,
-      #7c3aed,
+      #1d4ed8,
+      #7c3aed 55%,
       #0891b2
     );
 
-  background-size:300% 300%;
-
-  animation:headerGradient 8s ease infinite;
+  padding:22px 15px;
 
   box-shadow:
-    0 8px 30px #312e8135;
-}
+    0 8px 30px rgba(37,99,235,.30);
 
-@keyframes headerGradient{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
+  position:relative;
+  overflow:hidden;
 }
 
 header:after{
@@ -174,112 +118,98 @@ header:after{
   position:absolute;
   width:180px;
   height:180px;
+  border:25px solid rgba(255,255,255,.10);
   border-radius:50%;
-  right:-70px;
-  top:-90px;
-  background:#ffffff20;
-  animation:headerBubble 7s ease-in-out infinite;
+  right:-50px;
+  top:-80px;
+  animation:spin 12s linear infinite;
 }
 
-@keyframes headerBubble{
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+.header-inner{
+  max-width:1000px;
+  margin:auto;
+  position:relative;
+  z-index:1;
+}
+
+.logo-title{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo{
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:14px;
+  font-size:25px;
+  animation:pulseLogo 2.5s infinite;
+}
+
+@keyframes pulseLogo{
   0%,100%{
     transform:scale(1);
   }
   50%{
-    transform:scale(1.3);
+    transform:scale(1.07);
   }
 }
 
 header h1{
+  font-size:21px;
   margin:0;
-  font-size:22px;
-  font-weight:850;
-  letter-spacing:.2px;
 }
 
 header small{
   display:block;
-  margin-top:5px;
-  opacity:.92;
-  font-size:12px;
+  opacity:.88;
+  margin-top:3px;
 }
 
-.header-status{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-
-  margin-top:10px;
-
-  padding:6px 10px;
-
-  border-radius:99px;
-
-  background:#ffffff1c;
-
-  border:1px solid #ffffff30;
-
-  font-size:11px;
-
-  backdrop-filter:blur(5px);
-}
-
-.online-dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#4ade80;
-  box-shadow:0 0 10px #4ade80;
-  animation:pulse 1.5s infinite;
-}
-
-@keyframes pulse{
-  0%,100%{
-    transform:scale(1);
-    opacity:1;
-  }
-  50%{
-    transform:scale(1.5);
-    opacity:.6;
-  }
-}
-
-
-/* =====================================================
-   LAYOUT
-===================================================== */
+/* MAIN */
 
 .wrap{
-  max-width:900px;
+  max-width:1000px;
   margin:auto;
   padding:15px;
 }
 
+/* CARD */
+
 .card{
-  background:#ffffffeb;
+  background:rgba(255,255,255,.88);
   backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
 
-  border:
-    1px solid #ffffff;
+  border:1px solid rgba(255,255,255,.9);
 
-  border-radius:20px;
+  border-radius:22px;
 
-  padding:18px;
+  padding:20px;
 
-  margin:13px 0;
+  margin:15px 0;
 
   box-shadow:
-    0 12px 35px #33415520;
+    0 12px 35px rgba(15,23,42,.10);
 
-  animation:cardIn .45s ease;
+  animation:cardIn .5s ease;
 }
 
 @keyframes cardIn{
   from{
     opacity:0;
-    transform:translateY(15px);
+    transform:translateY(12px);
   }
-
   to{
     opacity:1;
     transform:translateY(0);
@@ -290,79 +220,65 @@ header small{
   display:none!important;
 }
 
-
-/* =====================================================
-   AUTH SCREEN
-===================================================== */
+/* AUTH */
 
 #auth{
-  max-width:520px;
-  margin:35px auto;
-  position:relative;
-  overflow:hidden;
+  max-width:560px;
+  margin:45px auto;
 }
 
 .auth-logo{
-  text-align:center;
-  margin-bottom:20px;
-}
+  width:72px;
+  height:72px;
+  margin:0 auto 12px;
 
-.auth-logo-icon{
-  width:75px;
-  height:75px;
-
-  margin:auto;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display:grid;
+  place-items:center;
 
   border-radius:22px;
 
-  font-size:38px;
+  color:#fff;
 
-  color:white;
+  font-size:35px;
 
   background:
     linear-gradient(
       135deg,
-      #2563eb,
-      #7c3aed,
-      #0891b2
+      var(--blue),
+      var(--purple),
+      var(--cyan)
     );
 
   box-shadow:
-    0 10px 25px #4f46e550;
+    0 10px 25px rgba(37,99,235,.30);
 
-  animation:
-    logoFloat 3s ease-in-out infinite;
+  animation:floatLogo 3s ease-in-out infinite;
 }
 
-@keyframes logoFloat{
+@keyframes floatLogo{
   0%,100%{
-    transform:translateY(0) rotate(0deg);
+    transform:translateY(0);
   }
-
   50%{
-    transform:translateY(-7px) rotate(2deg);
+    transform:translateY(-7px);
   }
 }
 
-.auth-logo h2{
-  margin:12px 0 3px;
-  font-size:24px;
+.auth-title{
+  text-align:center;
+  font-size:25px;
+  font-weight:900;
+  color:#312e81;
 }
 
-.auth-logo p{
-  margin:0;
+.auth-subtitle{
+  text-align:center;
   color:var(--muted);
+  margin:5px 0 20px;
   font-size:13px;
 }
 
-
-/* =====================================================
-   TABS
-===================================================== */
+/* TABS */
 
 .tabs{
   display:flex;
@@ -375,74 +291,72 @@ header small{
 
 .tabs button{
   flex:1;
-  width:auto!important;
-  box-shadow:none!important;
+  box-shadow:none;
 }
 
-.tabs .active-tab{
+.tabs .active{
   background:
     linear-gradient(
       135deg,
-      var(--primary),
-      var(--secondary)
+      var(--blue),
+      var(--purple)
     );
   color:#fff;
 }
 
+/* INPUT */
 
-/* =====================================================
-   INPUTS
-===================================================== */
-
-.field{
-  position:relative;
-  margin:12px 0;
+.input-group{
+  margin-bottom:14px;
 }
 
-.field label{
+label{
   display:block;
-  margin-bottom:6px;
   font-weight:750;
-  font-size:13px;
+  font-size:14px;
+  margin-bottom:6px;
   color:#334155;
-}
-
-.input-wrap{
-  position:relative;
 }
 
 input,
 select{
   width:100%;
+  padding:13px 14px;
 
-  padding:13px;
-
-  border:
-    1px solid var(--border);
-
+  border:1px solid var(--border);
   border-radius:13px;
-
-  font-size:15px;
 
   background:#fff;
 
+  font-size:15px;
+  color:var(--dark);
+
   outline:none;
 
-  transition:
-    .25s;
+  transition:.2s;
 }
 
 input:focus,
 select:focus{
-  border-color:var(--primary);
+  border-color:var(--blue);
 
   box-shadow:
-    0 0 0 4px #4f46e51a;
+    0 0 0 4px rgba(37,99,235,.12);
 
   transform:translateY(-1px);
 }
 
-.password-toggle{
+/* PASSWORD */
+
+.password-box{
+  position:relative;
+}
+
+.password-box input{
+  padding-right:52px;
+}
+
+.eye{
   position:absolute;
   right:5px;
   top:5px;
@@ -453,64 +367,72 @@ select:focus{
   padding:0!important;
 
   background:#eef2ff!important;
-
-  color:#4338ca!important;
+  color:#3730a3!important;
 
   box-shadow:none!important;
+
+  border-radius:10px!important;
 }
 
-
-/* =====================================================
-   BUTTONS
-===================================================== */
+/* BUTTON */
 
 button{
   width:100%;
-
-  padding:13px;
-
   border:0;
-
   border-radius:13px;
 
-  font-size:15px;
+  padding:13px 15px;
 
+  font-size:15px;
   font-weight:800;
 
-  cursor:pointer;
-
   color:#fff;
+
+  cursor:pointer;
 
   background:
     linear-gradient(
       135deg,
-      var(--primary),
-      var(--secondary)
+      var(--blue),
+      var(--purple)
     );
 
   box-shadow:
-    0 6px 16px #4f46e538;
+    0 7px 18px rgba(37,99,235,.25);
 
   transition:
-    transform .2s,
-    box-shadow .2s,
-    opacity .2s;
+    transform .18s,
+    box-shadow .18s,
+    opacity .18s;
 }
 
 button:hover{
   transform:translateY(-2px);
 
   box-shadow:
-    0 9px 22px #4f46e550;
+    0 10px 24px rgba(37,99,235,.28);
 }
 
 button:active{
-  transform:scale(.97);
+  transform:scale(.98);
+}
+
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+  transform:none;
 }
 
 button.secondary{
-  background:#e8eef8;
   color:#172033;
+
+  background:
+    linear-gradient(
+      135deg,
+      #e2e8f0,
+      #f1f5f9
+    );
+
   box-shadow:none;
 }
 
@@ -523,7 +445,7 @@ button.green{
     );
 }
 
-button.danger{
+button.red{
   background:
     linear-gradient(
       135deg,
@@ -532,10 +454,69 @@ button.danger{
     );
 }
 
+/* LINK BUTTON */
 
-/* =====================================================
-   MAIN APP
-===================================================== */
+.text-btn{
+  width:auto;
+  padding:4px;
+  background:none!important;
+  color:var(--blue)!important;
+  box-shadow:none!important;
+  font-size:13px;
+}
+
+.text-btn:hover{
+  transform:none;
+  text-decoration:underline;
+}
+
+/* MESSAGES */
+
+.message{
+  min-height:20px;
+  margin-top:12px;
+  padding:0;
+  font-size:13px;
+  font-weight:700;
+}
+
+.message.success{
+  color:var(--green);
+}
+
+.message.error{
+  color:var(--red);
+}
+
+.message.info{
+  color:var(--blue);
+}
+
+/* LOADING */
+
+.loader{
+  display:inline-block;
+  width:17px;
+  height:17px;
+
+  border:3px solid rgba(255,255,255,.4);
+  border-top-color:#fff;
+
+  border-radius:50%;
+
+  animation:loader .7s linear infinite;
+
+  vertical-align:middle;
+  margin-right:6px;
+}
+
+@keyframes loader{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+/* USER BAR */
 
 .user-card{
   display:flex;
@@ -547,26 +528,21 @@ button.danger{
   width:48px;
   height:48px;
 
-  flex-shrink:0;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
   border-radius:15px;
 
+  display:grid;
+  place-items:center;
+
   color:#fff;
-  font-size:22px;
+  font-weight:900;
+  font-size:20px;
 
   background:
     linear-gradient(
       135deg,
-      #2563eb,
-      #7c3aed
+      var(--blue),
+      var(--purple)
     );
-
-  box-shadow:
-    0 6px 15px #4f46e540;
 }
 
 .user-info{
@@ -580,108 +556,53 @@ button.danger{
   white-space:nowrap;
 }
 
-
-/* =====================================================
-   NAVIGATION
-===================================================== */
+/* NAV */
 
 .nav{
   display:flex;
   gap:10px;
-
   margin:12px 0;
-
-  position:sticky;
-  top:8px;
-
-  z-index:20;
-
-  padding:7px;
-
-  border-radius:16px;
-
-  background:#ffffffdf;
-
-  backdrop-filter:blur(12px);
-
-  box-shadow:
-    0 7px 25px #3341551c;
 }
 
 .nav button{
   flex:1;
 }
 
-.nav-icon{
-  margin-right:5px;
+/* TITLES */
+
+h2{
+  color:#312e81;
+  margin-bottom:15px;
 }
 
-
-/* =====================================================
-   FORM HEADER
-===================================================== */
-
-.form-title{
+.section-title{
   display:flex;
+  justify-content:space-between;
   align-items:center;
   gap:10px;
+  margin-bottom:15px;
 }
 
-.title-icon{
-  width:43px;
-  height:43px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  border-radius:13px;
-
-  background:#eef2ff;
-
-  font-size:22px;
-}
-
-.form-title h2{
+.section-title h2{
   margin:0;
 }
 
-.form-subtitle{
-  margin:4px 0 15px;
-  color:var(--muted);
-  font-size:13px;
-}
-
-
-/* =====================================================
-   GRID
-===================================================== */
+/* GRID */
 
 .grid{
   display:grid;
-
   grid-template-columns:
-    repeat(
-      auto-fit,
-      minmax(210px,1fr)
-    );
+    repeat(auto-fit,minmax(210px,1fr));
 
-  gap:13px;
+  gap:14px;
 }
 
-
-/* =====================================================
-   CHECK POINT
-===================================================== */
+/* CHECK POINT */
 
 .point{
-  position:relative;
+  border:1px solid var(--border);
 
-  border:
-    1px solid var(--border);
-
-  border-left:
-    5px solid var(--primary);
+  border-left:5px solid var(--blue);
 
   border-radius:15px;
 
@@ -696,13 +617,9 @@ button.danger{
       #fff
     );
 
-  transition:
-    transform .25s,
-    box-shadow .25s,
-    border-color .25s;
+  transition:.25s;
 
-  animation:
-    pointIn .35s ease both;
+  animation:pointIn .35s ease both;
 }
 
 @keyframes pointIn{
@@ -710,7 +627,6 @@ button.danger{
     opacity:0;
     transform:translateX(-8px);
   }
-
   to{
     opacity:1;
     transform:translateX(0);
@@ -721,7 +637,7 @@ button.danger{
   transform:translateY(-2px);
 
   box-shadow:
-    0 7px 20px #2563eb18;
+    0 7px 20px rgba(37,99,235,.12);
 }
 
 .point:nth-child(3n){
@@ -730,7 +646,7 @@ button.danger{
   background:
     linear-gradient(
       90deg,
-      #f0fdff,
+      #ecfeff,
       #fff
     );
 }
@@ -746,50 +662,37 @@ button.danger{
     );
 }
 
-.point.saved{
-  border-left-color:var(--green);
-
-  background:
-    linear-gradient(
-      90deg,
-      #f0fdf4,
-      #fff
-    );
-}
-
-.point .top{
+.point-top{
   display:flex;
   justify-content:space-between;
-  gap:8px;
   align-items:center;
+  gap:8px;
+}
+
+.point-number{
+  font-weight:850;
 }
 
 .point input{
   margin-top:9px;
 }
 
-
-/* =====================================================
-   PILLS
-===================================================== */
+/* STATUS */
 
 .pill{
   display:inline-flex;
   align-items:center;
+  gap:4px;
 
   padding:5px 9px;
 
   border-radius:999px;
 
-  background:#eef2ff;
-
-  color:#4338ca;
-
   font-size:11px;
-
   font-weight:800;
 
-  margin:2px;
+  background:#eef2ff;
+  color:#4338ca;
 }
 
 .pill.saved{
@@ -797,255 +700,197 @@ button.danger{
   color:#166534;
 }
 
-.pill.complete{
+.pill.completed{
   background:#dbeafe;
   color:#1d4ed8;
 }
 
-
-/* =====================================================
-   PROGRESS
-===================================================== */
-
-.progress-card{
-  margin:14px 0;
-
-  padding:13px;
-
-  border-radius:15px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #eef2ff,
-      #f5f3ff
-    );
-
-  border:1px solid #ddd6fe;
+.pill.draft{
+  background:#fef3c7;
+  color:#92400e;
 }
 
-.progress-top{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:8px;
-
-  font-size:13px;
-  font-weight:750;
-}
-
-.progress-bar{
-  height:10px;
-
-  background:#ddd6fe;
-
-  border-radius:99px;
-
-  overflow:hidden;
-}
-
-.progress-fill{
-  height:100%;
-
-  width:0%;
-
-  border-radius:99px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #2563eb,
-      #7c3aed,
-      #06b6d4
-    );
-
-  background-size:200% 100%;
-
-  animation:
-    progressGlow 2s linear infinite;
-
-  transition:
-    width .4s ease;
-}
-
-@keyframes progressGlow{
-  0%{
-    background-position:0% 0;
-  }
-
-  100%{
-    background-position:200% 0;
-  }
-}
-
-
-/* =====================================================
-   SAVE STATUS
-===================================================== */
-
-.save-status{
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-
-  min-height:30px;
-
-  padding:5px 10px;
-
-  border-radius:99px;
-
-  background:#f1f5f9;
-
-  color:#64748b;
-
-  font-size:12px;
-
-  font-weight:700;
-}
-
-.save-spinner{
-  width:13px;
-  height:13px;
-
-  border:
-    2px solid #cbd5e1;
-
-  border-top-color:
-    var(--primary);
-
-  border-radius:50%;
-
-  animation:
-    spin .7s linear infinite;
-}
-
-@keyframes spin{
-  to{
-    transform:rotate(360deg);
-  }
-}
-
-
-/* =====================================================
-   HISTORY
-===================================================== */
-
-.history-header{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.history-header h2{
-  margin:0;
-}
+/* HISTORY */
 
 .history-item{
-  padding:15px;
-
-  border:
-    1px solid var(--border);
-
+  border:1px solid var(--border);
   border-radius:16px;
 
+  padding:15px;
   margin:10px 0;
 
   background:#fff;
 
-  box-shadow:
-    0 4px 15px #3341550d;
-
-  transition:
-    .25s;
-
-  animation:
-    cardIn .4s ease;
+  transition:.2s;
 }
 
 .history-item:hover{
   transform:translateY(-2px);
 
   box-shadow:
-    0 8px 22px #33415518;
+    0 7px 20px rgba(15,23,42,.08);
 }
 
-.history-date{
+.history-main{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:flex-start;
+}
+
+.history-title{
   font-weight:850;
-  font-size:15px;
 }
 
-.history-user{
+.history-meta{
   color:var(--muted);
   font-size:12px;
-  margin:5px 0;
+  margin-top:4px;
 }
 
 .history-actions{
+  margin-top:10px;
+}
+
+/* PROGRESS */
+
+.progress-box{
+  margin:15px 0;
+}
+
+.progress-head{
   display:flex;
-  gap:8px;
+  justify-content:space-between;
+  font-size:13px;
+  font-weight:750;
+  margin-bottom:6px;
 }
 
-.history-actions button{
-  margin-top:8px;
+.progress{
+  height:9px;
+  background:#e2e8f0;
+  border-radius:99px;
+  overflow:hidden;
 }
 
+.progress-bar{
+  height:100%;
+  width:0%;
 
-/* =====================================================
-   EMPTY / LOADING
-===================================================== */
+  background:
+    linear-gradient(
+      90deg,
+      var(--blue),
+      var(--purple),
+      var(--cyan)
+    );
 
-.loading-box{
-  text-align:center;
-  padding:30px 10px;
+  border-radius:99px;
+
+  transition:width .35s ease;
 }
 
-.loader{
-  width:42px;
-  height:42px;
+/* SAVE STATUS */
 
-  margin:auto;
+.save-status{
+  display:flex;
+  align-items:center;
+  gap:6px;
 
-  border:
-    4px solid #e0e7ff;
+  font-size:12px;
+  font-weight:750;
 
-  border-top-color:
-    var(--primary);
+  color:var(--green);
+}
 
-  border-right-color:
-    var(--secondary);
-
+.save-dot{
+  width:8px;
+  height:8px;
   border-radius:50%;
-
-  animation:
-    spin .8s linear infinite;
+  background:var(--green);
+  animation:savePulse 1.5s infinite;
 }
+
+@keyframes savePulse{
+  0%,100%{
+    opacity:1;
+  }
+  50%{
+    opacity:.35;
+  }
+}
+
+/* EMPTY */
 
 .empty{
   text-align:center;
-
-  padding:30px 15px;
-
+  padding:30px 10px;
   color:var(--muted);
 }
 
-.empty-icon{
-  font-size:40px;
-  margin-bottom:8px;
+/* MOBILE */
+
+@media(max-width:650px){
+
+  .wrap{
+    padding:10px;
+  }
+
+  .card{
+    padding:15px;
+    border-radius:18px;
+  }
+
+  header{
+    padding:18px 12px;
+  }
+
+  header h1{
+    font-size:18px;
+  }
+
+  .logo{
+    width:43px;
+    height:43px;
+  }
+
+  .nav{
+    position:sticky;
+    bottom:8px;
+    z-index:20;
+
+    padding:7px;
+
+    border-radius:16px;
+
+    background:
+      rgba(255,255,255,.90);
+
+    backdrop-filter:blur(12px);
+
+    box-shadow:
+      0 8px 25px rgba(15,23,42,.18);
+  }
+
+  .nav button{
+    font-size:12px;
+    padding:11px 7px;
+  }
+
+  .row-mobile{
+    flex-direction:column;
+  }
+
+  .history-main{
+    flex-direction:column;
+  }
+
+  .section-title{
+    align-items:flex-start;
+  }
 }
 
-
-/* =====================================================
-   MESSAGE
-===================================================== */
-
-.ok{
-  color:#15803d;
-  font-weight:750;
-}
-
-.err{
-  color:#dc2626;
-  font-weight:700;
-}
+/* SMALL */
 
 .muted{
   color:var(--muted);
@@ -1056,160 +901,20 @@ button.danger{
   font-size:12px;
 }
 
-
-/* =====================================================
-   COMPLETE BUTTON
-===================================================== */
-
-.complete-area{
-  margin-top:18px;
-
-  padding-top:15px;
-
-  border-top:
-    1px dashed #cbd5e1;
+.center{
+  text-align:center;
 }
 
-#finishBtn{
-  background:
-    linear-gradient(
-      135deg,
-      #16a34a,
-      #059669
-    );
+.mt{
+  margin-top:12px;
 }
 
-
-/* =====================================================
-   TOAST
-===================================================== */
-
-#toast{
-  position:fixed;
-
-  left:50%;
-
-  bottom:25px;
-
-  transform:
-    translate(-50%,120px);
-
-  z-index:100;
-
-  padding:12px 18px;
-
-  border-radius:99px;
-
-  color:#fff;
-
-  background:#172033;
-
-  box-shadow:
-    0 10px 30px #0004;
-
-  font-size:13px;
-
-  font-weight:700;
-
-  opacity:0;
-
-  transition:
-    .35s;
+.mb{
+  margin-bottom:12px;
 }
 
-#toast.show{
-  opacity:1;
-
-  transform:
-    translate(-50%,0);
-}
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media(max-width:600px){
-
-  header{
-    padding:18px 13px;
-  }
-
-  header h1{
-    font-size:19px;
-  }
-
-  .wrap{
-    padding:10px;
-  }
-
-  .card{
-    padding:14px;
-    border-radius:17px;
-  }
-
-  .nav{
-    top:5px;
-  }
-
-  .nav button{
-    font-size:12px;
-    padding:11px 7px;
-  }
-
-  .row{
-    flex-wrap:wrap;
-  }
-
-  .row button{
-    width:auto;
-  }
-
-  .point{
-    padding:11px;
-  }
-
-  .point .top{
-    align-items:flex-start;
-  }
-
-  .point .top b{
-    font-size:13px;
-  }
-
-  #auth{
-    margin:18px auto;
-  }
-
-  .user-card{
-    align-items:flex-start;
-  }
-
-  .history-actions{
-    flex-direction:column;
-  }
-
-  .history-actions button{
-    width:100%!important;
-  }
-
-}
-
-
-/* =====================================================
-   REDUCED MOTION
-===================================================== */
-
-@media(prefers-reduced-motion:reduce){
-
-  *,
-  *:before,
-  *:after{
-    animation-duration:.01ms!important;
-    animation-iteration-count:1!important;
-    transition-duration:.01ms!important;
-  }
-
+.right{
+  margin-left:auto;
 }
 
 </style>
@@ -1218,34 +923,30 @@ button.danger{
 
 <body>
 
-<!-- ANIMATED BACKGROUND -->
-
-<div class="bg-bubble bubble1"></div>
-<div class="bg-bubble bubble2"></div>
-<div class="bg-bubble bubble3"></div>
-
 
 <!-- HEADER -->
 
 <header>
 
-  <div class="wrap">
+  <div class="header-inner">
 
-    <h1>
-      🧪 MIXER-4 TSS Daily Check Sheet
-    </h1>
+    <div class="logo-title">
 
-    <small>
-      Cloud • Secure Login • Auto-save • History
-    </small>
+      <div class="logo">
+        ⚙️
+      </div>
 
-    <div class="header-status">
+      <div>
 
-      <span class="online-dot"></span>
+        <h1>
+          MIXER-4 TSS Daily Check Sheet
+        </h1>
 
-      <span>
-        Online Cloud System
-      </span>
+        <small>
+          Cloud • Secure Login • Auto Save • History
+        </small>
+
+      </div>
 
     </div>
 
@@ -1257,38 +958,30 @@ button.danger{
 <div class="wrap">
 
 
-<!-- =====================================================
-     LOGIN / SIGNUP
-===================================================== -->
+<!-- ================= AUTH ================= -->
 
-<section
-  id="auth"
-  class="card"
->
-
+<section id="auth" class="card">
 
   <div class="auth-logo">
-
-    <div class="auth-logo-icon">
-      🧪
-    </div>
-
-    <h2>
-      MIXER-4 TSS
-    </h2>
-
-    <p>
-      Daily Maintenance Check System
-    </p>
-
+    ⚙
   </div>
 
+  <div class="auth-title">
+    MIXER-4 TSS
+  </div>
+
+  <div class="auth-subtitle">
+    Daily Inspection & Check Sheet
+  </div>
+
+
+  <!-- AUTH TABS -->
 
   <div class="tabs">
 
     <button
       id="loginTab"
-      class="active-tab"
+      class="active"
     >
       🔐 Login
     </button>
@@ -1297,7 +990,7 @@ button.danger{
       id="signupTab"
       class="secondary"
     >
-      ➕ Create ID
+      👤 Create ID
     </button>
 
   </div>
@@ -1307,7 +1000,7 @@ button.danger{
 
   <div id="loginBox">
 
-    <div class="field">
+    <div class="input-group">
 
       <label>
         Email ID
@@ -1323,13 +1016,13 @@ button.danger{
     </div>
 
 
-    <div class="field">
+    <div class="input-group">
 
       <label>
         Password
       </label>
 
-      <div class="input-wrap">
+      <div class="password-box">
 
         <input
           id="loginPass"
@@ -1340,10 +1033,10 @@ button.danger{
 
         <button
           type="button"
-          class="password-toggle"
+          class="eye"
           id="loginEye"
         >
-          👁️
+          👁
         </button>
 
       </div>
@@ -1351,10 +1044,24 @@ button.danger{
     </div>
 
 
-    <button id="loginBtn">
+    <div style="text-align:right">
 
-      🚀 Login to Dashboard
+      <button
+        class="text-btn"
+        id="forgotBtn"
+        type="button"
+      >
+        Forgot Password?
+      </button>
 
+    </div>
+
+
+    <button
+      id="loginBtn"
+      class="mt"
+    >
+      🔐 Login
     </button>
 
   </div>
@@ -1367,16 +1074,7 @@ button.danger{
     class="hidden"
   >
 
-    <p class="muted">
-
-      Create your own account.
-      Every engineer/operator can use
-      their own email ID.
-
-    </p>
-
-
-    <div class="field">
+    <div class="input-group">
 
       <label>
         Email ID
@@ -1385,20 +1083,20 @@ button.danger{
       <input
         id="signupEmail"
         type="email"
-        placeholder="Enter email ID"
+        placeholder="Enter email"
         autocomplete="email"
       >
 
     </div>
 
 
-    <div class="field">
+    <div class="input-group">
 
       <label>
         Password
       </label>
 
-      <div class="input-wrap">
+      <div class="password-box">
 
         <input
           id="signupPass"
@@ -1409,10 +1107,10 @@ button.danger{
 
         <button
           type="button"
-          class="password-toggle"
+          class="eye"
           id="signupEye"
         >
-          👁️
+          👁
         </button>
 
       </div>
@@ -1420,28 +1118,102 @@ button.danger{
     </div>
 
 
-    <button id="signupBtn">
+    <div class="input-group">
 
+      <label>
+        Confirm Password
+      </label>
+
+      <div class="password-box">
+
+        <input
+          id="signupConfirm"
+          type="password"
+          placeholder="Re-enter password"
+          autocomplete="new-password"
+        >
+
+        <button
+          type="button"
+          class="eye"
+          id="confirmEye"
+        >
+          👁
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <button
+      id="signupBtn"
+    >
       ✨ Create Account
-
     </button>
 
   </div>
 
 
-  <p
-    id="authMsg"
-    class="small"
-  ></p>
+  <!-- FORGOT PASSWORD -->
 
+  <div
+    id="forgotBox"
+    class="hidden"
+  >
+
+    <h2>
+      Reset Password
+    </h2>
+
+    <p class="muted mb">
+      Enter your registered email.
+      Firebase will send a password reset link.
+    </p>
+
+
+    <div class="input-group">
+
+      <label>
+        Email ID
+      </label>
+
+      <input
+        id="resetEmail"
+        type="email"
+        placeholder="Enter registered email"
+      >
+
+    </div>
+
+
+    <button
+      id="resetBtn"
+    >
+      📩 Send Reset Link
+    </button>
+
+
+    <button
+      id="backLoginBtn"
+      class="secondary mt"
+    >
+      ← Back to Login
+    </button>
+
+  </div>
+
+
+  <div
+    id="authMsg"
+    class="message"
+  ></div>
 
 </section>
 
 
 
-<!-- =====================================================
-     MAIN APPLICATION
-===================================================== -->
+<!-- ================= APP ================= -->
 
 <section
   id="app"
@@ -1455,8 +1227,11 @@ button.danger{
 
     <div class="user-card">
 
-      <div class="user-avatar">
-        👷
+      <div
+        class="user-avatar"
+        id="userAvatar"
+      >
+        U
       </div>
 
       <div class="user-info">
@@ -1465,19 +1240,18 @@ button.danger{
           User
         </b>
 
-        <div class="muted">
-          Logged-in Engineer / Operator
-        </div>
+        <span class="muted">
+          Logged-in user
+        </span>
 
       </div>
 
 
       <button
-        class="secondary"
         id="logoutBtn"
-        style="margin-left:auto;width:auto"
+        class="secondary right"
       >
-        🚪 Logout
+        Logout
       </button>
 
     </div>
@@ -1485,25 +1259,320 @@ button.danger{
   </div>
 
 
-
-  <!-- NAVIGATION -->
+  <!-- NAV -->
 
   <div class="nav">
 
     <button id="newBtn">
-
-      📝
-      <span class="nav-icon">
-        New Sheet
-      </span>
-
+      ➕ New Sheet
     </button>
 
-
     <button
-      class="secondary"
       id="historyBtn"
+      class="secondary"
     >
+      📋 History
+    </button>
 
-      📚
-      <span class="nav
+  </div>
+
+
+
+  <!-- ================= FORM ================= -->
+
+  <section
+    id="formView"
+    class="card"
+  >
+
+    <div class="section-title">
+
+      <div>
+
+        <h2>
+          📝 Daily Check Sheet
+        </h2>
+
+        <div class="muted">
+          Fill readings below. Changes are automatically saved.
+        </div>
+
+      </div>
+
+      <div
+        class="save-status"
+        id="cloudStatus"
+      >
+
+        <span class="save-dot"></span>
+
+        Cloud Ready
+
+      </div>
+
+    </div>
+
+
+    <!-- BASIC DETAILS -->
+
+    <div class="grid">
+
+
+      <div class="input-group">
+
+        <label>
+          Date
+        </label>
+
+        <input
+          id="date"
+          type="date"
+        >
+
+      </div>
+
+
+      <div class="input-group">
+
+        <label>
+          Shift
+        </label>
+
+        <select id="shift">
+
+          <option value="A">
+            Shift A
+          </option>
+
+          <option value="B">
+            Shift B
+          </option>
+
+          <option value="C">
+            Shift C
+          </option>
+
+          <option value="General">
+            General
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="input-group">
+
+        <label>
+          Area / Machine
+        </label>
+
+        <input
+          id="machine"
+          value="MIXER-4 / TSS UNIT"
+        >
+
+      </div>
+
+    </div>
+
+
+    <!-- PROGRESS -->
+
+    <div class="progress-box">
+
+      <div class="progress-head">
+
+        <span>
+          Check Sheet Progress
+        </span>
+
+        <span id="progressText">
+          0 / 42
+        </span>
+
+      </div>
+
+      <div class="progress">
+
+        <div
+          id="progressBar"
+          class="progress-bar"
+        ></div>
+
+      </div>
+
+    </div>
+
+
+    <!-- POINTS -->
+
+    <div id="points"></div>
+
+
+    <!-- COMPLETE -->
+
+    <div class="mt">
+
+      <button
+        id="finishBtn"
+        class="green"
+      >
+        ✅ Mark Sheet Complete
+      </button>
+
+    </div>
+
+
+    <div
+      id="saveMsg"
+      class="message"
+    ></div>
+
+  </section>
+
+
+
+  <!-- ================= HISTORY ================= -->
+
+  <section
+    id="historyView"
+    class="card hidden"
+  >
+
+    <div class="section-title">
+
+      <div>
+
+        <h2>
+          📋 My Previous History
+        </h2>
+
+        <div class="muted">
+          Only records created by your account are shown.
+        </div>
+
+      </div>
+
+      <button
+        id="refreshHistory"
+        class="secondary"
+        style="width:auto"
+      >
+        🔄 Refresh
+      </button>
+
+    </div>
+
+
+    <div id="history"></div>
+
+  </section>
+
+
+</section>
+
+</div>
+
+
+
+<script type="module">
+
+
+/* =========================================
+   FIREBASE IMPORTS
+========================================= */
+
+
+import {
+  initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signOut
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+
+import {
+  getFirestore,
+  collection,
+  doc,
+  setDoc,
+  getDocs,
+  query,
+  where,
+  serverTimestamp
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+
+
+/* =========================================
+   FIREBASE CONFIG
+========================================= */
+
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyDztHV-dnII1DeUoxsworjfWqOcYzUw8tY",
+
+  authDomain:
+    "mixer4-tss.firebaseapp.com",
+
+  projectId:
+    "mixer4-tss",
+
+  storageBucket:
+    "mixer4-tss.firebasestorage.app",
+
+  messagingSenderId:
+    "281329772926",
+
+  appId:
+    "1:281329772926:web:c2321755e3ad4d54236b2f"
+
+};
+
+
+
+/* =========================================
+   INITIALIZE
+========================================= */
+
+
+const firebaseApp =
+  initializeApp(firebaseConfig);
+
+
+const auth =
+  getAuth(firebaseApp);
+
+
+const db =
+  getFirestore(firebaseApp);
+
+
+
+/* =========================================
+   SHORTCUT
+========================================= */
+
+
+const $ =
+  id => document.getElementById(id);
+
+
+
+/* ===========
