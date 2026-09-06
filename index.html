@@ -1,1559 +1,2256 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>MIXER-4 TSS | Digital Check Sheet</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>MIXER-4 TSS Control</title>
 
 <style>
+
 *{
-  box-sizing:border-box;
+box-sizing:border-box;
 }
 
 :root{
-  --blue:#2563eb;
-  --blue2:#1d4ed8;
-  --purple:#7c3aed;
-  --cyan:#06b6d4;
-  --green:#16a34a;
-  --orange:#f59e0b;
-  --red:#dc2626;
-  --dark:#0f172a;
-  --text:#172033;
-  --muted:#64748b;
-  --border:#dbe4f0;
-  --white:#fff;
-}
-
-html{
-  scroll-behavior:smooth;
+--blue:#2563eb;
+--purple:#7c3aed;
+--cyan:#0891b2;
+--green:#16a34a;
+--orange:#f59e0b;
+--red:#dc2626;
+--dark:#172033;
+--muted:#64748b;
+--border:#dbe4f0;
 }
 
 body{
-  margin:0;
-  min-height:100vh;
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Arial,
-    sans-serif;
 
-  color:var(--text);
+margin:0;
 
-  background:
-    radial-gradient(circle at 10% 10%,#dbeafe 0,transparent 30%),
-    radial-gradient(circle at 90% 20%,#ede9fe 0,transparent 30%),
-    radial-gradient(circle at 50% 100%,#cffafe 0,transparent 35%),
-    #f8fafc;
-}
+font-family:
+system-ui,
+-apple-system,
+Segoe UI,
+Roboto,
+Arial,
+sans-serif;
 
-/* ANIMATION */
+min-height:100vh;
 
-@keyframes fadeIn{
-  from{
-    opacity:0;
-    transform:translateY(18px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
+background:
+linear-gradient(
+135deg,
+#eef2ff,
+#ecfeff,
+#fff7ed
+);
 
-@keyframes slideDown{
-  from{
-    opacity:0;
-    transform:translateY(-20px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
+color:var(--dark);
 
-@keyframes pulse{
-  0%,100%{
-    transform:scale(1);
-  }
-  50%{
-    transform:scale(1.04);
-  }
-}
-
-@keyframes spin{
-  to{
-    transform:rotate(360deg);
-  }
-}
-
-@keyframes glow{
-  0%,100%{
-    box-shadow:0 0 0 rgba(37,99,235,0);
-  }
-  50%{
-    box-shadow:0 0 25px rgba(37,99,235,.25);
-  }
-}
-
-.animate{
-  animation:fadeIn .5s ease both;
 }
 
 /* HEADER */
 
 header{
-  position:relative;
-  overflow:hidden;
 
-  color:white;
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#7c3aed,
+#0891b2
+);
 
-  background:
-    linear-gradient(
-      135deg,
-      #1d4ed8,
-      #7c3aed 55%,
-      #0891b2
-    );
+color:white;
 
-  box-shadow:0 8px 30px rgba(30,41,59,.25);
+padding:22px 16px;
+
+box-shadow:
+0 8px 30px #312e8140;
+
+animation:
+headerDrop .7s ease;
+
 }
 
-header:before,
-header:after{
-  content:"";
-  position:absolute;
-  border-radius:50%;
-  background:rgba(255,255,255,.10);
+@keyframes headerDrop{
+
+from{
+opacity:0;
+transform:translateY(-30px);
 }
 
-header:before{
-  width:180px;
-  height:180px;
-  right:-60px;
-  top:-80px;
+to{
+opacity:1;
+transform:translateY(0);
 }
 
-header:after{
-  width:120px;
-  height:120px;
-  left:-50px;
-  bottom:-60px;
 }
 
-.header-inner{
-  position:relative;
-  z-index:2;
-  max-width:1000px;
-  margin:auto;
-  padding:22px 16px;
-}
+.headerInner{
 
-.header-title{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
+max-width:1000px;
 
-.logo{
-  width:48px;
-  height:48px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+margin:auto;
 
-  border-radius:14px;
-
-  background:rgba(255,255,255,.18);
-  backdrop-filter:blur(10px);
-
-  font-size:25px;
-
-  animation:pulse 3s infinite;
 }
 
 header h1{
-  margin:0;
-  font-size:22px;
+
+margin:0;
+
+font-size:24px;
+
 }
 
-header small{
-  display:block;
-  margin-top:3px;
-  opacity:.9;
+header p{
+
+margin:5px 0 0;
+
+opacity:.9;
+
+font-size:13px;
+
 }
 
-/* LAYOUT */
+/* CONTAINER */
 
-.wrap{
-  width:100%;
-  max-width:1000px;
-  margin:auto;
-  padding:16px;
+.container{
+
+max-width:1000px;
+
+margin:auto;
+
+padding:18px;
+
 }
 
 /* CARD */
 
 .card{
-  background:rgba(255,255,255,.92);
-  backdrop-filter:blur(12px);
 
-  border:1px solid rgba(255,255,255,.8);
+background:
+rgba(255,255,255,.92);
 
-  border-radius:22px;
+backdrop-filter:blur(10px);
 
-  padding:20px;
+border-radius:22px;
 
-  margin:15px 0;
+padding:20px;
 
-  box-shadow:
-    0 12px 35px rgba(15,23,42,.10);
+margin:15px 0;
 
-  animation:fadeIn .5s ease both;
+box-shadow:
+0 10px 35px #33415522;
+
+border:1px solid white;
+
+animation:
+cardIn .5s ease;
+
 }
 
-.hidden{
-  display:none!important;
+@keyframes cardIn{
+
+from{
+
+opacity:0;
+
+transform:
+translateY(20px)
+scale(.98);
+
+}
+
+to{
+
+opacity:1;
+
+transform:
+translateY(0)
+scale(1);
+
+}
+
 }
 
 /* AUTH */
 
-#auth{
-  max-width:560px;
-  margin:40px auto;
-  animation:fadeIn .6s ease;
+.auth{
+
+max-width:500px;
+
+margin:
+60px auto;
+
 }
 
-.auth-logo{
-  width:80px;
-  height:80px;
+.logo{
 
-  margin:0 auto 12px;
+text-align:center;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
+font-size:32px;
 
-  border-radius:24px;
+font-weight:900;
 
-  color:white;
-  font-size:36px;
+background:
+linear-gradient(
+90deg,
+#2563eb,
+#7c3aed,
+#0891b2
+);
 
-  background:
-    linear-gradient(
-      135deg,
-      var(--blue),
-      var(--purple),
-      var(--cyan)
-    );
+-webkit-background-clip:text;
 
-  box-shadow:0 10px 30px rgba(37,99,235,.25);
+color:transparent;
 
-  animation:glow 3s infinite;
+margin-bottom:5px;
+
 }
 
-.auth-title{
-  text-align:center;
-  margin:5px 0;
-  font-size:25px;
-}
-
-.auth-sub{
-  text-align:center;
-  color:var(--muted);
-  margin-bottom:22px;
-}
-
-/* TABS */
-
-.tabs{
-  display:flex;
-  gap:8px;
-  margin-bottom:20px;
-}
-
-.tabs button{
-  flex:1;
-}
-
-/* INPUTS */
-
-.field{
-  margin-bottom:15px;
-}
-
-label{
-  display:block;
-  font-size:14px;
-  font-weight:750;
-  margin-bottom:6px;
-  color:#334155;
-}
-
-input,
-select,
-button{
-  width:100%;
-  min-height:46px;
-
-  padding:11px 13px;
-
-  border-radius:12px;
-
-  font-size:15px;
-
-  font-family:inherit;
-}
+/* INPUT */
 
 input,
 select{
-  border:1px solid var(--border);
-  background:#fff;
-  color:var(--text);
-  outline:none;
 
-  transition:.2s;
+width:100%;
+
+padding:13px;
+
+border-radius:12px;
+
+border:
+1px solid var(--border);
+
+font-size:15px;
+
+outline:none;
+
+background:white;
+
+transition:.2s;
+
 }
 
 input:focus,
 select:focus{
-  border-color:var(--blue);
 
-  box-shadow:
-    0 0 0 4px rgba(37,99,235,.12);
+border-color:var(--blue);
+
+box-shadow:
+0 0 0 4px #2563eb20;
+
 }
 
 /* BUTTON */
 
 button{
-  border:0;
-  color:white;
-  font-weight:750;
 
-  cursor:pointer;
+border:0;
 
-  background:
-    linear-gradient(
-      135deg,
-      var(--blue),
-      var(--purple)
-    );
+padding:13px 17px;
 
-  box-shadow:
-    0 6px 16px rgba(37,99,235,.22);
+border-radius:12px;
 
-  transition:
-    transform .18s,
-    box-shadow .18s,
-    opacity .18s;
+font-size:15px;
+
+font-weight:750;
+
+cursor:pointer;
+
+color:white;
+
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#7c3aed
+);
+
+box-shadow:
+0 5px 16px #2563eb35;
+
+transition:.2s;
+
 }
 
 button:hover{
-  transform:translateY(-2px);
-  box-shadow:
-    0 9px 22px rgba(37,99,235,.28);
+
+transform:
+translateY(-2px);
+
+box-shadow:
+0 9px 22px #2563eb40;
+
 }
 
 button:active{
-  transform:scale(.97);
+
+transform:
+scale(.97);
+
 }
 
 button.secondary{
-  background:#e8eef8;
-  color:#172033;
-  box-shadow:none;
+
+background:#e8eef8;
+
+color:#172033;
+
+box-shadow:none;
+
 }
 
-button.success{
-  background:
-    linear-gradient(
-      135deg,
-      #16a34a,
-      #059669
-    );
+button.green{
+
+background:
+linear-gradient(
+135deg,
+#16a34a,
+#059669
+);
+
 }
 
-button.danger{
-  background:
-    linear-gradient(
-      135deg,
-      #ef4444,
-      #b91c1c
-    );
+button.red{
+
+background:
+linear-gradient(
+135deg,
+#ef4444,
+#b91c1c
+);
+
 }
 
-button.cyan{
-  background:
-    linear-gradient(
-      135deg,
-      #0891b2,
-      #06b6d4
-    );
+/* AUTH TABS */
+
+.tabs{
+
+display:flex;
+
+gap:10px;
+
+margin-bottom:20px;
+
 }
 
-/* ROW */
+.tabs button{
 
-.row{
-  display:flex;
-  align-items:center;
-  gap:10px;
+flex:1;
+
 }
 
-.row button{
-  width:auto;
+/* FORM */
+
+.grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(
+auto-fit,
+minmax(210px,1fr)
+);
+
+gap:14px;
+
 }
 
-.right{
-  margin-left:auto;
+label{
+
+display:block;
+
+font-size:14px;
+
+font-weight:750;
+
+margin-bottom:6px;
+
 }
 
-/* APP USER */
+.field{
 
-.user-card{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
+margin-bottom:15px;
 
-.user-icon{
-  width:48px;
-  height:48px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  border-radius:15px;
-
-  background:#eef2ff;
-  color:#4338ca;
-
-  font-size:22px;
 }
 
 /* NAV */
 
 .nav{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin:15px 0;
+
+display:flex;
+
+gap:10px;
+
+margin:12px 0;
+
 }
 
-/* DASHBOARD */
+.nav button{
 
-.dashboard{
-  display:grid;
-  grid-template-columns:
-    repeat(3,1fr);
+flex:1;
 
-  gap:12px;
-
-  margin-bottom:15px;
 }
 
-.stat{
-  padding:15px;
+/* USER */
 
-  border-radius:16px;
+.userBox{
 
-  color:white;
+display:flex;
 
-  background:
-    linear-gradient(
-      135deg,
-      #2563eb,
-      #4f46e5
-    );
+align-items:center;
 
-  box-shadow:0 8px 20px rgba(37,99,235,.20);
+gap:12px;
 
-  animation:fadeIn .5s ease both;
 }
 
-.stat:nth-child(2){
-  background:
-    linear-gradient(
-      135deg,
-      #0891b2,
-      #06b6d4
-    );
-}
+.avatar{
 
-.stat:nth-child(3){
-  background:
-    linear-gradient(
-      135deg,
-      #16a34a,
-      #059669
-    );
-}
+width:48px;
 
-.stat-number{
-  font-size:25px;
-  font-weight:900;
-}
+height:48px;
 
-.stat-label{
-  font-size:12px;
-  opacity:.9;
-}
+border-radius:50%;
 
-/* FORM */
+display:flex;
 
-.section-title{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
+align-items:center;
 
-.section-title h2{
-  margin:0;
-  color:#312e81;
-}
+justify-content:center;
 
-.badge{
-  padding:5px 9px;
-  border-radius:99px;
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#7c3aed
+);
 
-  background:#eef2ff;
-  color:#4338ca;
+color:white;
 
-  font-size:12px;
-  font-weight:800;
+font-size:22px;
+
+font-weight:900;
+
 }
 
 /* CHECK POINT */
 
 .point{
-  position:relative;
 
-  padding:14px;
-  margin:10px 0;
+padding:14px;
 
-  border:1px solid var(--border);
-  border-left:5px solid var(--blue);
+margin:10px 0;
 
-  border-radius:15px;
+border-radius:15px;
 
-  background:
-    linear-gradient(
-      90deg,
-      #f8faff,
-      #fff
-    );
+border:1px solid var(--border);
 
-  transition:.2s;
+background:
+linear-gradient(
+90deg,
+#f8faff,
+white
+);
 
-  animation:fadeIn .4s ease both;
+border-left:
+5px solid var(--blue);
+
+transition:.2s;
+
+animation:
+pointIn .35s ease;
+
+}
+
+@keyframes pointIn{
+
+from{
+
+opacity:0;
+
+transform:
+translateX(-15px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:
+translateX(0);
+
+}
+
 }
 
 .point:hover{
-  transform:translateX(3px);
 
-  box-shadow:
-    0 7px 20px rgba(37,99,235,.10);
+transform:
+translateX(3px);
+
+box-shadow:
+0 5px 20px #2563eb18;
+
 }
 
-.point:nth-child(3n){
-  border-left-color:var(--cyan);
+.pointHeader{
+
+display:flex;
+
+justify-content:space-between;
+
+gap:10px;
+
+align-items:center;
+
 }
 
-.point:nth-child(3n+2){
-  border-left-color:var(--orange);
+.status{
+
+font-size:11px;
+
+padding:5px 9px;
+
+border-radius:20px;
+
+background:#eef2ff;
+
+color:#4338ca;
+
+font-weight:700;
+
 }
 
-.point-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:8px;
-}
+.status.saved{
 
-.point-number{
-  font-weight:850;
-}
+background:#dcfce7;
 
-.pill{
-  display:inline-block;
+color:#166534;
 
-  padding:5px 9px;
-
-  border-radius:99px;
-
-  background:#f1f5f9;
-
-  color:#64748b;
-
-  font-size:11px;
-  font-weight:800;
-}
-
-.pill.saved{
-  background:#dcfce7;
-  color:#166534;
-}
-
-.pill.completed{
-  background:#dbeafe;
-  color:#1d4ed8;
-}
-
-.point input{
-  margin-top:9px;
-}
-
-/* SAVE BAR */
-
-.save-bar{
-  position:sticky;
-  bottom:10px;
-  z-index:10;
-
-  display:flex;
-  align-items:center;
-  gap:10px;
-
-  margin-top:15px;
-  padding:10px 12px;
-
-  border-radius:15px;
-
-  background:rgba(255,255,255,.92);
-  backdrop-filter:blur(12px);
-
-  box-shadow:
-    0 8px 25px rgba(15,23,42,.16);
-}
-
-.save-dot{
-  width:10px;
-  height:10px;
-
-  border-radius:50%;
-
-  background:var(--green);
-
-  animation:pulse 1.5s infinite;
 }
 
 /* HISTORY */
 
-.history-item{
-  padding:15px;
+.history{
 
-  border:1px solid var(--border);
-  border-radius:16px;
+display:grid;
 
-  margin:10px 0;
+gap:12px;
 
-  background:white;
-
-  transition:.2s;
-
-  animation:fadeIn .4s ease both;
 }
 
-.history-item:hover{
-  box-shadow:
-    0 7px 22px rgba(15,23,42,.10);
+.historyItem{
+
+padding:16px;
+
+border-radius:16px;
+
+background:white;
+
+border:
+1px solid var(--border);
+
+box-shadow:
+0 4px 15px #33415510;
+
+transition:.2s;
+
 }
 
-.history-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
+.historyItem:hover{
+
+transform:
+translateY(-2px);
+
+box-shadow:
+0 8px 22px #33415518;
+
 }
 
-.history-actions{
-  display:flex;
-  gap:8px;
-  margin-top:12px;
+.badge{
+
+display:inline-block;
+
+padding:5px 9px;
+
+border-radius:20px;
+
+font-size:11px;
+
+font-weight:750;
+
+background:#eef2ff;
+
+color:#4338ca;
+
+margin:3px;
+
 }
 
-.history-actions button{
-  flex:1;
-}
+.badge.green{
 
-/* MODAL */
+background:#dcfce7;
 
-.modal{
-  position:fixed;
-  inset:0;
-  z-index:100;
+color:#166534;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  padding:15px;
-
-  background:rgba(15,23,42,.65);
-  backdrop-filter:blur(5px);
-}
-
-.modal-box{
-  width:100%;
-  max-width:850px;
-  max-height:90vh;
-
-  overflow:auto;
-
-  background:white;
-
-  border-radius:22px;
-
-  padding:20px;
-
-  animation:fadeIn .3s ease;
-}
-
-.modal-header{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.modal-header h2{
-  margin:0;
-}
-
-.value-grid{
-  display:grid;
-  grid-template-columns:
-    repeat(2,1fr);
-
-  gap:9px;
-
-  margin-top:15px;
-}
-
-.value-item{
-  padding:11px;
-
-  border-radius:12px;
-
-  background:#f8fafc;
-
-  border:1px solid var(--border);
-}
-
-.value-item b{
-  display:block;
-  margin-bottom:5px;
 }
 
 /* MESSAGE */
 
 .message{
-  margin-top:12px;
-  padding:10px 12px;
 
-  border-radius:10px;
+margin-top:12px;
 
-  font-size:13px;
+padding:10px;
 
-  display:none;
+border-radius:10px;
+
+font-size:13px;
+
+display:none;
+
 }
 
 .message.show{
-  display:block;
+
+display:block;
+
 }
 
 .message.ok{
-  background:#dcfce7;
-  color:#166534;
+
+background:#dcfce7;
+
+color:#166534;
+
 }
 
 .message.error{
-  background:#fee2e2;
-  color:#991b1b;
+
+background:#fee2e2;
+
+color:#991b1b;
+
 }
 
-/* LOADER */
+/* LOADING */
 
 .loader{
-  width:18px;
-  height:18px;
 
-  border:3px solid rgba(255,255,255,.4);
-  border-top-color:white;
+width:20px;
 
-  border-radius:50%;
+height:20px;
 
-  animation:spin .7s linear infinite;
+border:3px solid #ffffff55;
 
-  display:inline-block;
+border-top-color:white;
 
-  vertical-align:middle;
+border-radius:50%;
 
-  margin-right:5px;
+animation:
+spin .7s linear infinite;
+
+display:inline-block;
+
+vertical-align:middle;
+
 }
 
-/* MUTED */
+@keyframes spin{
 
-.muted{
-  color:var(--muted);
-  font-size:13px;
+to{
+transform:rotate(360deg);
 }
 
-.small{
-  font-size:12px;
+}
+
+/* HIDDEN */
+
+.hidden{
+
+display:none !important;
+
 }
 
 /* RESPONSIVE */
 
-@media(max-width:700px){
-
-  .dashboard{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .value-grid{
-    grid-template-columns:1fr;
-  }
-}
-
 @media(max-width:600px){
 
-  .wrap{
-    padding:10px;
-  }
+.container{
 
-  .card{
-    padding:14px;
-    border-radius:17px;
-  }
+padding:10px;
 
-  .header-inner{
-    padding:18px 12px;
-  }
-
-  header h1{
-    font-size:18px;
-  }
-
-  .nav{
-    position:sticky;
-    bottom:8px;
-    z-index:20;
-
-    padding:7px;
-
-    border-radius:14px;
-
-    background:rgba(255,255,255,.9);
-
-    box-shadow:
-      0 7px 22px rgba(0,0,0,.15);
-  }
-
-  .nav button{
-    font-size:13px;
-  }
-
-  .dashboard{
-    grid-template-columns:1fr;
-  }
-
-  .row{
-    flex-wrap:wrap;
-  }
-
-  .row button{
-    width:auto;
-  }
-
-  .history-head{
-    flex-direction:column;
-    align-items:flex-start;
-  }
-
-  .history-actions{
-    flex-direction:column;
-  }
-
-  .history-actions button{
-    width:100%;
-  }
 }
+
+.card{
+
+padding:15px;
+
+border-radius:17px;
+
+}
+
+header h1{
+
+font-size:20px;
+
+}
+
+.nav{
+
+position:sticky;
+
+bottom:8px;
+
+z-index:20;
+
+background:#ffffffdd;
+
+backdrop-filter:blur(10px);
+
+padding:7px;
+
+border-radius:15px;
+
+}
+
+.nav button{
+
+font-size:12px;
+
+padding:11px 7px;
+
+}
+
+}
+
 </style>
+
 </head>
+
 
 <body>
 
-<!-- HEADER -->
 
 <header>
 
-  <div class="header-inner">
+<div class="headerInner">
 
-    <div class="header-title">
+<h1>⚙️ MIXER-4 TSS Daily Check Sheet</h1>
 
-      <div class="logo">
-        ⚙️
-      </div>
+<p>
+Cloud Monitoring • Secure Login • Auto Save • Shared History
+</p>
 
-      <div>
-
-        <h1>
-          MIXER-4 TSS Daily Check Sheet
-        </h1>
-
-        <small>
-          Digital Maintenance • Cloud • Shared History
-        </small>
-
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 </header>
 
 
-<div class="wrap">
+<div class="container">
 
 
-<!-- ================= AUTH ================= -->
-
-<section id="auth" class="card">
-
-  <div class="auth-logo">
-    ⚙️
-  </div>
-
-  <h2 class="auth-title">
-    MIXER-4 TSS
-  </h2>
-
-  <div class="auth-sub">
-    Maintenance Check Sheet System
-  </div>
-
-
-  <div class="tabs">
-
-    <button
-      id="loginTab"
-      type="button"
-    >
-      🔐 Login
-    </button>
-
-    <button
-      id="signupTab"
-      type="button"
-      class="secondary"
-    >
-      👤 Create ID
-    </button>
-
-  </div>
-
-
-  <!-- LOGIN -->
-
-  <div id="loginBox">
-
-    <div class="field">
-
-      <label>
-        Email ID
-      </label>
-
-      <input
-        id="loginEmail"
-        type="email"
-        autocomplete="email"
-        placeholder="Enter your email"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        Password
-      </label>
-
-      <input
-        id="loginPass"
-        type="password"
-        autocomplete="current-password"
-        placeholder="Enter password"
-      >
-
-    </div>
-
-
-    <button
-      id="loginBtn"
-      type="button"
-    >
-      🔐 Login
-    </button>
-
-  </div>
-
-
-  <!-- SIGNUP -->
-
-  <div
-    id="signupBox"
-    class="hidden"
-  >
-
-    <div class="field">
-
-      <label>
-        Email ID
-      </label>
-
-      <input
-        id="signupEmail"
-        type="email"
-        autocomplete="email"
-        placeholder="Enter email"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        Password
-      </label>
-
-      <input
-        id="signupPass"
-        type="password"
-        autocomplete="new-password"
-        placeholder="Minimum 6 characters"
-      >
-
-    </div>
-
-
-    <button
-      id="signupBtn"
-      type="button"
-    >
-      👤 Create Account
-    </button>
-
-  </div>
-
-
-  <div
-    id="authMsg"
-    class="message"
-  ></div>
-
-
-  <p class="muted small">
-    Each engineer/operator can use their own Firebase account.
-  </p>
-
-</section>
-
-
-<!-- ================= APP ================= -->
+<!-- AUTH -->
 
 <section
-  id="app"
-  class="hidden"
+id="auth"
+class="card auth"
 >
 
+<div class="logo">
 
-  <!-- USER -->
+MIXER-4
 
-  <div class="card">
+</div>
 
-    <div class="user-card">
+<h2
+style="text-align:center"
+>
 
-      <div class="user-icon">
-        👤
-      </div>
+TSS Control System
 
-      <div>
+</h2>
 
-        <b id="userLabel">
-          User
-        </b>
 
-        <div class="muted">
-          Logged-in user
-        </div>
+<div class="tabs">
 
-      </div>
+<button
+id="loginTab"
+type="button"
+>
 
-      <button
-        id="logoutBtn"
-        type="button"
-        class="secondary right"
-      >
-        Logout
-      </button>
+🔐 Login
 
-    </div>
+</button>
 
-  </div>
+<button
+id="signupTab"
+type="button"
+class="secondary"
+>
 
+➕ Create ID
 
-  <!-- DASHBOARD -->
-
-  <div class="dashboard">
-
-    <div class="stat">
-
-      <div
-        class="stat-number"
-        id="totalRecords"
-      >
-        0
-      </div>
-
-      <div class="stat-label">
-        Total Records
-      </div>
-
-    </div>
-
-
-    <div class="stat">
-
-      <div
-        class="stat-number"
-        id="myRecords"
-      >
-        0
-      </div>
-
-      <div class="stat-label">
-        My Records
-      </div>
-
-    </div>
-
-
-    <div class="stat">
-
-      <div
-        class="stat-number"
-        id="completedRecords"
-      >
-        0
-      </div>
-
-      <div class="stat-label">
-        Completed
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- NAV -->
-
-  <div class="nav">
-
-    <button
-      id="newBtn"
-      type="button"
-    >
-      ➕ New Check Sheet
-    </button>
-
-
-    <button
-      id="historyBtn"
-      type="button"
-      class="secondary"
-    >
-      📚 Previous History
-    </button>
-
-  </div>
-
-
-  <!-- ================= FORM ================= -->
-
-  <section
-    id="formView"
-    class="card"
-  >
-
-    <div class="section-title">
-
-      <h2>
-        Daily Check Sheet
-      </h2>
-
-      <span class="badge">
-        42 Points
-      </span>
-
-    </div>
-
-
-    <p class="muted">
-      Fill the observations below. Values are automatically saved to Firebase Cloud.
-    </p>
-
-
-    <div class="grid">
-
-      <div class="field">
-
-        <label>
-          Date
-        </label>
-
-        <input
-          id="date"
-          type="date"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Shift
-        </label>
-
-        <select id="shift">
-
-          <option value="A">
-            A Shift
-          </option>
-
-          <option value="B">
-            B Shift
-          </option>
-
-          <option value="C">
-            C Shift
-          </option>
-
-          <option value="General">
-            General
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Area / Machine
-        </label>
-
-        <input
-          id="machine"
-          value="MIXER-4 / TSS UNIT"
-        >
-
-      </div>
-
-    </div>
-
-
-    <div id="points"></div>
-
-
-    <div class="save-bar">
-
-      <span class="save-dot"></span>
-
-      <span
-        id="saveMsg"
-        class="small"
-      >
-        Ready
-      </span>
-
-      <button
-        id="finishBtn"
-        type="button"
-        class="success right"
-      >
-        ✅ Complete Sheet
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <!-- ================= HISTORY ================= -->
-
-  <section
-    id="historyView"
-    class="card hidden"
-  >
-
-    <div class="row">
-
-      <div>
-
-        <h2>
-          📚 Previous Records
-        </h2>
-
-        <div class="muted">
-          All users' submitted check sheets
-        </div>
-
-      </div>
-
-
-      <button
-        id="refreshHistory"
-        type="button"
-        class="secondary right"
-      >
-        🔄 Refresh
-      </button>
-
-    </div>
-
-
-    <div id="history">
-
-      <p class="muted">
-        Loading records...
-      </p>
-
-    </div>
-
-  </section>
-
-</section>
+</button>
 
 </div>
 
 
-<!-- ================= VIEW MODAL ================= -->
+<!-- LOGIN -->
 
-<div
-  id="viewModal"
-  class="modal hidden"
+<div id="loginBox">
+
+<div class="field">
+
+<label>Email</label>
+
+<input
+id="loginEmail"
+type="email"
+autocomplete="email"
+placeholder="Enter your email"
 >
 
-  <div class="modal-box">
-
-    <div class="modal-header">
-
-      <h2>
-        📋 Check Sheet Details
-      </h2>
-
-      <button
-        id="closeModal"
-        type="button"
-        class="secondary right"
-      >
-        ✕ Close
-      </button>
-
-    </div>
+</div>
 
 
-    <div
-      id="modalInfo"
-      class="card"
-    ></div>
+<div class="field">
+
+<label>Password</label>
+
+<input
+id="loginPassword"
+type="password"
+autocomplete="current-password"
+placeholder="Enter password"
+>
+
+</div>
 
 
-    <div
-      id="modalValues"
-      class="value-grid"
-    ></div>
+<button
+id="loginButton"
+type="button"
+style="width:100%"
+>
+
+🔐 Login
+
+</button>
+
+</div>
 
 
-    <div
-      class="row"
-      style="margin-top:15px"
-    >
+<!-- SIGNUP -->
 
-      <button
-        id="downloadBtn"
-        type="button"
-        class="success"
-      >
-        ⬇️ Download / Print
-      </button>
+<div
+id="signupBox"
+class="hidden"
+>
 
-      <button
-        id="closeModal2"
-        type="button"
-        class="secondary"
-      >
-        Close
-      </button>
+<div class="field">
 
-    </div>
+<label>Email</label>
 
-  </div>
+<input
+id="signupEmail"
+type="email"
+autocomplete="email"
+placeholder="Enter email"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Password</label>
+
+<input
+id="signupPassword"
+type="password"
+autocomplete="new-password"
+placeholder="Minimum 6 characters"
+>
+
+</div>
+
+
+<button
+id="signupButton"
+type="button"
+style="width:100%"
+>
+
+➕ Create Account
+
+</button>
+
+</div>
+
+
+<div
+id="authMessage"
+class="message"
+></div>
+
+
+</section>
+
+
+<!-- APP -->
+
+<section
+id="app"
+class="hidden"
+>
+
+
+<!-- USER -->
+
+<div class="card">
+
+<div class="userBox">
+
+<div class="avatar">
+
+👤
+
+</div>
+
+<div>
+
+<b id="userEmail">
+User
+</b>
+
+<div
+style="font-size:12px;color:#64748b"
+>
+
+Logged in successfully
+
+</div>
+
+</div>
+
+<button
+id="logoutButton"
+class="secondary"
+style="margin-left:auto"
+type="button"
+>
+
+Logout
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- NAV -->
+
+<div class="nav">
+
+<button
+id="newSheetButton"
+type="button"
+>
+
+📝 New Sheet
+
+</button>
+
+<button
+id="historyButton"
+class="secondary"
+type="button"
+>
+
+📚 All History
+
+</button>
+
+</div>
+
+
+<!-- SHEET -->
+
+<section
+id="sheetView"
+class="card"
+>
+
+<h2>
+
+📝 Daily Check Sheet
+
+</h2>
+
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>Date</label>
+
+<input
+id="sheetDate"
+type="date"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Shift</label>
+
+<select id="sheetShift">
+
+<option>A</option>
+
+<option>B</option>
+
+<option>C</option>
+
+<option>General</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>Area / Machine</label>
+
+<input
+id="sheetMachine"
+value="MIXER-4 / TSS UNIT"
+>
+
+</div>
+
+
+</div>
+
+
+<p
+style="color:#64748b;font-size:13px"
+>
+
+💡 Values are automatically saved to Firebase Cloud.
+
+</p>
+
+
+<div id="points"></div>
+
+
+<div
+style="
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:15px;
+"
+>
+
+<button
+id="completeButton"
+class="green"
+type="button"
+>
+
+✅ Complete Sheet
+
+</button>
+
+<button
+id="downloadButton"
+class="secondary"
+type="button"
+>
+
+⬇️ Download Sheet
+
+</button>
+
+</div>
+
+
+<div
+id="saveMessage"
+class="message"
+></div>
+
+
+</section>
+
+
+<!-- HISTORY -->
+
+<section
+id="historyView"
+class="card hidden"
+>
+
+<div
+style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+"
+>
+
+<h2>
+
+📚 Check Sheet History
+
+</h2>
+
+<button
+id="refreshButton"
+class="secondary"
+type="button"
+>
+
+🔄 Refresh
+
+</button>
+
+</div>
+
+
+<p
+style="font-size:13px;color:#64748b"
+>
+
+All logged-in users can see previous check sheets and the values filled in them.
+
+</p>
+
+
+<div
+id="historyList"
+class="history"
+>
+
+Loading...
+
+</div>
+
+
+</section>
+
+
+</section>
+
 
 </div>
 
 
 <script type="module">
 
-/* =====================================================
-   FIREBASE IMPORTS
-===================================================== */
+
+/* FIREBASE */
 
 import {
-  initializeApp
-} from
+
+initializeApp
+
+}
+
+from
 "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 
 
 import {
-  getAuth,
-  onAuthStateChanged,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut
-} from
+
+getAuth,
+
+onAuthStateChanged,
+
+createUserWithEmailAndPassword,
+
+signInWithEmailAndPassword,
+
+signOut
+
+}
+
+from
 "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 
 import {
-  getFirestore,
-  collection,
-  doc,
-  setDoc,
-  getDocs,
-  getDoc,
-  query,
-  orderBy,
-  serverTimestamp
-} from
+
+getFirestore,
+
+collection,
+
+doc,
+
+setDoc,
+
+getDocs,
+
+query,
+
+orderBy,
+
+serverTimestamp
+
+}
+
+from
 "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 
-/* =====================================================
-   FIREBASE CONFIG
-===================================================== */
+/* CONFIG */
 
-const firebaseConfig = {
+const firebaseConfig={
 
-  apiKey:
-    "AIzaSyDztHV-dnII1DeUoxsworjfWqOcYzUw8tY",
+apiKey:
+"AIzaSyDztHV-dnII1DeUoxsworjfWqOcYzUw8tY",
 
-  authDomain:
-    "mixer4-tss.firebaseapp.com",
+authDomain:
+"mixer4-tss.firebaseapp.com",
 
-  projectId:
-    "mixer4-tss",
+projectId:
+"mixer4-tss",
 
-  storageBucket:
-    "mixer4-tss.firebasestorage.app",
+storageBucket:
+"mixer4-tss.firebasestorage.app",
 
-  messagingSenderId:
-    "281329772926",
+messagingSenderId:
+"281329772926",
 
-  appId:
-    "1:281329772926:web:c2321755e3ad4d54236b2f"
+appId:
+"1:281329772926:web:c2321755e3ad4d54236b2f"
 
 };
 
 
-/* =====================================================
-   INITIALIZE
-===================================================== */
+/* INIT */
 
-const firebaseApp =
-  initializeApp(firebaseConfig);
+const firebaseApp=
+initializeApp(firebaseConfig);
 
-const auth =
-  getAuth(firebaseApp);
+const auth=
+getAuth(firebaseApp);
 
-const db =
-  getFirestore(firebaseApp);
+const db=
+getFirestore(firebaseApp);
 
 
-/* =====================================================
-   HELPER
-===================================================== */
+/* SHORTCUT */
 
-const $ =
-  id =>
-  document.getElementById(id);
+const $=id=>
+document.getElementById(id);
 
 
-/* =====================================================
-   VARIABLES
-===================================================== */
+/* VARIABLES */
 
-let currentUser = null;
+let currentUser=null;
 
-let recordId = null;
+let currentRecordId=null;
 
-let saveTimers = {};
+let currentValues=
+Array(42).fill("");
 
-let selectedRecord = null;
-
-
-/* =====================================================
-   CHECK POINTS
-===================================================== */
-
-const POINTS =
-  Array.from(
-    {length:42},
-    (_,i) =>
-      `Check Point ${i+1}`
-  );
+let saveTimer=null;
 
 
-/* =====================================================
-   DATE
-===================================================== */
+/* DATE */
 
-$("date").value =
-  new Date()
-    .toISOString()
-    .slice(0,10);
+$("sheetDate").value=
+new Date()
+.toISOString()
+.slice(0,10);
 
 
-/* =====================================================
-   CREATE POINTS
-===================================================== */
+/* POINTS */
 
-POINTS.forEach(
-  (name,i) => {
+for(let i=0;i<42;i++){
 
-    const div =
-      document.createElement("div");
+const div=
+document.createElement("div");
 
-    div.className =
-      "point";
+div.className="point";
 
-    div.innerHTML = `
+div.innerHTML=`
 
-      <div class="point-top">
+<div class="pointHeader">
 
-        <span class="point-number">
-          ${i+1}. ${name}
-        </span>
+<b>
 
-        <span
-          class="pill"
-          id=
+${i+1}. Check Point ${i+1}
+
+</b>
+
+<span
+id="status-${i}"
+class="status"
+>
+
+Not filled
+
+</span>
+
+</div>
+
+<input
+id="point-${i}"
+placeholder="Enter value / observation"
+autocomplete="off"
+>
+
+`;
+
+$("points").appendChild(div);
+
+}
+
+
+/* AUTH MESSAGE */
+
+function authMessage(
+text,
+type="error"
+){
+
+const box=
+$("authMessage");
+
+box.textContent=text;
+
+box.className=
+"message show "+type;
+
+}
+
+
+/* SAVE MESSAGE */
+
+function saveMessage(
+text,
+type="ok"
+){
+
+const box=
+$("saveMessage");
+
+box.textContent=text;
+
+box.className=
+"message show "+type;
+
+}
+
+
+/* LOGIN TAB */
+
+$("loginTab").onclick=()=>{
+
+$("loginBox")
+.classList
+.remove("hidden");
+
+$("signupBox")
+.classList
+.add("hidden");
+
+};
+
+
+/* SIGNUP TAB */
+
+$("signupTab").onclick=()=>{
+
+$("signupBox")
+.classList
+.remove("hidden");
+
+$("loginBox")
+.classList
+.add("hidden");
+
+};
+
+
+/* CREATE ACCOUNT */
+
+$("signupButton").onclick=
+async()=>{
+
+const email=
+$("signupEmail")
+.value
+.trim();
+
+const password=
+$("signupPassword")
+.value;
+
+
+if(!email){
+
+authMessage(
+"Please enter your email."
+);
+
+return;
+
+}
+
+
+if(password.length<6){
+
+authMessage(
+"Password must contain at least 6 characters."
+);
+
+return;
+
+}
+
+
+const button=
+$("signupButton");
+
+button.disabled=true;
+
+button.innerHTML=
+'<span class="loader"></span> Creating...';
+
+
+try{
+
+const result=
+await createUserWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+authMessage(
+"ACCOUNT CREATED! You are now logged in.",
+"ok"
+);
+
+console.log(
+"UID:",
+result.user.uid
+);
+
+}
+
+catch(error){
+
+console.error(error);
+
+authMessage(
+"CREATE ACCOUNT ERROR: "+
+error.code+
+" — "+
+error.message
+);
+
+}
+
+finally{
+
+button.disabled=false;
+
+button.textContent=
+"➕ Create Account";
+
+}
+
+};
+
+
+/* LOGIN */
+
+$("loginButton").onclick=
+async()=>{
+
+const email=
+$("loginEmail")
+.value
+.trim();
+
+const password=
+$("loginPassword")
+.value;
+
+
+if(!email){
+
+authMessage(
+"Please enter your email."
+);
+
+return;
+
+}
+
+
+if(!password){
+
+authMessage(
+"Please enter your password."
+);
+
+return;
+
+}
+
+
+const button=
+$("loginButton");
+
+button.disabled=true;
+
+button.innerHTML=
+'<span class="loader"></span> Logging in...';
+
+
+try{
+
+const result=
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+console.log(
+"LOGIN SUCCESS:",
+result.user.uid
+);
+
+authMessage(
+"Login successful!",
+"ok"
+);
+
+}
+
+catch(error){
+
+console.error(error);
+
+authMessage(
+"LOGIN ERROR: "+
+error.code+
+" — "+
+error.message
+);
+
+}
+
+finally{
+
+button.disabled=false;
+
+button.textContent=
+"🔐 Login";
+
+}
+
+};
+
+
+/* LOGOUT */
+
+$("logoutButton").onclick=
+async()=>{
+
+await signOut(auth);
+
+};
+
+
+/* NEW SHEET */
+
+$("newSheetButton").onclick=()=>{
+
+currentRecordId=null;
+
+currentValues=
+Array(42).fill("");
+
+$("sheetDate").value=
+new Date()
+.toISOString()
+.slice(0,10);
+
+$("sheetShift").value="A";
+
+$("sheetMachine").value=
+"MIXER-4 / TSS UNIT";
+
+
+for(let i=0;i<42;i++){
+
+$(`point-${i}`).value="";
+
+$(`status-${i}`)
+.textContent=
+"Not filled";
+
+$(`status-${i}`)
+.className=
+"status";
+
+}
+
+$("historyView")
+.classList
+.add("hidden");
+
+$("sheetView")
+.classList
+.remove("hidden");
+
+saveMessage(
+"New blank check sheet ready.",
+"ok"
+);
+
+};
+
+
+/* INPUT CHANGE */
+
+for(let i=0;i<42;i++){
+
+$(`point-${i}`)
+.addEventListener(
+"input",
+()=>{
+
+currentValues[i]=
+$(`point-${i}`)
+.value.trim();
+
+if(currentValues[i]){
+
+$(`status-${i}`)
+.textContent="Saved";
+
+$(`status-${i}`)
+.className=
+"status saved";
+
+}else{
+
+$(`status-${i}`)
+.textContent=
+"Not filled";
+
+$(`status-${i}`)
+.className="status";
+
+}
+
+scheduleSave();
+
+}
+);
+
+}
+
+
+/* AUTO SAVE */
+
+function scheduleSave(){
+
+clearTimeout(saveTimer);
+
+saveTimer=
+setTimeout(
+saveSheet,
+600
+);
+
+}
+
+
+/* SAVE SHEET */
+
+async function saveSheet(){
+
+if(!currentUser)
+return;
+
+
+const filled=
+currentValues
+.filter(v=>v)
+.length;
+
+
+if(filled===0)
+return;
+
+
+try{
+
+if(!currentRecordId){
+
+currentRecordId=
+doc(
+collection(
+db,
+"mixer4_tss_records"
+)
+).id;
+
+}
+
+
+await setDoc(
+
+doc(
+db,
+"mixer4_tss_records",
+currentRecordId
+),
+
+{
+
+date:
+$("sheetDate").value,
+
+shift:
+$("sheetShift").value,
+
+machine:
+$("sheetMachine").value,
+
+values:
+currentValues,
+
+filled:
+filled,
+
+total:
+42,
+
+status:
+"Draft",
+
+updatedBy:
+currentUser.email,
+
+userId:
+currentUser.uid,
+
+updatedAt:
+serverTimestamp()
+
+},
+
+{merge:true}
+
+);
+
+saveMessage(
+"☁️ Automatically saved to Firebase.",
+"ok"
+);
+
+}
+
+catch(error){
+
+console.error(error);
+
+saveMessage(
+"Firebase save error: "+
+error.code,
+"error"
+);
+
+}
+
+}
+
+
+/* COMPLETE */
+
+$("completeButton").onclick=
+async()=>{
+
+await saveSheet();
+
+
+if(!currentRecordId){
+
+saveMessage(
+"Please enter at least one value.",
+"error"
+);
+
+return;
+
+}
+
+
+try{
+
+await setDoc(
+
+doc(
+db,
+"mixer4_tss_records",
+currentRecordId
+),
+
+{
+
+status:
+"Completed",
+
+checkedBy:
+currentUser.email,
+
+completedAt:
+serverTimestamp(),
+
+updatedAt:
+serverTimestamp()
+
+},
+
+{merge:true}
+
+);
+
+
+saveMessage(
+"✅ CHECK SHEET COMPLETED & SAVED.",
+"ok"
+);
+
+}
+
+catch(error){
+
+saveMessage(
+"Complete error: "+
+error.code,
+"error"
+);
+
+}
+
+};
+
+
+/* HISTORY */
+
+$("historyButton").onclick=
+async()=>{
+
+$("sheetView")
+.classList
+.add("hidden");
+
+$("historyView")
+.classList
+.remove("hidden");
+
+await loadHistory();
+
+};
+
+
+$("refreshButton").onclick=
+loadHistory;
+
+
+/* LOAD HISTORY */
+
+async function loadHistory(){
+
+const list=
+$("historyList");
+
+list.innerHTML=
+"Loading history...";
+
+
+try{
+
+const q=
+query(
+
+collection(
+db,
+"mixer4_tss_records"
+),
+
+orderBy(
+"updatedAt",
+"desc"
+)
+
+);
+
+
+const snapshot=
+await getDocs(q);
+
+
+if(snapshot.empty){
+
+list.innerHTML=
+"No check sheets found.";
+
+return;
+
+}
+
+
+list.innerHTML="";
+
+
+snapshot.forEach(
+docSnap=>{
+
+const d=
+docSnap.data();
+
+
+const values=
+Array.isArray(d.values)
+?
+d.values
+:
+Array.from(
+{length:42},
+(_,i)=>d[`p${i+1}`]||""
+);
+
+
+const filled=
+values.filter(v=>v).length;
+
+
+const item=
+document.createElement("div");
+
+item.className=
+"historyItem";
+
+
+item.innerHTML=`
+
+<div>
+
+<b>
+📅 ${d.date||"-"}
+</b>
+
+&nbsp;
+
+<b>
+Shift ${d.shift||"-"}
+</b>
+
+</div>
+
+
+<div
+style="
+font-size:13px;
+color:#64748b;
+margin-top:5px;
+"
+>
+
+🏭 ${d.machine||"MIXER-4 / TSS UNIT"}
+
+<br>
+
+👤 ${d.checkedBy||d.updatedBy||"Unknown"}
+
+</div>
+
+
+<div style="margin-top:8px">
+
+<span class="badge">
+
+${d.status||"Draft"}
+
+</span>
+
+<span class="badge green">
+
+${filled}/42 Filled
+
+</span>
+
+</div>
+
+
+<button
+type="button"
+style="margin-top:10px"
+data-open
+>
+
+👁️ View Values
+
+</button>
+
+
+<div
+data-values
+class="hidden"
+style="
+margin-top:12px;
+"
+>
+
+${values.map(
+(v,i)=>`
+
+<div
+style="
+padding:8px;
+border-bottom:1px solid #eee;
+font-size:13px;
+"
+>
+
+<b>${i+1}.</b>
+
+${v||"<span style='color:#94a3b8'>Not filled</span>"}
+
+</div>
+
+`
+).join("")}
+
+</div>
+
+`;
+
+
+item
+.querySelector("[data-open]")
+.onclick=()=>{
+
+const box=
+item.querySelector("[data-values]");
+
+box.classList.toggle("hidden");
+
+};
+
+
+list.appendChild(item);
+
+});
+
+}
+
+catch(error){
+
+console.error(error);
+
+list.innerHTML=
+`
+<div
+style="
+color:#b91c1c;
+padding:12px;
+background:#fee2e2;
+border-radius:10px;
+"
+>
+
+History Error:
+
+${error.code}
+
+<br>
+
+${error.message}
+
+</div>
+`;
+
+}
+
+}
+
+
+/* DOWNLOAD */
+
+$("downloadButton").onclick=()=>{
+
+if(!currentUser){
+
+alert(
+"Please login first."
+);
+
+return;
+
+}
+
+
+const values=
+Array.from(
+{length:42},
+(_,i)=>
+$(`point-${i}`).value.trim()
+);
+
+
+let text=
+"MIXER-4 TSS DAILY CHECK SHEET\n";
+
+text+=
+"================================\n\n";
+
+text+=
+"Date: "+
+$("sheetDate").value+
+"\n";
+
+text+=
+"Shift: "+
+$("sheetShift").value+
+"\n";
+
+text+=
+"Machine: "+
+$("sheetMachine").value+
+"\n";
+
+text+=
+"Checked By: "+
+currentUser.email+
+"\n\n";
+
+text+=
+"CHECK VALUES\n";
+
+text+=
+"--------------------------------\n";
+
+
+values.forEach(
+(v,i)=>{
+
+text+=
+`${i+1}. ${v||"Not filled"}\n`;
+
+});
+
+
+text+=
+"\n================================\n";
+
+text+=
+"Generated by MIXER-4 TSS Control System";
+
+
+const blob=
+new Blob(
+[text],
+{
+type:"text/plain"
+}
+);
+
+
+const url=
+URL.createObjectURL(blob);
+
+
+const a=
+document.createElement("a");
+
+a.href=url;
+
+a.download=
+`MIXER-4-${$("sheetDate").value}-Shift-${$("sheetShift").value}.txt`;
+
+a.click();
+
+URL.revokeObjectURL(url);
+
+};
+
+
+/* AUTH STATE */
+
+onAuthStateChanged(
+auth,
+user=>{
+
+currentUser=user;
+
+
+if(user){
+
+$("auth")
+.classList
+.add("hidden");
+
+$("app")
+.classList
+.remove("hidden");
+
+$("userEmail")
+.textContent=
+user.email;
+
+console.log(
+"AUTHENTICATED:",
+user.uid
+);
+
+loadHistory();
+
+}else{
+
+$("auth")
+.classList
+.remove("hidden");
+
+$("app")
+.classList
+.add("hidden");
+
+}
+
+});
+
+</script>
+
+</body>
+
+</html>
