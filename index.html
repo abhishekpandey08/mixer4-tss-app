@@ -1,2394 +1,1428 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>MIXER-4 TSS Control</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIXER-4 TSS Daily Check Sheet</title>
 
 <style>
-
-/* =========================================================
-   GLOBAL
-========================================================= */
+:root{
+  --bg:#f4f7fb;
+  --card:#ffffff;
+  --card2:#f8fafc;
+  --text:#172033;
+  --muted:#64748b;
+  --border:#dbe3ee;
+  --primary:#2563eb;
+  --primary2:#1d4ed8;
+  --success:#16a34a;
+  --warning:#f59e0b;
+  --danger:#dc2626;
+  --shadow:0 18px 50px rgba(15,23,42,.08);
+  --radius:18px;
+}
 
 *{
-box-sizing:border-box;
+  box-sizing:border-box;
 }
 
 html{
-scroll-behavior:smooth;
-}
-
-:root{
-
---blue:#2563eb;
---blue2:#3b82f6;
---purple:#7c3aed;
---purple2:#9333ea;
---cyan:#0891b2;
---green:#16a34a;
---green2:#059669;
---orange:#f59e0b;
---red:#dc2626;
-
---dark:#172033;
---dark2:#0f172a;
---muted:#64748b;
-
---border:#dbe4f0;
-
+  scroll-behavior:smooth;
 }
 
 body{
-
-margin:0;
-
-font-family:
-system-ui,
--apple-system,
-BlinkMacSystemFont,
-"Segoe UI",
-Roboto,
-Arial,
-sans-serif;
-
-min-height:100vh;
-
-color:var(--dark);
-
-overflow-x:hidden;
-
-background:
-linear-gradient(
-135deg,
-#eef2ff,
-#ecfeff,
-#fff7ed,
-#f5f3ff
-);
-
-background-size:400% 400%;
-
-animation:
-backgroundMove 16s ease infinite;
-
+  margin:0;
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 10% 10%,rgba(37,99,235,.08),transparent 28%),
+    radial-gradient(circle at 90% 20%,rgba(14,165,233,.07),transparent 25%),
+    var(--bg);
+  min-height:100vh;
 }
 
-@keyframes backgroundMove{
+/* ---------- BACKGROUND ANIMATION ---------- */
 
-0%{
-background-position:0% 50%;
+.bg-orb{
+  position:fixed;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:-1;
+  filter:blur(2px);
+  opacity:.45;
+  animation:floatOrb 12s ease-in-out infinite;
 }
 
-50%{
-background-position:100% 50%;
+.orb1{
+  width:260px;
+  height:260px;
+  background:rgba(37,99,235,.08);
+  top:8%;
+  left:-100px;
 }
 
-100%{
-background-position:0% 50%;
+.orb2{
+  width:320px;
+  height:320px;
+  background:rgba(14,165,233,.07);
+  right:-120px;
+  top:45%;
+  animation-delay:2s;
 }
 
+.orb3{
+  width:200px;
+  height:200px;
+  background:rgba(124,58,237,.06);
+  left:35%;
+  bottom:-100px;
+  animation-delay:4s;
 }
 
-
-/* =========================================================
-   ANIMATED BACKGROUND
-========================================================= */
-
-body::before,
-body::after{
-
-content:"";
-
-position:fixed;
-
-border-radius:50%;
-
-pointer-events:none;
-
-z-index:-1;
-
-filter:blur(5px);
-
+@keyframes floatOrb{
+  0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(25px,-30px) scale(1.08)}
 }
 
-body::before{
+/* ---------- HEADER ---------- */
 
-width:330px;
-height:330px;
-
-top:100px;
-left:-150px;
-
-background:
-radial-gradient(
-circle,
-#7c3aed35,
-transparent 70%
-);
-
-animation:
-floatBlob1 10s ease-in-out infinite;
-
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(219,227,238,.8);
 }
 
-body::after{
-
-width:380px;
-height:380px;
-
-right:-180px;
-bottom:50px;
-
-background:
-radial-gradient(
-circle,
-#0891b235,
-transparent 70%
-);
-
-animation:
-floatBlob2 13s ease-in-out infinite;
-
+.topbar-inner{
+  max-width:1450px;
+  margin:auto;
+  padding:14px 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
 }
 
-@keyframes floatBlob1{
-
-0%,100%{
-transform:translate(0,0) scale(1);
+.brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
 }
 
-50%{
-transform:translate(90px,70px) scale(1.25);
+.brand-icon{
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:23px;
+  font-weight:800;
+  background:linear-gradient(135deg,#2563eb,#06b6d4);
+  box-shadow:0 10px 25px rgba(37,99,235,.25);
+  animation:iconPulse 3s ease-in-out infinite;
 }
 
+@keyframes iconPulse{
+  0%,100%{box-shadow:0 10px 25px rgba(37,99,235,.25)}
+  50%{box-shadow:0 14px 35px rgba(37,99,235,.4)}
 }
 
-@keyframes floatBlob2{
-
-0%,100%{
-transform:translate(0,0) scale(1);
+.brand-title{
+  font-weight:800;
+  font-size:18px;
+  letter-spacing:.3px;
 }
 
-50%{
-transform:translate(-80px,-90px) scale(1.2);
+.brand-sub{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:3px;
 }
 
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-header{
-
-position:relative;
-
-overflow:hidden;
-
-background:
-linear-gradient(
-135deg,
-#2563eb,
-#7c3aed,
-#0891b2,
-#2563eb
-);
-
-background-size:300% 300%;
-
-color:white;
-
-padding:25px 16px;
-
-box-shadow:
-0 10px 40px #312e8150;
-
-animation:
-headerGradient 8s ease infinite,
-headerDrop .8s ease;
-
+.user-pill{
+  display:none;
+  align-items:center;
+  gap:8px;
+  background:#eef4ff;
+  border:1px solid #d5e3ff;
+  color:#1e40af;
+  border-radius:999px;
+  padding:9px 13px;
+  font-size:13px;
 }
 
-@keyframes headerGradient{
-
-0%{
-background-position:0% 50%;
+.live-dot{
+  width:8px;
+  height:8px;
+  background:#22c55e;
+  border-radius:50%;
+  box-shadow:0 0 0 5px rgba(34,197,94,.12);
+  animation:blink 1.8s infinite;
 }
 
-50%{
-background-position:100% 50%;
+@keyframes blink{
+  50%{opacity:.35}
 }
 
-100%{
-background-position:0% 50%;
-}
-
-}
-
-@keyframes headerDrop{
-
-from{
-
-opacity:0;
-
-transform:
-translateY(-50px);
-
-}
-
-to{
-
-opacity:1;
-
-transform:
-translateY(0);
-
-}
-
-}
-
-
-/* HEADER LIGHT EFFECT */
-
-header::before{
-
-content:"";
-
-position:absolute;
-
-width:220px;
-height:220px;
-
-border-radius:50%;
-
-top:-100px;
-right:10%;
-
-background:#ffffff20;
-
-filter:blur(3px);
-
-animation:
-headerOrb 6s ease-in-out infinite;
-
-}
-
-@keyframes headerOrb{
-
-0%,100%{
-transform:translate(0,0);
-}
-
-50%{
-transform:translate(-100px,60px);
-}
-
-}
-
-.headerInner{
-
-max-width:1000px;
-
-margin:auto;
-
-position:relative;
-
-z-index:2;
-
-}
-
-header h1{
-
-margin:0;
-
-font-size:25px;
-
-letter-spacing:.3px;
-
-animation:
-titleGlow 3s ease-in-out infinite;
-
-}
-
-@keyframes titleGlow{
-
-0%,100%{
-text-shadow:0 0 0 transparent;
-}
-
-50%{
-text-shadow:0 0 18px #ffffff80;
-}
-
-}
-
-header p{
-
-margin:6px 0 0;
-
-opacity:.92;
-
-font-size:13px;
-
-}
-
-
-/* =========================================================
-   CONTAINER
-========================================================= */
+/* ---------- LAYOUT ---------- */
 
 .container{
-
-max-width:1000px;
-
-margin:auto;
-
-padding:18px;
-
+  max-width:1450px;
+  margin:auto;
+  padding:28px 22px 60px;
 }
 
-
-/* =========================================================
-   CARD
-========================================================= */
-
-.card{
-
-position:relative;
-
-background:
-rgba(255,255,255,.91);
-
-backdrop-filter:
-blur(15px);
-
--webkit-backdrop-filter:
-blur(15px);
-
-border-radius:22px;
-
-padding:20px;
-
-margin:15px 0;
-
-box-shadow:
-0 12px 40px #33415525;
-
-border:1px solid #ffffffaa;
-
-animation:
-cardIn .65s cubic-bezier(.2,.8,.2,1);
-
-transition:
-transform .35s ease,
-box-shadow .35s ease;
-
+.hidden{
+  display:none!important;
 }
 
-.card:hover{
+/* ---------- AUTH ---------- */
 
-transform:
-translateY(-3px);
+.auth-wrap{
+  min-height:calc(100vh - 90px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 
-box-shadow:
-0 20px 50px #33415530;
-
+.auth-card{
+  width:min(460px,100%);
+  background:rgba(255,255,255,.95);
+  border:1px solid var(--border);
+  border-radius:26px;
+  box-shadow:var(--shadow);
+  padding:34px;
+  animation:cardIn .6s ease;
 }
 
 @keyframes cardIn{
-
-from{
-
-opacity:0;
-
-transform:
-translateY(30px)
-scale(.96);
-
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
-to{
-
-opacity:1;
-
-transform:
-translateY(0)
-scale(1);
-
+.auth-logo{
+  width:72px;
+  height:72px;
+  margin:0 auto 18px;
+  border-radius:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:30px;
+  font-weight:900;
+  background:linear-gradient(135deg,#2563eb,#06b6d4);
+  box-shadow:0 15px 35px rgba(37,99,235,.25);
 }
 
+.auth-card h1{
+  text-align:center;
+  margin:0;
+  font-size:25px;
 }
 
-
-/* =========================================================
-   AUTH
-========================================================= */
-
-.auth{
-
-max-width:500px;
-
-margin:
-60px auto;
-
+.auth-card .subtitle{
+  text-align:center;
+  color:var(--muted);
+  margin:8px 0 28px;
 }
 
-.logo{
-
-text-align:center;
-
-font-size:35px;
-
-font-weight:950;
-
-background:
-linear-gradient(
-90deg,
-#2563eb,
-#7c3aed,
-#0891b2,
-#2563eb
-);
-
-background-size:250% auto;
-
--webkit-background-clip:text;
-
-background-clip:text;
-
-color:transparent;
-
-animation:
-logoMove 4s linear infinite;
-
+.auth-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  background:#f1f5f9;
+  padding:4px;
+  border-radius:12px;
+  margin-bottom:20px;
 }
 
-@keyframes logoMove{
-
-to{
-background-position:250% center;
+.auth-tab{
+  border:0;
+  padding:11px;
+  border-radius:9px;
+  background:transparent;
+  cursor:pointer;
+  font-weight:700;
+  color:var(--muted);
 }
 
+.auth-tab.active{
+  background:#fff;
+  color:var(--primary);
+  box-shadow:0 3px 10px rgba(15,23,42,.08);
 }
 
+/* ---------- FORM ---------- */
 
-/* =========================================================
-   INPUT
-========================================================= */
+.field{
+  margin-bottom:16px;
+}
+
+.field label{
+  display:block;
+  font-size:12px;
+  font-weight:800;
+  color:#475569;
+  margin-bottom:7px;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+}
 
 input,
 select{
-
-width:100%;
-
-padding:13px;
-
-border-radius:12px;
-
-border:
-1px solid var(--border);
-
-font-size:15px;
-
-outline:none;
-
-background:#ffffff;
-
-transition:
-.25s ease;
-
-}
-
-input:hover,
-select:hover{
-
-border-color:#93c5fd;
-
-transform:
-translateY(-1px);
-
+  width:100%;
+  border:1px solid var(--border);
+  background:#fff;
+  color:var(--text);
+  border-radius:11px;
+  padding:12px 13px;
+  outline:none;
+  font-size:14px;
+  transition:.2s;
 }
 
 input:focus,
 select:focus{
-
-border-color:var(--blue);
-
-box-shadow:
-0 0 0 4px #2563eb20,
-0 6px 20px #2563eb12;
-
-transform:
-translateY(-2px);
-
+  border-color:#60a5fa;
+  box-shadow:0 0 0 4px rgba(37,99,235,.09);
+  transform:translateY(-1px);
 }
-
-
-/* =========================================================
-   BUTTON
-========================================================= */
 
 button{
-
-position:relative;
-
-overflow:hidden;
-
-border:0;
-
-padding:13px 17px;
-
-border-radius:12px;
-
-font-size:15px;
-
-font-weight:800;
-
-cursor:pointer;
-
-color:white;
-
-background:
-linear-gradient(
-135deg,
-#2563eb,
-#7c3aed
-);
-
-background-size:200% 200%;
-
-box-shadow:
-0 6px 18px #2563eb35;
-
-transition:
-transform .25s ease,
-box-shadow .25s ease;
-
-animation:
-buttonGradient 5s ease infinite;
-
-}
-
-@keyframes buttonGradient{
-
-0%{
-background-position:0% 50%;
-}
-
-50%{
-background-position:100% 50%;
-}
-
-100%{
-background-position:0% 50%;
-}
-
-}
-
-button::before{
-
-content:"";
-
-position:absolute;
-
-top:0;
-
-left:-100%;
-
-width:60%;
-
-height:100%;
-
-background:
-linear-gradient(
-90deg,
-transparent,
-#ffffff55,
-transparent
-);
-
-transform:
-skewX(-20deg);
-
-transition:
-left .6s ease;
-
-}
-
-button:hover::before{
-
-left:140%;
-
-}
-
-button:hover{
-
-transform:
-translateY(-3px)
-scale(1.01);
-
-box-shadow:
-0 12px 28px #2563eb45;
-
-}
-
-button:active{
-
-transform:
-scale(.96);
-
-}
-
-button:disabled{
-
-opacity:.65;
-
-cursor:not-allowed;
-
-transform:none;
-
-}
-
-button.secondary{
-
-background:
-linear-gradient(
-135deg,
-#e8eef8,
-#f8fafc
-);
-
-color:#172033;
-
-box-shadow:
-0 4px 12px #64748b18;
-
-}
-
-button.green{
-
-background:
-linear-gradient(
-135deg,
-#16a34a,
-#059669
-);
-
-}
-
-button.red{
-
-background:
-linear-gradient(
-135deg,
-#ef4444,
-#b91c1c
-);
-
-
-/* =========================================================
-   AUTH TABS
-========================================================= */
-
-.tabs{
-
-display:flex;
-
-gap:10px;
-
-margin-bottom:20px;
-
-}
-
-.tabs button{
-
-flex:1;
-
-}
-
-
-/* =========================================================
-   FORM
-========================================================= */
-
-.grid{
-
-display:grid;
-
-grid-template-columns:
-repeat(
-auto-fit,
-minmax(210px,1fr)
-);
-
-gap:14px;
-
-}
-
-label{
-
-display:block;
-
-font-size:14px;
-
-font-weight:800;
-
-margin-bottom:6px;
-
-}
-
-.field{
-
-margin-bottom:15px;
-
-}
-
-
-/* =========================================================
-   NAV
-========================================================= */
-
-.nav{
-
-display:flex;
-
-gap:10px;
-
-margin:12px 0;
-
-}
-
-.nav button{
-
-flex:1;
-
-}
-
-
-/* =========================================================
-   USER
-========================================================= */
-
-.userBox{
-
-display:flex;
-
-align-items:center;
-
-gap:12px;
-
-}
-
-.avatar{
-
-width:50px;
-
-height:50px;
-
-border-radius:50%;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-background:
-linear-gradient(
-135deg,
-#2563eb,
-#7c3aed
-);
-
-color:white;
-
-font-size:22px;
-
-font-weight:900;
-
-box-shadow:
-0 0 0 5px #2563eb15,
-0 8px 25px #2563eb35;
-
-animation:
-avatarPulse 3s ease-in-out infinite;
-
-}
-
-@keyframes avatarPulse{
-
-0%,100%{
-transform:scale(1);
-box-shadow:
-0 0 0 5px #2563eb15,
-0 8px 25px #2563eb35;
-}
-
-50%{
-transform:scale(1.08);
-box-shadow:
-0 0 0 9px #2563eb10,
-0 10px 30px #2563eb45;
-}
-
-}
-
-
-/* =========================================================
-   SHIFT INFO
-========================================================= */
-
-.shiftInfo{
-
-margin-top:4px;
-
-font-size:12px;
-
-font-weight:750;
-
-color:#4338ca;
-
-padding:7px 10px;
-
-border-radius:9px;
-
-background:
-linear-gradient(
-90deg,
-#eef2ff,
-#ecfeff
-);
-
-animation:
-shiftPulse 2.5s ease-in-out infinite;
-
-}
-
-@keyframes shiftPulse{
-
-0%,100%{
-opacity:.75;
-}
-
-50%{
-opacity:1;
-}
-
-}
-
-
-/* =========================================================
-   SECTION TITLE
-========================================================= */
-
-.sectionTitle{
-
-position:relative;
-
-overflow:hidden;
-
-margin-top:25px;
-
-margin-bottom:12px;
-
-padding:13px 15px;
-
-border-radius:13px;
-
-background:
-linear-gradient(
-135deg,
-#eef2ff,
-#ecfeff,
-#f5f3ff
-);
-
-background-size:200% 200%;
-
-border-left:5px solid var(--purple);
-
-font-size:16px;
-
-font-weight:900;
-
-color:#312e81;
-
-box-shadow:
-0 5px 18px #6366f118;
-
-animation:
-sectionGlow 5s ease infinite,
-sectionSlide .55s ease;
-
-}
-
-@keyframes sectionGlow{
-
-0%{
-background-position:0% 50%;
-}
-
-50%{
-background-position:100% 50%;
-}
-
-100%{
-background-position:0% 50%;
-}
-
-}
-
-@keyframes sectionSlide{
-
-from{
-
-opacity:0;
-
-transform:
-translateX(-20px);
-
-}
-
-to{
-
-opacity:1;
-
-transform:
-translateX(0);
-
-}
-
-}
-
-.sectionTitle::after{
-
-content:"";
-
-position:absolute;
-
-top:0;
-
-left:-100%;
-
-width:50%;
-
-height:100%;
-
-background:
-linear-gradient(
-90deg,
-transparent,
-#ffffff90,
-transparent
-);
-
-animation:
-sectionShine 4s ease-in-out infinite;
-
-}
-
-@keyframes sectionShine{
-
-0%{
-left:-100%;
-}
-
-55%,100%{
-left:150%;
-}
-
-}
-
-
-/* =========================================================
-   CHECK POINT
-========================================================= */
-
-.point{
-
-padding:14px;
-
-margin:11px 0;
-
-border-radius:16px;
-
-border:1px solid var(--border);
-
-background:
-linear-gradient(
-90deg,
-#f8faff,
-#ffffff
-);
-
-border-left:
-5px solid var(--blue);
-
-transition:
-transform .3s ease,
-box-shadow .3s ease,
-border-color .3s ease;
-
-animation:
-pointIn .45s ease both;
-
-}
-
-.point:hover{
-
-transform:
-translateX(6px)
-translateY(-2px);
-
-box-shadow:
-0 8px 25px #2563eb1c;
-
-border-color:#bfdbfe;
-
-}
-
-@keyframes pointIn{
-
-from{
-
-opacity:0;
-
-transform:
-translateX(-20px);
-
-}
-
-to{
-
-opacity:1;
-
-transform:
-translateX(0);
-
-}
-
-}
-
-
-/* =========================================================
-   POINT HEADER
-========================================================= */
-
-.pointHeader{
-
-display:flex;
-
-justify-content:space-between;
-
-gap:10px;
-
-align-items:center;
-
-margin-bottom:10px;
-
-}
-
-.pointNumber{
-
-color:#2563eb;
-
-font-weight:950;
-
-font-size:14px;
-
-}
-
-
-/* =========================================================
-   TWO SIDE POINT
-========================================================= */
-
-.pointGrid{
-
-display:grid;
-
-grid-template-columns:
-1fr 1fr;
-
-gap:12px;
-
-}
-
-.sidePoint{
-
-padding:12px;
-
-border-radius:13px;
-
-background:
-rgba(255,255,255,.9);
-
-border:
-1px solid #e2e8f0;
-
-transition:
-transform .25s ease,
-box-shadow .25s ease;
-
-}
-
-.sidePoint:hover{
-
-transform:
-translateY(-3px);
-
-box-shadow:
-0 7px 18px #64748b18;
-
-}
-
-.sideTitle{
-
-font-size:12px;
-
-font-weight:850;
-
-color:#475569;
-
-margin-bottom:7px;
-
-line-height:1.4;
-
-}
-
-
-/* =========================================================
-   STATUS
-========================================================= */
-
-.status{
-
-font-size:10px;
-
-padding:5px 8px;
-
-border-radius:20px;
-
-background:#eef2ff;
-
-color:#4338ca;
-
-font-weight:800;
-
-white-space:nowrap;
-
-transition:.25s;
-
-}
-
-.status.saved{
-
-background:#dcfce7;
-
-color:#166534;
-
-animation:
-statusPop .35s ease;
-
+  font-family:inherit;
 }
 
-@keyframes statusPop{
+/* ---------- BUTTONS ---------- */
 
-0%{
-transform:scale(.7);
-opacity:.3;
+.btn{
+  border:0;
+  border-radius:11px;
+  padding:11px 16px;
+  cursor:pointer;
+  font-weight:800;
+  transition:.2s;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
 }
 
-70%{
-transform:scale(1.12);
+.btn:hover{
+  transform:translateY(-2px);
 }
 
-100%{
-transform:scale(1);
-opacity:1;
+.btn:active{
+  transform:translateY(0);
 }
 
+.btn-primary{
+  color:#fff;
+  background:linear-gradient(135deg,var(--primary),#0891b2);
+  box-shadow:0 9px 22px rgba(37,99,235,.18);
 }
 
-
-/* =========================================================
-   HISTORY
-========================================================= */
-
-.history{
-
-display:grid;
-
-gap:12px;
-
-}
-
-.historyItem{
-
-padding:16px;
-
-border-radius:16px;
-
-background:
-rgba(255,255,255,.94);
-
-border:
-1px solid var(--border);
-
-box-shadow:
-0 4px 15px #33415510;
-
-transition:
-transform .3s ease,
-box-shadow .3s ease;
-
-animation:
-historyIn .45s ease;
-
-}
-
-.historyItem:hover{
-
-transform:
-translateY(-4px);
-
-box-shadow:
-0 10px 25px #33415520;
-
-}
-
-@keyframes historyIn{
-
-from{
-
-opacity:0;
-
-transform:
-translateY(15px);
-
+.btn-primary:hover{
+  box-shadow:0 13px 28px rgba(37,99,235,.25);
 }
-
-to{
 
-opacity:1;
-
-transform:
-translateY(0);
-
+.btn-secondary{
+  color:#334155;
+  background:#f1f5f9;
+  border:1px solid var(--border);
 }
 
+.btn-danger{
+  color:#fff;
+  background:#dc2626;
 }
-
-
-/* =========================================================
-   BADGES
-========================================================= */
-
-.badge{
-
-display:inline-block;
 
-padding:5px 9px;
-
-border-radius:20px;
-
-font-size:11px;
-
-font-weight:800;
-
-background:#eef2ff;
-
-color:#4338ca;
-
-margin:3px;
-
+.btn-success{
+  color:#fff;
+  background:linear-gradient(135deg,#16a34a,#059669);
+  box-shadow:0 10px 22px rgba(22,163,74,.2);
 }
-
-.badge.green{
-
-background:#dcfce7;
 
-color:#166534;
-
+.full{
+  width:100%;
 }
-
-
-/* =========================================================
-   MESSAGE
-========================================================= */
 
 .message{
-
-margin-top:12px;
-
-padding:11px;
-
-border-radius:11px;
-
-font-size:13px;
-
-display:none;
-
-animation:
-messageIn .4s ease;
-
-}
-
-.message.show{
-
-display:block;
-
-}
-
-.message.ok{
-
-background:#dcfce7;
-
-color:#166534;
-
+  border-radius:10px;
+  padding:11px 13px;
+  font-size:13px;
+  margin-bottom:15px;
 }
 
 .message.error{
-
-background:#fee2e2;
-
-color:#991b1b;
-
+  background:#fef2f2;
+  color:#b91c1c;
+  border:1px solid #fecaca;
 }
 
-@keyframes messageIn{
-
-from{
-
-opacity:0;
-
-transform:
-translateY(-8px)
-scale(.97);
-
+.message.success{
+  background:#f0fdf4;
+  color:#15803d;
+  border:1px solid #bbf7d0;
 }
 
-to{
+/* ---------- PAGE HEADER ---------- */
 
-opacity:1;
-
-transform:
-translateY(0)
-scale(1);
-
+.page-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:24px;
 }
 
+.page-head h1{
+  margin:0;
+  font-size:28px;
+  letter-spacing:-.5px;
 }
 
-
-/* =========================================================
-   LOADER
-========================================================= */
-
-.loader{
-
-width:20px;
-
-height:20px;
-
-border:3px solid #ffffff55;
-
-border-top-color:white;
-
-border-radius:50%;
-
-animation:
-spin .7s linear infinite;
-
-display:inline-block;
-
-vertical-align:middle;
-
+.page-head p{
+  color:var(--muted);
+  margin:6px 0 0;
+  font-size:14px;
 }
 
-@keyframes spin{
-
-to{
-transform:rotate(360deg);
+.status-chip{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:9px 13px;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
 }
 
-}
-
-
-/* =========================================================
-   COMPLETION BOX
-========================================================= */
-
-.completedBox{
-
-margin-top:15px;
-
-padding:14px;
-
-border-radius:14px;
-
-background:
-linear-gradient(
-135deg,
-#ecfdf5,
-#dcfce7
-);
-
-border:
-1px solid #86efac;
-
-color:#166534;
-
-font-size:13px;
-
-font-weight:750;
-
-animation:
-completedGlow 2.5s ease-in-out infinite;
-
-}
-
-@keyframes completedGlow{
-
-0%,100%{
-box-shadow:
-0 4px 15px #16a34a12;
-}
-
-50%{
-box-shadow:
-0 8px 28px #16a34a30;
-}
-
-}
-
-
-/* =========================================================
-   HIDDEN
-========================================================= */
-
-.hidden{
-
-display:none !important;
-
-}
-
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media(max-width:650px){
-
-.pointGrid{
-
-grid-template-columns:1fr;
-
-}
-
-}
-
-@media(max-width:600px){
-
-.container{
-
-padding:10px;
-
-}
+/* ---------- META CARD ---------- */
 
 .card{
-
-padding:15px;
-
-border-radius:17px;
-
+  background:rgba(255,255,255,.94);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
 }
 
-header h1{
-
-font-size:20px;
-
+.meta-card{
+  padding:20px;
+  margin-bottom:20px;
+  animation:cardIn .5s ease;
 }
 
-.nav{
-
-position:sticky;
-
-bottom:8px;
-
-z-index:20;
-
-background:#ffffffdd;
-
-backdrop-filter:blur(12px);
-
-padding:7px;
-
-border-radius:15px;
-
-box-shadow:
-0 5px 25px #33415525;
-
+.meta-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1.15fr 1.5fr;
+  gap:16px;
 }
 
-.nav button{
-
-font-size:12px;
-
-padding:11px 7px;
-
+.shift-timing{
+  margin-top:7px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  font-size:11px;
+  color:#2563eb;
+  font-weight:800;
 }
 
-.userBox{
-
-flex-wrap:wrap;
-
+.shift-timing::before{
+  content:"◷";
+  font-size:14px;
 }
 
-.userBox button{
-
-margin-left:auto !important;
-
+.name-highlight input{
+  border-color:#bfdbfe;
+  background:#f8fbff;
 }
 
+/* ---------- PROGRESS ---------- */
+
+.progress-card{
+  padding:18px 20px;
+  margin-bottom:20px;
 }
 
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media(prefers-reduced-motion:reduce){
-
-*{
-
-animation-duration:.01ms !important;
-
-animation-iteration-count:1 !important;
-
-transition-duration:.01ms !important;
-
+.progress-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:10px;
 }
 
+.progress-title{
+  font-size:13px;
+  font-weight:800;
 }
 
+.progress-value{
+  color:var(--primary);
+  font-size:13px;
+  font-weight:900;
+}
+
+.progress-track{
+  height:9px;
+  border-radius:999px;
+  overflow:hidden;
+  background:#e8eef6;
+}
+
+.progress-fill{
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#2563eb,#06b6d4,#16a34a);
+  background-size:200% 100%;
+  animation:gradientMove 3s linear infinite;
+  transition:width .35s ease;
+}
+
+@keyframes gradientMove{
+  0%{background-position:0 0}
+  100%{background-position:200% 0}
+}
+
+/* ---------- SECTIONS ---------- */
+
+.section-card{
+  margin-bottom:20px;
+  overflow:hidden;
+  animation:sectionIn .55s ease both;
+}
+
+@keyframes sectionIn{
+  from{opacity:0;transform:translateY(14px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.section-head{
+  padding:16px 20px;
+  background:linear-gradient(90deg,#f8fbff,#fff);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.section-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:14px;
+  font-weight:900;
+  color:#1e3a8a;
+}
+
+.section-number{
+  width:28px;
+  height:28px;
+  border-radius:9px;
+  background:#eaf2ff;
+  color:#2563eb;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+}
+
+.section-count{
+  font-size:11px;
+  font-weight:800;
+  color:var(--muted);
+  background:#f1f5f9;
+  padding:6px 9px;
+  border-radius:999px;
+}
+
+.points{
+  padding:12px;
+}
+
+/* ---------- POINT ---------- */
+
+.point{
+  display:grid;
+  grid-template-columns:55px minmax(240px,1fr) 150px 150px;
+  align-items:center;
+  gap:12px;
+  padding:11px 10px;
+  border-bottom:1px solid #edf1f6;
+  transition:.2s;
+}
+
+.point:last-child{
+  border-bottom:0;
+}
+
+.point:hover{
+  background:#f8fbff;
+  transform:translateX(3px);
+}
+
+.point-no{
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f1f5f9;
+  color:#64748b;
+  font-size:11px;
+  font-weight:900;
+}
+
+.point-label{
+  font-size:13px;
+  font-weight:700;
+  color:#334155;
+}
+
+.point input{
+  padding:10px 11px;
+}
+
+.unit{
+  font-size:10px;
+  color:#94a3b8;
+  margin-left:5px;
+}
+
+.point.filled .point-no{
+  color:#fff;
+  background:linear-gradient(135deg,#16a34a,#059669);
+  box-shadow:0 5px 12px rgba(22,163,74,.18);
+}
+
+.point.filled{
+  background:#f8fffb;
+}
+
+/* ---------- COMPLETION ---------- */
+
+.completion-card{
+  margin-top:20px;
+  padding:20px;
+  border:1px solid #bbf7d0;
+  background:linear-gradient(135deg,#f0fdf4,#f8fffb);
+}
+
+.completion-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.completion-title{
+  font-size:16px;
+  font-weight:900;
+  color:#166534;
+}
+
+.completion-time{
+  margin-top:5px;
+  font-size:13px;
+  color:#15803d;
+}
+
+.completed-badge{
+  padding:8px 12px;
+  background:#dcfce7;
+  color:#166534;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:900;
+}
+
+/* ---------- ACTION BAR ---------- */
+
+.action-bar{
+  position:sticky;
+  bottom:15px;
+  z-index:20;
+  margin-top:22px;
+  padding:12px;
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(15px);
+  border:1px solid var(--border);
+  border-radius:16px;
+  box-shadow:0 18px 45px rgba(15,23,42,.12);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+
+.save-status{
+  font-size:12px;
+  color:var(--muted);
+  font-weight:700;
+}
+
+.save-status strong{
+  color:#16a34a;
+}
+
+.action-buttons{
+  display:flex;
+  gap:9px;
+}
+
+/* ---------- HISTORY ---------- */
+
+.history-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.history-head h2{
+  margin:0;
+  font-size:21px;
+}
+
+.history-card{
+  padding:0;
+  overflow:hidden;
+  margin-bottom:16px;
+}
+
+.history-summary{
+  padding:18px 20px;
+  display:grid;
+  grid-template-columns:1.2fr 1fr 1fr 1fr auto;
+  gap:15px;
+  align-items:center;
+  border-bottom:1px solid var(--border);
+}
+
+.history-meta strong{
+  display:block;
+  font-size:13px;
+}
+
+.history-meta span{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.history-values{
+  padding:15px 20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:10px;
+  background:#fafcff;
+}
+
+.history-item{
+  padding:11px 13px;
+  border:1px solid #e5eaf1;
+  border-radius:11px;
+  background:#fff;
+}
+
+.history-item .label{
+  font-size:11px;
+  color:#64748b;
+  margin-bottom:4px;
+}
+
+.history-item .value{
+  font-size:14px;
+  font-weight:800;
+}
+
+.empty{
+  padding:45px 20px;
+  text-align:center;
+  color:var(--muted);
+}
+
+/* ---------- ANIMATION ---------- */
+
+.fade-up{
+  animation:fadeUp .5s ease both;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.confetti{
+  position:fixed;
+  width:8px;
+  height:12px;
+  top:20%;
+  z-index:999;
+  pointer-events:none;
+  animation:confettiFall 1.8s ease-out forwards;
+}
+
+@keyframes confettiFall{
+  to{
+    transform:translate(var(--x),80vh) rotate(720deg);
+    opacity:0;
+  }
+}
+
+/* ---------- PRINT ---------- */
+
+@media print{
+  body{
+    background:#fff;
+  }
+
+  .topbar,
+  .action-bar,
+  .page-head .status-chip,
+  #historySection,
+  .btn{
+    display:none!important;
+  }
+
+  .container{
+    padding:0;
+    max-width:none;
+  }
+
+  .card,
+  .section-card{
+    box-shadow:none;
+    border:1px solid #bbb;
+    break-inside:avoid;
+  }
+
+  .point{
+    grid-template-columns:45px 1fr 120px 120px;
+  }
+
+  input,
+  select{
+    border:0;
+    padding:0;
+    background:transparent;
+  }
+}
+
+/* ---------- MOBILE ---------- */
+
+@media(max-width:1000px){
+  .meta-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .history-summary{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:700px){
+  .topbar-inner{
+    padding:11px 14px;
+  }
+
+  .brand-sub{
+    display:none;
+  }
+
+  .brand-title{
+    font-size:15px;
+  }
+
+  .brand-icon{
+    width:42px;
+    height:42px;
+  }
+
+  .user-pill{
+    display:none!important;
+  }
+
+  .container{
+    padding:18px 12px 40px;
+  }
+
+  .page-head{
+    align-items:flex-start;
+  }
+
+  .page-head h1{
+    font-size:22px;
+  }
+
+  .meta-grid{
+    grid-template-columns:1fr;
+  }
+
+  .point{
+    grid-template-columns:42px 1fr;
+    gap:9px;
+  }
+
+  .point-input{
+    grid-column:2;
+  }
+
+  .point input{
+    width:100%;
+  }
+
+  .section-head{
+    padding:14px;
+  }
+
+  .points{
+    padding:7px;
+  }
+
+  .completion-inner{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .action-bar{
+    position:relative;
+    bottom:auto;
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .action-buttons{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+
+  .action-buttons .btn-success{
+    grid-column:1 / -1;
+  }
+
+  .history-summary{
+    grid-template-columns:1fr;
+  }
+
+  .history-values{
+    grid-template-columns:1fr;
+    padding:12px;
+  }
+}
 </style>
-
 </head>
-
 
 <body>
 
+<div class="bg-orb orb1"></div>
+<div class="bg-orb orb2"></div>
+<div class="bg-orb orb3"></div>
 
-<header>
+<header class="topbar">
+  <div class="topbar-inner">
 
-<div class="headerInner">
+    <div class="brand">
+      <div class="brand-icon">M4</div>
+      <div>
+        <div class="brand-title">MIXER-4 TSS</div>
+        <div class="brand-sub">Gearbox & Bearing Temperature Monitoring</div>
+      </div>
+    </div>
 
-<h1>
-⚙️ MIXER-4 TSS Daily Check Sheet
-</h1>
+    <div class="top-actions">
+      <div class="user-pill" id="userPill">
+        <span class="live-dot"></span>
+        <span id="userEmailTop"></span>
+      </div>
+      <button class="btn btn-secondary hidden" id="logoutBtn">
+        Logout
+      </button>
+    </div>
 
-<p>
-☁️ Cloud Monitoring • 🔐 Secure Login • 💾 Auto Save • 📚 Shared History
-</p>
-
-</div>
-
+  </div>
 </header>
 
 
-<div class="container">
+<!-- ================= AUTH ================= -->
 
+<section id="authSection" class="auth-wrap">
 
-<!-- =====================================================
-     AUTH
-===================================================== -->
+  <div class="auth-card">
 
-<section
-id="auth"
-class="card auth"
->
+    <div class="auth-logo">M4</div>
 
-<div class="logo">
-MIXER-4
-</div>
+    <h1>MIXER-4 TSS</h1>
+    <div class="subtitle">
+      Daily Temperature Check Sheet
+    </div>
 
-<h2 style="text-align:center">
-TSS Control System
-</h2>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="loginTab">
+        Login
+      </button>
 
-<div class="tabs">
+      <button class="auth-tab" id="signupTab">
+        Create ID
+      </button>
+    </div>
 
-<button
-id="loginTab"
-type="button"
->
-🔐 Login
-</button>
+    <div id="authMessage"></div>
 
-<button
-id="signupTab"
-type="button"
-class="secondary"
->
-➕ Create ID
-</button>
+    <div class="field">
+      <label>Email</label>
+      <input
+        type="email"
+        id="email"
+        placeholder="Enter your email"
+        autocomplete="email"
+      >
+    </div>
 
-</div>
+    <div class="field">
+      <label>Password</label>
+      <input
+        type="password"
+        id="password"
+        placeholder="Enter password"
+        autocomplete="current-password"
+      >
+    </div>
 
+    <button class="btn btn-primary full" id="authBtn">
+      Login
+    </button>
 
-<!-- LOGIN -->
+    <div style="text-align:center;margin-top:17px;color:#94a3b8;font-size:11px;">
+      Secure cloud-based TSS monitoring system
+    </div>
 
-<div id="loginBox">
-
-<div class="field">
-
-<label>
-Email
-</label>
-
-<input
-id="loginEmail"
-type="email"
-autocomplete="email"
-placeholder="Enter your email"
->
-
-</div>
-
-
-<div class="field">
-
-<label>
-Password
-</label>
-
-<input
-id="loginPassword"
-type="password"
-autocomplete="current-password"
-placeholder="Enter password"
->
-
-</div>
-
-
-<button
-id="loginButton"
-type="button"
-style="width:100%"
->
-🔐 Login
-</button>
-
-</div>
-
-
-<!-- SIGNUP -->
-
-<div
-id="signupBox"
-class="hidden"
->
-
-<div class="field">
-
-<label>
-Email
-</label>
-
-<input
-id="signupEmail"
-type="email"
-autocomplete="email"
-placeholder="Enter email"
->
-
-</div>
-
-
-<div class="field">
-
-<label>
-Password
-</label>
-
-<input
-id="signupPassword"
-type="password"
-autocomplete="new-password"
-placeholder="Minimum 6 characters"
->
-
-</div>
-
-
-<button
-id="signupButton"
-type="button"
-style="width:100%"
->
-➕ Create Account
-</button>
-
-</div>
-
-
-<div
-id="authMessage"
-class="message"
-></div>
-
+  </div>
 
 </section>
 
 
-<!-- =====================================================
-     APP
-===================================================== -->
+<!-- ================= APPLICATION ================= -->
 
-<section
-id="app"
-class="hidden"
->
+<main id="appSection" class="container hidden">
 
+  <div class="page-head fade-up">
+    <div>
+      <h1>Daily Check Sheet</h1>
+      <p>Record MIXER-4 TSS temperature readings and complete the shift inspection.</p>
+    </div>
 
-<!-- USER -->
+    <div class="status-chip">
+      <span class="live-dot"></span>
+      Cloud Connected
+    </div>
+  </div>
 
-<div class="card">
 
-<div class="userBox">
+  <!-- META -->
 
-<div class="avatar">
-👤
-</div>
+  <div class="card meta-card fade-up">
 
-<div>
+    <div class="meta-grid">
 
-<b id="userEmail">
-User
-</b>
+      <div class="field">
+        <label>Date</label>
+        <input type="date" id="sheetDate">
+      </div>
 
-<div
-style="font-size:12px;color:#64748b"
->
-🟢 Logged in successfully
-</div>
+      <div class="field">
+        <label>Shift</label>
 
-</div>
+        <select id="sheetShift">
+          <option value="A">A Shift</option>
+          <option value="B">B Shift</option>
+          <option value="C">C Shift</option>
+          <option value="General">General</option>
+        </select>
 
-<button
-id="logoutButton"
-class="secondary"
-style="margin-left:auto"
-type="button"
->
-Logout
-</button>
+        <div class="shift-timing" id="shiftTiming">
+          07:00 AM – 03:00 PM
+        </div>
+      </div>
 
-</div>
+      <div class="field">
+        <label>Area / Machine</label>
+        <input
+          id="areaMachine"
+          value="MIXER-4 TSS"
+          placeholder="Area / Machine"
+        >
+      </div>
 
-</div>
+      <div class="field name-highlight">
+        <label>Filled By / Operator Name</label>
+        <input
+          id="filledByName"
+          placeholder="Enter your full name"
+        >
+      </div>
 
+    </div>
 
-<!-- NAV -->
+  </div>
 
-<div class="nav">
 
-<button
-id="newSheetButton"
-type="button"
->
-📝 New Sheet
-</button>
+  <!-- PROGRESS -->
 
-<button
-id="historyButton"
-class="secondary"
-type="button"
->
-📚 All History
-</button>
+  <div class="card progress-card">
 
-</div>
+    <div class="progress-top">
+      <div class="progress-title">
+        Inspection Progress
+      </div>
 
+      <div class="progress-value" id="progressText">
+        0 / 42 points
+      </div>
+    </div>
 
-<!-- =====================================================
-     SHEET
-===================================================== -->
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
 
-<section
-id="sheetView"
-class="card"
->
+  </div>
 
-<h2>
-📝 Daily Check Sheet
-</h2>
 
+  <!-- CHECK SHEET -->
 
-<div class="grid">
+  <div id="sheetContainer"></div>
 
 
-<!-- DATE -->
+  <!-- COMPLETION -->
 
-<div class="field">
+  <div id="completionCard" class="card completion-card hidden">
 
-<label>
-📅 Date
-</label>
+    <div class="completion-inner">
 
-<input
-id="sheetDate"
-type="date"
->
+      <div>
+        <div class="completion-title">
+          ✓ Check Sheet Completed
+        </div>
 
-</div>
+        <div class="completion-time" id="completionDetails">
+          Completion time will appear here.
+        </div>
+      </div>
 
+      <div class="completed-badge">
+        COMPLETED
+      </div>
 
-<!-- SHIFT -->
+    </div>
 
-<div class="field">
+  </div>
 
-<label>
-🕐 Shift
-</label>
 
-<select id="sheetShift">
+  <!-- ACTION BAR -->
 
-<option value="A">
-A Shift — 07:00 AM to 03:00 PM
-</option>
+  <div class="action-bar">
 
-<option value="B">
-B Shift — 03:00 PM to 11:00 PM
-</option>
+    <div class="save-status" id="saveStatus">
+      ● Ready
+    </div>
 
-<option value="C">
-C Shift — 11:00 PM to 07:00 AM
-</option>
+    <div class="action-buttons">
 
-<option value="General">
-General Shift — 09:30 AM to 06:00 PM
-</option>
+      <button class="btn btn-secondary" id="historyBtn">
+        📋 History
+      </button>
 
-</select>
+      <button class="btn btn-secondary" id="downloadBtn">
+        ↓ Download
+      </button>
 
-<div
-id="shiftTiming"
-class="shiftInfo"
->
-⏱️ A Shift Timing: 07:00 AM → 03:00 PM
-</div>
+      <button class="btn btn-secondary" id="printBtn">
+        🖨 Print
+      </button>
 
-</div>
+      <button class="btn btn-success" id="completeBtn">
+        ✓ Complete Sheet
+      </button>
 
+    </div>
 
-<!-- MACHINE -->
+  </div>
 
-<div class="field">
 
-<label>
-🏭 Area / Machine
-</label>
+  <!-- HISTORY -->
 
-<input
-id="sheetMachine"
-value="MIXER-4 / TSS UNIT"
->
+  <section id="historySection" class="hidden" style="margin-top:40px;">
 
-</div>
+    <div class="history-head">
+      <div>
+        <h2>Shared Check Sheet History</h2>
+        <div style="color:#64748b;font-size:13px;margin-top:5px;">
+          Records submitted by all logged-in operators
+        </div>
+      </div>
 
+      <button class="btn btn-secondary" id="refreshHistoryBtn">
+        ↻ Refresh
+      </button>
+    </div>
 
-<!-- FILLED BY -->
+    <div id="historyContainer"></div>
 
-<div class="field">
+  </section>
 
-<label>
-👷 Filled By / Operator Name
-</label>
-
-<input
-id="filledBy"
-type="text"
-placeholder="Enter your full name"
-autocomplete="name"
->
-
-</div>
-
-
-</div>
-
-
-<p
-style="
-color:#64748b;
-font-size:13px;
-"
->
-
-💡 Values automatically save to Firebase Cloud.
-Complete Sheet karne par completion date & time automatically record hoga.
-
-</p>
-
-
-<div id="points"></div>
-
-
-<!-- BUTTONS -->
-
-<div
-style="
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-top:15px;
-"
->
-
-<button
-id="completeButton"
-class="green"
-type="button"
->
-✅ Complete Sheet
-</button>
-
-<button
-id="downloadButton"
-class="secondary"
-type="button"
->
-⬇️ Download Sheet
-</button>
-
-</div>
-
-
-<div
-id="completionInfo"
-class="completedBox hidden"
->
-</div>
-
-
-<div
-id="saveMessage"
-class="message"
-></div>
-
-
-</section>
-
-
-<!-- =====================================================
-     HISTORY
-===================================================== -->
-
-<section
-id="historyView"
-class="card hidden"
->
-
-<div
-style="
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-"
->
-
-<h2>
-📚 Check Sheet History
-</h2>
-
-<button
-id="refreshButton"
-class="secondary"
-type="button"
->
-🔄 Refresh
-</button>
-
-</div>
-
-
-<p
-style="
-font-size:13px;
-color:#64748b;
-"
->
-
-All logged-in users can see previous check sheets and the filled values.
-
-</p>
-
-
-<div
-id="historyList"
-class="history"
->
-Loading...
-</div>
-
-</section>
-
-
-</section>
-
-
-</div>
+</main>
 
 
 <script type="module">
 
-
 /* =========================================================
-   FIREBASE IMPORT
+   FIREBASE
 ========================================================= */
 
 import {
-initializeApp
-}
-from
-"https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 
 import {
-getAuth,
-onAuthStateChanged,
-createUserWithEmailAndPassword,
-signInWithEmailAndPassword,
-signOut
-}
-from
-"https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-
+  getAuth,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 import {
-getFirestore,
-collection,
-doc,
-setDoc,
-getDoc,
-getDocs,
-query,
-orderBy,
-serverTimestamp
-}
-from
-"https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+  getFirestore,
+  collection,
+  doc,
+  setDoc,
+  getDoc,
+  getDocs,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 
-/* =========================================================
-   FIREBASE CONFIG
-========================================================= */
-
-const firebaseConfig={
-
-apiKey:
-"AIzaSyDztHV-dnII1DeUoxsworjfWqOcYzUw8tY",
-
-authDomain:
-"mixer4-tss.firebaseapp.com",
-
-projectId:
-"mixer4-tss",
-
-storageBucket:
-"mixer4-tss.firebasestorage.app",
-
-messagingSenderId:
-"281329772926",
-
-appId:
-"1:281329772926:web:c2321755e3ad4d54236b2f"
-
+const firebaseConfig = {
+  apiKey: "AIzaSyDztHV-dnH2De1UoxsworjfWqOcYzUw8tY",
+  authDomain: "mixer4-tss.firebaseapp.com",
+  projectId: "mixer4-tss",
+  storageBucket: "mixer4-tss.firebasestorage.app",
+  messagingSenderId: "281329772926",
+  appId: "1:281329772926:web:c2321755e3ad4d54236b2f"
 };
 
-
-/* =========================================================
-   INIT
-========================================================= */
-
-const firebaseApp=
-initializeApp(firebaseConfig);
-
-const auth=
-getAuth(firebaseApp);
-
-const db=
-getFirestore(firebaseApp);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 
 /* =========================================================
-   SHORTCUT
+   HELPERS
 ========================================================= */
 
-const $=
-id=>
-document.getElementById(id);
+const $ = id => document.getElementById(id);
 
+function escapeHTML(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
 
-/* =========================================================
-   VARIABLES
-========================================================= */
+function indiaToday(){
 
-let currentUser=null;
+  const parts =
+    new Intl.DateTimeFormat("en-GB",{
+      timeZone:"Asia/Kolkata",
+      year:"numeric",
+      month:"2-digit",
+      day:"2-digit"
+    })
+    .formatToParts(new Date());
 
-let currentRecordId=null;
+  const obj = {};
 
-let currentValues=
-Array(42).fill("");
+  parts.forEach(p => {
+    if(p.type !== "literal"){
+      obj[p.type] = p.value;
+    }
+  });
 
-let saveTimer=null;
+  return `${obj.year}-${obj.month}-${obj.day}`;
+}
 
-let completedAtLocal="";
+function formatDateTime(timestamp){
+
+  if(!timestamp) return "-";
+
+  let date;
+
+  if(typeof timestamp.toDate === "function"){
+    date = timestamp.toDate();
+  }else{
+    date = new Date(timestamp);
+  }
+
+  if(isNaN(date.getTime())) return "-";
+
+  return new Intl.DateTimeFormat("en-IN",{
+    timeZone:"Asia/Kolkata",
+    day:"2-digit",
+    month:"2-digit",
+    year:"numeric",
+    hour:"2-digit",
+    minute:"2-digit",
+    second:"2-digit",
+    hour12:true
+  }).format(date);
+}
 
 
 /* =========================================================
    SHIFT TIMINGS
 ========================================================= */
 
-const shiftTimings={
-
-A:
-"07:00 AM → 03:00 PM",
-
-B:
-"03:00 PM → 11:00 PM",
-
-C:
-"11:00 PM → 07:00 AM",
-
-General:
-"09:30 AM → 06:00 PM"
-
+const shiftTimings = {
+  A:"07:00 AM – 03:00 PM",
+  B:"03:00 PM – 11:00 PM",
+  C:"11:00 PM – 07:00 AM",
+  General:"09:30 AM – 06:00 PM"
 };
+
+function updateShiftTiming(){
+
+  const shift = $("sheetShift").value;
+
+  $("shiftTiming").textContent =
+    shiftTimings[shift] || "-";
+}
 
 
 /* =========================================================
-   EXACT 42 CHECK POINTS
+   ORIGINAL EXCEL CHECK POINTS
 ========================================================= */
 
-const sections=[
+const sections = [
 
-{
+  {
+    title:"SCREW GEARBOX TEMPERATURE",
+    points:[
+      ["Gear 1st stage Rotary side","Gear 1st stage Rotary side"],
+      ["Gear 2nd stage Rotary side","Gear 2nd stage Rotary side"],
+      ["Gear 3rd stage Rotary side","Gear 3rd stage Rotary side"],
+      ["Gear 1st stage Cal side","Gear 1st stage Cal side"],
+      ["Gear 2nd stage Cal side","Gear 2nd stage Cal side"],
+      ["Gear 3rd stage Cal side","Gear 3rd stage Cal side"]
+    ]
+  },
 
-title:
-"MIXER-4 TSS GEARBOX & BEARING TEMPERATURE MONITORING",
+  {
+    title:"TSS SCREW BEARING TEMPERATURE",
+    points:[
+      ["Input Universal joint bearing","Output RH Universal joint bearing"],
+      ["Output LH Universal joint bearing","Screw RH 1st bearing"],
+      ["Screw LH 1st bearing","Screw RH 2nd bearing"],
+      ["Screw LH 2nd bearing","Screw RH 3rd bearing"],
+      ["Screw LH 3rd bearing",""]
+    ]
+  },
 
-rows:[
+  {
+    title:"TSS CALENDAR TCU",
+    points:[
+      ["Top roll TCU temp",""],
+      ["Bottom roll TCU temp",""],
+      ["TSS Screw temp",""]
+    ]
+  },
 
-["1",
-"Gear 1st stage Rotary side",
-"Gear 1st stage Rotary side"],
+  {
+    title:"TSS CALENDAR ROLL BEARING HOUSING TEMPERATURE",
+    points:[
+      ["Top roll Drive side housing","Top roll Water side housing"],
+      ["Bottom roll Drive side housing","Bottom roll Water side housing"]
+    ]
+  },
 
-["2",
-"Gear 2nd stage Rotary side",
-"Gear 2nd stage Rotary side"],
+  {
+    title:"TSS SCREW GEARBOX FLS",
+    points:[
+      ["FLS oil pressure","FLS oil temp"]
+    ]
+  },
 
-["3",
-"Gear 3rd stage Rotary side",
-"Gear 3rd stage Rotary side"],
+  {
+    title:"TSS CALENDAR ROLL GEARBOX BEARING TEMPERATURE",
+    points:[
+      ["Input shaft bearing motor side","Input shaft bearing outside"],
+      ["2nd stage bearing temp motor side","2nd stage bearing outside"],
+      ["3rd stage bearing motor side","3rd stage bearing outside"],
+      ["Top roll coupling bearing motor side","Top roll coupling bearing outside"],
+      ["Bottom roll coupling bearing motor side","Bottom roll coupling bearing outside"]
+    ]
+  },
 
-["4",
-"Gear 1st stage Cal side",
-"Gear 1st stage Cal side"],
-
-["5",
-"Gear 2nd stage Cal side",
-"Gear 2nd stage Cal side"],
-
-["6",
-"Gear 3rd stage Cal side",
-"Gear 3rd stage Cal side"]
-
-]
-
-},
-
-{
-
-title:
-"TSS SCREW BEARING TEMPERATURE",
-
-rows:[
-
-["7",
-"Input Universal joint bearing",
-"Output RH Universal joint bearing"],
-
-["8",
-"Output LH Universal joint bearing",
-"Screw RH 1st bearing"],
-
-["9",
-"Screw LH 1st bearing",
-"Screw RH 2nd bearing"],
-
-["10",
-"Screw LH 2nd bearing",
-"Screw RH 3rd bearing"],
-
-["11",
-"Screw LH 3rd bearing",
-""]
-
-]
-
-},
-
-{
-
-title:
-"TSS CALENDAR TCU",
-
-rows:[
-
-["12",
-"Top roll TCU temp",
-""
-],
-
-["13",
-"Bottom roll TCU temp",
-""
-],
-
-["14",
-"TSS Screw temp",
-""
-]
-
-]
-
-},
-
-{
-
-title:
-"TSS CALENDAR ROLL BEARING HOUSING TEMPERATURE",
-
-rows:[
-
-["15",
-"Top roll Drive side housing",
-"Top roll Water side housing"],
-
-["16",
-"Bottom roll Drive side housing",
-"Bottom roll Water side housing"]
-
-]
-
-},
-
-{
-
-title:
-"TSS SCREW GEARBOX FLS",
-
-rows:[
-
-["17",
-"FLS oil pressure",
-"FLS oil temp"]
-
-]
-
-},
-
-{
-
-title:
-"TSS CALENDAR ROLL GEARBOX BEARING TEMPERATURE",
-
-rows:[
-
-["18",
-"Input shaft bearing motor side",
-"Input shaft bearing outside"],
-
-["19",
-"2nd stage bearing temp motor side",
-"2nd stage bearing outside"],
-
-["20",
-"3rd stage bearing temp motor side",
-"3rd stage bearing outside"],
-
-["21",
-"Top roll coupling bearing motor side",
-"Top roll coupling bearing outside"],
-
-["22",
-"Bottom roll coupling bearing motor side",
-"Bottom roll coupling bearing outside"]
-
-]
-
-},
-
-{
-
-title:
-"TSS CALENDAR ROLL GEARBOX FLS",
-
-rows:[
-
-["23",
-"FLS oil pressure",
-"FLS oil temp"]
-
-]
-
-}
+  {
+    title:"TSS CALENDAR ROLL GEARBOX FLS",
+    points:[
+      ["FLS oil pressure","FLS oil temp"]
+    ]
+  }
 
 ];
 
 
 /* =========================================================
-   DATE
+   CREATE 42 POINT LABELS
 ========================================================= */
 
-$("sheetDate").value=
-new Date()
-.toISOString()
-.slice(0,10);
+const pointLabels = [];
+
+sections.forEach(section => {
+
+  section.points.forEach(row => {
+
+    if(row[0]){
+      pointLabels.push(row[0]);
+    }
+
+    if(row[1]){
+      pointLabels.push(row[1]);
+    }
+
+  });
+
+});
+
+const TOTAL_POINTS = pointLabels.length;
 
 
 /* =========================================================
-   SHIFT DISPLAY
+   STATE
 ========================================================= */
 
-function updateShiftTiming(){
-
-const shift=
-$("sheetShift").value;
-
-$("shiftTiming").textContent=
-`⏱️ ${shift} Shift Timing: ${shiftTimings[shift]}`;
-
-}
-
-$("sheetShift").addEventListener(
-"change",
-updateShiftTiming
-);
-
-updateShiftTiming();
+let currentUser = null;
+let currentValues = Array(TOTAL_POINTS).fill("");
+let currentRecordId = "";
+let currentStatus = "Draft";
+let completedAtValue = null;
+let saveTimer = null;
 
 
 /* =========================================================
@@ -2397,692 +1431,275 @@ updateShiftTiming();
 
 function buildSheet(){
 
-const container=
-$("points");
+  let index = 0;
 
-container.innerHTML="";
+  $("sheetContainer").innerHTML = "";
 
-let valueIndex=0;
+  sections.forEach((section,sectionIndex) => {
 
-sections.forEach(section=>{
+    const card = document.createElement("div");
 
-const title=
-document.createElement("div");
+    card.className = "card section-card";
 
-title.className=
-"sectionTitle";
+    card.style.animationDelay =
+      `${sectionIndex * 70}ms`;
 
-title.textContent=
-section.title;
+    let rows = "";
 
-container.appendChild(title);
+    section.points.forEach(pair => {
 
+      if(pair[0]){
 
-section.rows.forEach(row=>{
+        rows += pointHTML(
+          index,
+          pair[0]
+        );
 
-const sr=row[0];
+        index++;
+      }
 
-const left=row[1];
+      if(pair[1]){
 
-const right=row[2];
+        rows += pointHTML(
+          index,
+          pair[1]
+        );
 
-const point=
-document.createElement("div");
+        index++;
+      }
 
-point.className=
-"point";
+    });
 
+    card.innerHTML = `
 
-let leftIndex=null;
+      <div class="section-head">
 
-let rightIndex=null;
+        <div class="section-title">
 
+          <span class="section-number">
+            ${sectionIndex + 1}
+          </span>
 
-/*
-   Blank cells DO NOT consume an index.
-*/
+          ${escapeHTML(section.title)}
 
-if(left){
+        </div>
 
-leftIndex=
-valueIndex++;
+        <div class="section-count">
+          ${section.points.flat().filter(Boolean).length} points
+        </div>
 
-}
+      </div>
 
-if(right){
+      <div class="points">
+        ${rows}
+      </div>
 
-rightIndex=
-valueIndex++;
+    `;
 
-}
+    $("sheetContainer").appendChild(card);
 
-
-let html=`
-
-<div class="pointHeader">
-
-<div>
-
-<span class="pointNumber">
-⚙️ Point ${sr}
-</span>
-
-</div>
-
-</div>
-
-<div class="pointGrid">
-
-`;
-
-
-if(left){
-
-html+=`
-
-<div class="sidePoint">
-
-<div class="sideTitle">
-${left}
-</div>
-
-<div style="
-display:flex;
-gap:8px;
-align-items:center;
-">
-
-<input
-id="point-${leftIndex}"
-data-value="${leftIndex}"
-placeholder="Enter value"
-autocomplete="off"
->
-
-<span
-id="status-${leftIndex}"
-class="status"
->
-Not filled
-</span>
-
-</div>
-
-</div>
-
-`;
+  });
 
 }
 
 
-if(right){
+function pointHTML(index,label){
 
-html+=`
+  return `
 
-<div class="sidePoint">
+    <div class="point" id="point-${index}">
 
-<div class="sideTitle">
-${right}
-</div>
+      <div class="point-no">
+        ${index + 1}
+      </div>
 
-<div style="
-display:flex;
-gap:8px;
-align-items:center;
-">
+      <div class="point-label">
+        ${escapeHTML(label)}
+      </div>
 
-<input
-id="point-${rightIndex}"
-data-value="${rightIndex}"
-placeholder="Enter value"
-autocomplete="off"
->
+      <div class="point-input">
+        <input
+          type="text"
+          class="temp-input"
+          data-index="${index}"
+          placeholder="Enter value"
+          inputmode="decimal"
+        >
+      </div>
 
-<span
-id="status-${rightIndex}"
-class="status"
->
-Not filled
-</span>
+    </div>
 
-</div>
-
-</div>
-
-`;
-
+  `;
 }
-
-
-html+=`
-
-</div>
-`;
-
-
-point.innerHTML=
-html;
-
-container.appendChild(point);
-
-});
-
-});
-
-}
-
-
-buildSheet();
 
 
 /* =========================================================
-   AUTH MESSAGE
+   PROGRESS
 ========================================================= */
 
-function authMessage(
-text,
-type="error"
-){
+function updateProgress(){
 
-const box=
-$("authMessage");
+  const filled =
+    currentValues.filter(v => String(v).trim() !== "").length;
 
-box.textContent=
-text;
+  const percent =
+    TOTAL_POINTS
+      ? (filled / TOTAL_POINTS) * 100
+      : 0;
 
-box.className=
-"message show "+
-type;
+  $("progressFill").style.width =
+    `${percent}%`;
+
+  $("progressText").textContent =
+    `${filled} / ${TOTAL_POINTS} points`;
+
+  currentValues.forEach((value,index) => {
+
+    const point =
+      $(`point-${index}`);
+
+    if(!point) return;
+
+    point.classList.toggle(
+      "filled",
+      String(value).trim() !== ""
+    );
+
+  });
 
 }
 
 
 /* =========================================================
-   SAVE MESSAGE
+   RECORD ID
 ========================================================= */
 
-function saveMessage(
-text,
-type="ok"
-){
+function getRecordId(){
 
-const box=
-$("saveMessage");
+  const date = $("sheetDate").value;
+  const shift = $("sheetShift").value;
 
-box.textContent=
-text;
-
-box.className=
-"message show "+
-type;
-
+  return `${date}_${shift}`;
 }
 
 
 /* =========================================================
-   LOGIN TAB
+   SAVE
 ========================================================= */
 
-$("loginTab").onclick=()=>{
+async function saveSheet(isCompletion=false){
 
-$("loginBox")
-.classList
-.remove("hidden");
+  if(!currentUser) return;
 
-$("signupBox")
-.classList
-.add("hidden");
+  const filledByName =
+    $("filledByName").value.trim();
 
-$("loginTab")
-.classList
-.remove("secondary");
+  currentValues =
+    [...document.querySelectorAll(".temp-input")]
+      .map(input => input.value.trim());
 
-$("signupTab")
-.classList
-.add("secondary");
+  if(!isCompletion &&
+     currentValues.every(v => !v) &&
+     !filledByName){
 
-};
+    return;
+  }
 
+  currentRecordId = getRecordId();
 
-/* =========================================================
-   SIGNUP TAB
-========================================================= */
+  $("saveStatus").innerHTML =
+    "● <strong>Saving to cloud...</strong>";
 
-$("signupTab").onclick=()=>{
+  const existingRef =
+    doc(db,"mixer4_tss_records",currentRecordId);
 
-$("signupBox")
-.classList
-.remove("hidden");
+  const existingSnap =
+    await getDoc(existingRef);
 
-$("loginBox")
-.classList
-.add("hidden");
+  const oldData =
+    existingSnap.exists()
+      ? existingSnap.data()
+      : {};
 
-$("signupTab")
-.classList
-.remove("secondary");
+  const payload = {
 
-$("loginTab")
-.classList
-.add("secondary");
+    date:$("sheetDate").value,
 
-};
+    shift:$("sheetShift").value,
 
+    shiftTiming:
+      shiftTimings[$("sheetShift").value],
 
-/* =========================================================
-   CREATE ACCOUNT
-========================================================= */
+    area:$("areaMachine").value.trim(),
 
-async function signupUser(){
+    filledByName,
 
-const email=
-$("signupEmail")
-.value
-.trim();
+    checkedBy:currentUser.email,
 
-const password=
-$("signupPassword")
-.value;
+    checkedByEmail:currentUser.email,
 
+    values:currentValues,
 
-if(!email){
+    total:TOTAL_POINTS,
 
-authMessage(
-"Please enter your email."
-);
+    status:
+      isCompletion
+        ? "Completed"
+        : (oldData.status === "Completed"
+            ? "Completed"
+            : "Draft"),
 
-return;
+    updatedBy:currentUser.uid,
 
-}
+    updatedAt:serverTimestamp()
+
+  };
 
 
-if(password.length<6){
+  if(isCompletion){
 
-authMessage(
-"Password must contain at least 6 characters."
-);
+    payload.completedAt =
+      serverTimestamp();
 
-return;
+    currentStatus = "Completed";
 
-}
+  }else if(oldData.completedAt){
 
+    payload.completedAt =
+      oldData.completedAt;
 
-const button=
-$("signupButton");
-
-button.disabled=true;
-
-button.innerHTML=
-'<span class="loader"></span> Creating...';
+  }
 
 
-try{
+  await setDoc(
+    existingRef,
+    payload,
+    {merge:true}
+  );
 
-const result=
-await createUserWithEmailAndPassword(
-auth,
-email,
-password
-);
 
-authMessage(
-"ACCOUNT CREATED! You are now logged in.",
-"ok"
-);
+  $("saveStatus").innerHTML =
+    "● <strong>Saved to Cloud</strong>";
 
-console.log(
-"UID:",
-result.user.uid
-);
 
-}
+  if(isCompletion){
 
-catch(error){
+    const fresh =
+      await getDoc(existingRef);
 
-console.error(error);
+    if(fresh.exists()){
 
-authMessage(
-"CREATE ACCOUNT ERROR: "+
-error.code+
-" — "+
-error.message
-);
+      applyRecordToUI(
+        fresh.data()
+      );
+
+      celebrate();
+
+    }
+
+  }
 
 }
-
-finally{
-
-button.disabled=false;
-
-button.textContent=
-"➕ Create Account";
-
-}
-
-}
-
-
-$("signupButton").onclick=
-signupUser;
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-async function loginUser(){
-
-const email=
-$("loginEmail")
-.value
-.trim();
-
-const password=
-$("loginPassword")
-.value;
-
-
-if(!email){
-
-authMessage(
-"Please enter your email."
-);
-
-return;
-
-}
-
-
-if(!password){
-
-authMessage(
-"Please enter your password."
-);
-
-return;
-
-}
-
-
-const button=
-$("loginButton");
-
-button.disabled=true;
-
-button.innerHTML=
-'<span class="loader"></span> Logging in...';
-
-
-try{
-
-const result=
-await signInWithEmailAndPassword(
-auth,
-email,
-password
-);
-
-console.log(
-"LOGIN SUCCESS:",
-result.user.uid
-);
-
-authMessage(
-"Login successful!",
-"ok"
-);
-
-}
-
-catch(error){
-
-console.error(error);
-
-authMessage(
-"LOGIN ERROR: "+
-error.code+
-" — "+
-error.message
-);
-
-}
-
-finally{
-
-button.disabled=false;
-
-button.textContent=
-"🔐 Login";
-
-}
-
-}
-
-
-$("loginButton").onclick=
-loginUser;
-
-
-/* GLOBAL */
-
-window.loginUser=
-loginUser;
-
-window.signupUser=
-signupUser;
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-$("logoutButton").onclick=
-async()=>{
-
-try{
-
-await signOut(auth);
-
-}
-
-catch(error){
-
-console.error(error);
-
-}
-
-};
-
-
-/* =========================================================
-   CLEAR SHEET
-========================================================= */
-
-function clearSheet(){
-
-currentRecordId=null;
-
-currentValues=
-Array(42).fill("");
-
-completedAtLocal="";
-
-
-$("sheetDate").value=
-new Date()
-.toISOString()
-.slice(0,10);
-
-$("sheetShift").value=
-"A";
-
-$("sheetMachine").value=
-"MIXER-4 / TSS UNIT";
-
-$("filledBy").value="";
-
-
-$("completionInfo")
-.classList
-.add("hidden");
-
-$("completionInfo")
-.textContent="";
-
-
-for(let i=0;i<42;i++){
-
-const input=
-$(`point-${i}`);
-
-const status=
-$(`status-${i}`);
-
-if(input){
-
-input.value="";
-
-}
-
-if(status){
-
-status.textContent=
-"Not filled";
-
-status.className=
-"status";
-
-}
-
-}
-
-updateShiftTiming();
-
-}
-
-
-/* =========================================================
-   NEW SHEET
-========================================================= */
-
-$("newSheetButton").onclick=()=>{
-
-clearSheet();
-
-$("historyView")
-.classList
-.add("hidden");
-
-$("sheetView")
-.classList
-.remove("hidden");
-
-saveMessage(
-"✨ New blank check sheet ready.",
-"ok"
-);
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-};
-
-
-/* =========================================================
-   INPUT CHANGE
-========================================================= */
-
-for(let i=0;i<42;i++){
-
-const input=
-$(`point-${i}`);
-
-if(!input)
-continue;
-
-input.addEventListener(
-"input",
-()=>{
-
-currentValues[i]=
-input.value.trim();
-
-
-const status=
-$(`status-${i}`);
-
-
-if(currentValues[i]){
-
-status.textContent=
-"✓ Filled";
-
-status.className=
-"status saved";
-
-}else{
-
-status.textContent=
-"Not filled";
-
-status.className=
-"status";
-
-}
-
-scheduleSave();
-
-}
-);
-
-}
-
-
-/* =========================================================
-   NAME / MACHINE / SHIFT / DATE CHANGE
-========================================================= */
-
-$("filledBy").addEventListener(
-"input",
-scheduleSave
-);
-
-$("sheetMachine").addEventListener(
-"input",
-scheduleSave
-);
-
-$("sheetDate").addEventListener(
-"change",
-()=>{
-
-/*
-   New date means new record.
-*/
-
-currentRecordId=null;
-
-scheduleSave();
-
-}
-);
-
-$("sheetShift").addEventListener(
-"change",
-()=>{
-
-/*
-   New shift means new record.
-*/
-
-currentRecordId=null;
-
-scheduleSave();
-
-}
-);
 
 
 /* =========================================================
@@ -3091,864 +1708,307 @@ scheduleSave();
 
 function scheduleSave(){
 
-clearTimeout(saveTimer);
+  clearTimeout(saveTimer);
 
-saveTimer=
-setTimeout(
-saveSheet,
-700
-);
+  $("saveStatus").textContent =
+    "● Changes pending...";
 
-}
-
-
-/* =========================================================
-   SAVE SHEET
-========================================================= */
-
-async function saveSheet(){
-
-if(!currentUser)
-return;
-
-
-const filled=
-currentValues
-.filter(v=>v)
-.length;
-
-
-if(filled===0)
-return;
-
-
-try{
-
-if(!currentRecordId){
-
-currentRecordId=
-`${$("sheetDate").value}_${$("sheetShift").value}`;
-
-}
-
-
-await setDoc(
-
-doc(
-db,
-"mixer4_tss_records",
-currentRecordId
-),
-
-{
-
-date:
-$("sheetDate").value,
-
-shift:
-$("sheetShift").value,
-
-shiftTiming:
-shiftTimings[
-$("sheetShift").value
-],
-
-machine:
-$("sheetMachine").value,
-
-filledBy:
-$("filledBy").value.trim(),
-
-values:
-currentValues,
-
-filled:
-filled,
-
-total:
-42,
-
-status:
-"Draft",
-
-updatedBy:
-currentUser.email,
-
-userId:
-currentUser.uid,
-
-updatedAt:
-serverTimestamp()
-
-},
-
-{
-merge:true
-}
-
-);
-
-saveMessage(
-"☁️ Automatically saved to Firebase Cloud.",
-"ok"
-);
-
-}
-
-catch(error){
-
-console.error(error);
-
-saveMessage(
-"Firebase save error: "+
-error.code+
-" — "+
-error.message,
-"error"
-);
-
-}
+  saveTimer =
+    setTimeout(() => {
+      saveSheet(false).catch(err => {
+        console.error(err);
+        $("saveStatus").textContent =
+          "● Cloud save failed";
+      });
+    },800);
 
 }
 
 
 /* =========================================================
-   COMPLETE SHEET
+   APPLY RECORD
 ========================================================= */
 
-$("completeButton").onclick=
-async()=>{
+function applyRecordToUI(data){
 
-if(!currentUser){
+  currentValues =
+    Array.from(
+      {length:TOTAL_POINTS},
+      (_,i) => data.values?.[i] || ""
+    );
 
-saveMessage(
-"Please login first.",
-"error"
-);
+  currentStatus =
+    data.status || "Draft";
 
-return;
+  completedAtValue =
+    data.completedAt || null;
 
-}
+  $("areaMachine").value =
+    data.area || "MIXER-4 TSS";
 
+  $("filledByName").value =
+    data.filledByName || "";
 
-const filled=
-currentValues
-.filter(v=>v)
-.length;
+  const inputs =
+    document.querySelectorAll(".temp-input");
 
+  inputs.forEach((input,index) => {
 
-if(filled===0){
+    input.value =
+      currentValues[index] || "";
 
-saveMessage(
-"⚠️ Please enter at least one check value.",
-"error"
-);
+  });
 
-return;
+  updateProgress();
 
-}
-
-
-const operatorName=
-$("filledBy")
-.value
-.trim();
-
-
-if(!operatorName){
-
-saveMessage(
-"⚠️ Please enter Filled By / Operator Name.",
-"error"
-);
-
-$("filledBy").focus();
-
-return;
+  updateCompletionUI();
 
 }
 
 
-const button=
-$("completeButton");
+/* =========================================================
+   COMPLETION UI
+========================================================= */
 
-button.disabled=true;
+function updateCompletionUI(){
 
-button.innerHTML=
-'<span class="loader"></span> Completing...';
+  if(
+    currentStatus === "Completed" &&
+    completedAtValue
+  ){
+
+    $("completionCard")
+      .classList.remove("hidden");
+
+    $("completionDetails").innerHTML =
+
+      `<b>Filled By:</b> ${escapeHTML(
+        $("filledByName").value || "-"
+      )}
+      &nbsp; • &nbsp;
+      <b>Completed At:</b>
+      ${escapeHTML(
+        formatDateTime(completedAtValue)
+      )}`;
+
+  }else{
+
+    $("completionCard")
+      .classList.add("hidden");
+
+  }
+
+}
 
 
-try{
+/* =========================================================
+   LOAD CURRENT SHEET
+========================================================= */
 
-await saveSheet();
+async function loadCurrentSheet(){
 
+  if(!currentUser) return;
 
-if(!currentRecordId){
+  currentRecordId =
+    getRecordId();
 
-currentRecordId=
-`${$("sheetDate").value}_${$("sheetShift").value}`;
+  $("saveStatus").textContent =
+    "● Loading sheet...";
+
+  const ref =
+    doc(
+      db,
+      "mixer4_tss_records",
+      currentRecordId
+    );
+
+  const snap =
+    await getDoc(ref);
+
+  if(snap.exists()){
+
+    applyRecordToUI(
+      snap.data()
+    );
+
+    $("saveStatus").innerHTML =
+      "● <strong>Loaded from Cloud</strong>";
+
+  }else{
+
+    currentValues =
+      Array(TOTAL_POINTS).fill("");
+
+    currentStatus = "Draft";
+    completedAtValue = null;
+
+    document
+      .querySelectorAll(".temp-input")
+      .forEach(input => {
+        input.value = "";
+      });
+
+    $("filledByName").value = "";
+
+    $("areaMachine").value =
+      "MIXER-4 TSS";
+
+    updateProgress();
+    updateCompletionUI();
+
+    $("saveStatus").textContent =
+      "● New sheet";
+
+  }
 
 }
 
 
-/*
-   EXACT COMPLETION DATE/TIME
-   FROM USER'S BROWSER
-*/
+/* =========================================================
+   AUTH UI
+========================================================= */
 
-const now=
-new Date();
+let authMode = "login";
 
-completedAtLocal=
-now.toLocaleString(
-"en-IN",
-{
-dateStyle:"medium",
-timeStyle:"medium",
-hour12:true
-}
-);
+$("loginTab").onclick = () => {
 
+  authMode = "login";
 
-/*
-   ISO timestamp is also saved
-   for reliable sorting/reference.
-*/
+  $("loginTab").classList.add("active");
+  $("signupTab").classList.remove("active");
 
-const completedAtISO=
-now.toISOString();
+  $("authBtn").textContent =
+    "Login";
 
+  $("password").autocomplete =
+    "current-password";
 
-await setDoc(
-
-doc(
-db,
-"mixer4_tss_records",
-currentRecordId
-),
-
-{
-
-status:
-"Completed",
-
-checkedBy:
-currentUser.email,
-
-filledBy:
-operatorName,
-
-completedAt:
-serverTimestamp(),
-
-completedAtISO:
-completedAtISO,
-
-completedAtDisplay:
-completedAtLocal,
-
-shiftTiming:
-shiftTimings[
-$("sheetShift").value
-],
-
-updatedAt:
-serverTimestamp()
-
-},
-
-{
-merge:true
-}
-
-);
-
-
-$("completionInfo")
-.classList
-.remove("hidden");
-
-$("completionInfo").innerHTML=
-`
-✅ <b>Check Sheet Completed</b><br>
-👷 Filled By: ${operatorName}<br>
-📅 Completed On: ${completedAtLocal}<br>
-🕐 Shift: ${$("sheetShift").value} — ${shiftTimings[$("sheetShift").value]}
-`;
-
-
-saveMessage(
-"🎉 CHECK SHEET COMPLETED & SAVED SUCCESSFULLY!",
-"ok"
-);
-
-
-/*
-   Refresh history
-*/
-
-setTimeout(
-loadHistory,
-500
-);
-
-}
-
-catch(error){
-
-console.error(error);
-
-saveMessage(
-"Complete error: "+
-error.code+
-" — "+
-error.message,
-"error"
-);
-
-}
-
-finally{
-
-button.disabled=false;
-
-button.textContent=
-"✅ Complete Sheet";
-
-}
+  $("authMessage").innerHTML = "";
 
 };
 
 
-/* =========================================================
-   HISTORY BUTTON
-========================================================= */
+$("signupTab").onclick = () => {
 
-$("historyButton").onclick=
-async()=>{
+  authMode = "signup";
 
-$("sheetView")
-.classList
-.add("hidden");
+  $("signupTab").classList.add("active");
+  $("loginTab").classList.remove("active");
 
-$("historyView")
-.classList
-.remove("hidden");
+  $("authBtn").textContent =
+    "Create ID";
 
-await loadHistory();
+  $("password").autocomplete =
+    "new-password";
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
+  $("authMessage").innerHTML = "";
 
 };
 
 
-/* =========================================================
-   REFRESH
-========================================================= */
+$("authBtn").onclick = async () => {
 
-$("refreshButton").onclick=
-loadHistory;
+  const email =
+    $("email").value.trim();
 
+  const password =
+    $("password").value;
 
-/* =========================================================
-   POINT LABEL MAP
-========================================================= */
+  if(!email || !password){
 
-function getPointLabels(){
+    showAuthMessage(
+      "Email and password required.",
+      "error"
+    );
 
-const labels=[];
+    return;
+  }
 
-sections.forEach(section=>{
+  if(password.length < 6){
 
-section.rows.forEach(row=>{
+    showAuthMessage(
+      "Password must be at least 6 characters.",
+      "error"
+    );
 
-if(row[1]){
+    return;
+  }
 
-labels.push(row[1]);
+  $("authBtn").disabled = true;
+  $("authBtn").textContent =
+    authMode === "login"
+      ? "Logging in..."
+      : "Creating ID...";
 
-}
+  try{
 
-if(row[2]){
+    if(authMode === "login"){
 
-labels.push(row[2]);
+      await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
-}
+    }else{
 
-});
+      await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
-});
+    }
 
-return labels;
+  }catch(error){
 
-}
+    console.error(error);
 
+    let msg =
+      error.message || "Authentication failed.";
 
-const pointLabels=
-getPointLabels();
+    if(error.code === "auth/invalid-credential"){
+      msg =
+        "Email or password is incorrect.";
+    }
 
+    if(error.code === "auth/email-already-in-use"){
+      msg =
+        "This email is already registered. Please Login.";
+    }
 
-/* =========================================================
-   LOAD HISTORY
-========================================================= */
+    if(error.code === "auth/invalid-api-key"){
+      msg =
+        "Firebase API key is invalid. Please verify Firebase Web App configuration.";
+    }
 
-async function loadHistory(){
+    showAuthMessage(
+      msg,
+      "error"
+    );
 
-const list=
-$("historyList");
+  }finally{
 
-list.innerHTML=
-"Loading history...";
+    $("authBtn").disabled = false;
 
+    $("authBtn").textContent =
+      authMode === "login"
+        ? "Login"
+        : "Create ID";
 
-try{
-
-const q=
-query(
-
-collection(
-db,
-"mixer4_tss_records"
-),
-
-orderBy(
-"updatedAt",
-"desc"
-)
-
-);
-
-
-const snapshot=
-await getDocs(q);
-
-
-if(snapshot.empty){
-
-list.innerHTML=
-"No check sheets found.";
-
-return;
-
-}
-
-
-list.innerHTML="";
-
-
-snapshot.forEach(
-docSnap=>{
-
-const d=
-docSnap.data();
-
-
-const values=
-Array.isArray(d.values)
-?
-d.values
-:
-Array.from(
-{length:42},
-(_,i)=>
-d[`p${i+1}`]||""
-);
-
-
-const filledCount=
-values.filter(v=>v).length;
-
-
-/*
-   ONLY FILLED VALUES
-*/
-
-let valueHTML="";
-
-values.forEach(
-(v,i)=>{
-
-if(!v)
-return;
-
-valueHTML+=`
-
-<div
-style="
-padding:10px;
-border-bottom:1px solid #eee;
-font-size:13px;
-animation:historyIn .3s ease;
-"
->
-
-<b>
-${pointLabels[i]||`Point ${i+1}`}:
-</b>
-
-<span>
-${v}
-</span>
-
-</div>
-
-`;
-
-});
-
-
-if(!valueHTML){
-
-valueHTML=
-`
-<div
-style="
-padding:10px;
-color:#94a3b8;
-"
->
-No values filled.
-</div>
-`;
-
-}
-
-
-const item=
-document.createElement("div");
-
-item.className=
-"historyItem";
-
-
-const completedDisplay=
-d.completedAtDisplay||
-"-";
-
-
-item.innerHTML=`
-
-<div>
-
-<b>
-📅 ${d.date||"-"}
-</b>
-
-&nbsp;
-
-<b>
-Shift ${d.shift||"-"}
-</b>
-
-</div>
-
-
-<div
-style="
-margin-top:8px;
-font-size:12px;
-font-weight:750;
-color:#4338ca;
-"
->
-
-⏱️
-${d.shiftTiming||
-shiftTimings[d.shift]||
-"-"}
-
-</div>
-
-
-<div
-style="
-font-size:13px;
-color:#64748b;
-margin-top:8px;
-line-height:1.7;
-"
->
-
-🏭 ${d.machine||"MIXER-4 / TSS UNIT"}
-
-<br>
-
-👷 Filled By:
-<b>
-${d.filledBy||"Not specified"}
-</b>
-
-<br>
-
-👤 Account:
-${d.checkedBy||d.updatedBy||"Unknown"}
-
-<br>
-
-🕐 Completed:
-${completedDisplay}
-
-</div>
-
-
-<div style="margin-top:8px">
-
-<span class="badge">
-
-${d.status||"Draft"}
-
-</span>
-
-<span class="badge green">
-
-${filledCount}/42 Filled
-
-</span>
-
-</div>
-
-
-<button
-type="button"
-style="margin-top:10px"
-data-open
->
-
-👁️ View Filled Values
-
-</button>
-
-
-<div
-data-values
-class="hidden"
-style="
-margin-top:12px;
-"
->
-
-${valueHTML}
-
-</div>
-
-`;
-
-
-item
-.querySelector("[data-open]")
-.onclick=()=>{
-
-const box=
-item.querySelector("[data-values]");
-
-box.classList.toggle("hidden");
+  }
 
 };
 
 
-list.appendChild(item);
+function showAuthMessage(message,type){
 
-});
-
-}
-
-catch(error){
-
-console.error(error);
-
-list.innerHTML=
-`
-<div
-style="
-color:#b91c1c;
-padding:12px;
-background:#fee2e2;
-border-radius:10px;
-"
->
-
-<b>History Error:</b>
-
-<br>
-
-${error.code}
-
-<br>
-
-${error.message}
-
-</div>
-`;
+  $("authMessage").innerHTML =
+    `<div class="message ${type}">
+      ${escapeHTML(message)}
+    </div>`;
 
 }
-
-}
-
-
-/* =========================================================
-   DOWNLOAD
-========================================================= */
-
-$("downloadButton").onclick=()=>{
-
-if(!currentUser){
-
-alert(
-"Please login first."
-);
-
-return;
-
-}
-
-
-const values=
-Array.from(
-{length:42},
-(_,i)=>{
-
-const input=
-$(`point-${i}`);
-
-return input
-?
-input.value.trim()
-:
-"";
-
-}
-);
-
-
-const operator=
-$("filledBy")
-.value
-.trim()||
-"Not specified";
-
-
-let text=
-"MIXER-4 TSS DAILY CHECK SHEET\n";
-
-text+=
-"================================================\n\n";
-
-
-text+=
-"Date: "+
-$("sheetDate").value+
-"\n";
-
-text+=
-"Shift: "+
-$("sheetShift").value+
-"\n";
-
-text+=
-"Shift Timing: "+
-shiftTimings[
-$("sheetShift").value
-]+
-"\n";
-
-text+=
-"Machine: "+
-$("sheetMachine").value+
-"\n";
-
-text+=
-"Filled By: "+
-operator+
-"\n";
-
-
-if(completedAtLocal){
-
-text+=
-"Completed On: "+
-completedAtLocal+
-"\n";
-
-}
-
-else{
-
-text+=
-"Completed On: Not completed yet\n";
-
-}
-
-
-text+=
-"Account: "+
-currentUser.email+
-"\n\n";
-
-
-text+=
-"FILLED CHECK VALUES\n";
-
-text+=
-"------------------------------------------------\n";
-
-
-values.forEach(
-(v,i)=>{
-
-/*
-   ONLY FILLED VALUES
-*/
-
-if(!v)
-return;
-
-
-text+=
-`${i+1}. ${pointLabels[i]||"Check Point"} : ${v}\n`;
-
-});
-
-
-text+=
-"\n================================================\n";
-
-text+=
-"Generated by MIXER-4 TSS Control System";
-
-
-const blob=
-new Blob(
-[text],
-{
-type:"text/plain"
-}
-);
-
-
-const url=
-URL.createObjectURL(blob);
-
-
-const a=
-document.createElement("a");
-
-a.href=
-url;
-
-a.download=
-`MIXER-4-${$("sheetDate").value}-Shift-${$("sheetShift").value}.txt`;
-
-document.body.appendChild(a);
-
-a.click();
-
-a.remove();
-
-URL.revokeObjectURL(url);
-
-};
 
 
 /* =========================================================
@@ -3956,53 +2016,766 @@ URL.revokeObjectURL(url);
 ========================================================= */
 
 onAuthStateChanged(
-auth,
-user=>{
+  auth,
+  async user => {
 
-currentUser=
-user;
+    currentUser = user;
 
+    if(user){
 
-if(user){
+      $("authSection")
+        .classList.add("hidden");
 
-$("auth")
-.classList
-.add("hidden");
+      $("appSection")
+        .classList.remove("hidden");
 
-$("app")
-.classList
-.remove("hidden");
+      $("logoutBtn")
+        .classList.remove("hidden");
 
-$("userEmail")
-.textContent=
-user.email;
+      $("userPill")
+        .style.display = "flex";
 
-console.log(
-"AUTHENTICATED:",
-user.uid
+      $("userEmailTop").textContent =
+        user.email;
+
+      $("sheetDate").value =
+        indiaToday();
+
+      updateShiftTiming();
+
+      buildSheet();
+
+      await loadCurrentSheet();
+
+    }else{
+
+      $("authSection")
+        .classList.remove("hidden");
+
+      $("appSection")
+        .classList.add("hidden");
+
+      $("logoutBtn")
+        .classList.add("hidden");
+
+      $("userPill")
+        .style.display = "none";
+
+    }
+
+  }
 );
 
-loadHistory();
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+$("logoutBtn").onclick =
+  async () => {
+
+    clearTimeout(saveTimer);
+
+    await signOut(auth);
+
+  };
+
+
+/* =========================================================
+   INPUT EVENTS
+========================================================= */
+
+document.addEventListener(
+  "input",
+  event => {
+
+    if(
+      event.target.classList.contains(
+        "temp-input"
+      )
+    ){
+
+      const index =
+        Number(event.target.dataset.index);
+
+      currentValues[index] =
+        event.target.value.trim();
+
+      updateProgress();
+
+      scheduleSave();
+
+    }
+
+    if(event.target.id === "filledByName"){
+
+      scheduleSave();
+
+    }
+
+    if(event.target.id === "areaMachine"){
+
+      scheduleSave();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   SHIFT CHANGE
+========================================================= */
+
+$("sheetShift").addEventListener(
+  "change",
+  async () => {
+
+    updateShiftTiming();
+
+    currentStatus = "Draft";
+    completedAtValue = null;
+
+    await loadCurrentSheet();
+
+  }
+);
+
+
+/* =========================================================
+   DATE CHANGE
+========================================================= */
+
+$("sheetDate").addEventListener(
+  "change",
+  async () => {
+
+    currentStatus = "Draft";
+    completedAtValue = null;
+
+    await loadCurrentSheet();
+
+  }
+);
+
+
+/* =========================================================
+   COMPLETE
+========================================================= */
+
+$("completeBtn").onclick =
+  async () => {
+
+    const filledByName =
+      $("filledByName").value.trim();
+
+    currentValues =
+      [...document.querySelectorAll(".temp-input")]
+        .map(input => input.value.trim());
+
+    const filledCount =
+      currentValues.filter(Boolean).length;
+
+    if(!filledByName){
+
+      alert(
+        "Please enter the Operator / Filled By name."
+      );
+
+      $("filledByName").focus();
+
+      return;
+    }
+
+    if(filledCount === 0){
+
+      alert(
+        "Please enter at least one temperature/check value before completing the sheet."
+      );
+
+      return;
+    }
+
+    const ok =
+      confirm(
+        `Complete this check sheet?\n\n` +
+        `Filled By: ${filledByName}\n` +
+        `Date: ${$("sheetDate").value}\n` +
+        `Shift: ${$("sheetShift").value}\n` +
+        `Points Filled: ${filledCount}/${TOTAL_POINTS}`
+      );
+
+    if(!ok) return;
+
+    $("completeBtn").disabled = true;
+    $("completeBtn").textContent =
+      "Completing...";
+
+    try{
+
+      await saveSheet(true);
+
+    }catch(error){
+
+      console.error(error);
+
+      alert(
+        "Unable to complete the sheet. Please try again."
+      );
+
+    }finally{
+
+      $("completeBtn").disabled = false;
+
+      $("completeBtn").innerHTML =
+        "✓ Complete Sheet";
+
+    }
+
+  };
+
+
+/* =========================================================
+   DOWNLOAD
+========================================================= */
+
+$("downloadBtn").onclick =
+  () => {
+
+    currentValues =
+      [...document.querySelectorAll(".temp-input")]
+        .map(input => input.value.trim());
+
+    let text =
+`MIXER-4 TSS GEARBOX & BEARING TEMPERATURE MONITORING
+=====================================================
+
+Date           : ${$("sheetDate").value}
+Shift          : ${$("sheetShift").value}
+Shift Timing   : ${shiftTimings[$("sheetShift").value]}
+Area / Machine : ${$("areaMachine").value}
+Filled By      : ${$("filledByName").value}
+Status         : ${currentStatus}
+Completed At   : ${formatDateTime(completedAtValue)}
+
+CHECK POINTS
+=====================================================
+
+`;
+
+    pointLabels.forEach((label,index) => {
+
+      const value =
+        currentValues[index];
+
+      if(value){
+
+        text +=
+          `${index+1}. ${label} : ${value}\n`;
+
+      }
+
+    });
+
+    text +=
+`
+=====================================================
+Generated from MIXER-4 TSS Cloud Check Sheet
+`;
+
+    const blob =
+      new Blob(
+        [text],
+        {type:"text/plain;charset=utf-8"}
+      );
+
+    const url =
+      URL.createObjectURL(blob);
+
+    const a =
+      document.createElement("a");
+
+    a.href = url;
+
+    a.download =
+      `MIXER4_TSS_${$("sheetDate").value}_${$("sheetShift").value}.txt`;
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+  };
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+$("printBtn").onclick =
+  () => {
+
+    currentValues =
+      [...document.querySelectorAll(".temp-input")]
+        .map(input => input.value.trim());
+
+    const rows =
+      pointLabels
+        .map((label,index) => {
+
+          const value =
+            currentValues[index];
+
+          if(!value) return "";
+
+          return `
+            <tr>
+              <td>${index+1}</td>
+              <td>${escapeHTML(label)}</td>
+              <td>${escapeHTML(value)}</td>
+            </tr>
+          `;
+
+        })
+        .join("");
+
+    const win =
+      window.open("","_blank");
+
+    win.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>MIXER-4 TSS Check Sheet</title>
+
+        <style>
+
+          body{
+            font-family:Arial,sans-serif;
+            padding:30px;
+            color:#111;
+          }
+
+          h1{
+            text-align:center;
+            font-size:21px;
+          }
+
+          .meta{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:8px;
+            margin:20px 0;
+          }
+
+          .meta div{
+            border:1px solid #aaa;
+            padding:8px;
+          }
+
+          table{
+            width:100%;
+            border-collapse:collapse;
+          }
+
+          th,td{
+            border:1px solid #999;
+            padding:7px;
+            text-align:left;
+            font-size:12px;
+          }
+
+          th{
+            background:#eee;
+          }
+
+        </style>
+      </head>
+
+      <body>
+
+        <h1>
+          MIXER-4 TSS GEARBOX & BEARING
+          TEMPERATURE MONITORING
+        </h1>
+
+        <div class="meta">
+
+          <div>
+            <b>Date:</b>
+            ${escapeHTML($("sheetDate").value)}
+          </div>
+
+          <div>
+            <b>Shift:</b>
+            ${escapeHTML($("sheetShift").value)}
+          </div>
+
+          <div>
+            <b>Shift Timing:</b>
+            ${escapeHTML(
+              shiftTimings[$("sheetShift").value]
+            )}
+          </div>
+
+          <div>
+            <b>Area/Machine:</b>
+            ${escapeHTML($("areaMachine").value)}
+          </div>
+
+          <div>
+            <b>Filled By:</b>
+            ${escapeHTML($("filledByName").value)}
+          </div>
+
+          <div>
+            <b>Completed At:</b>
+            ${escapeHTML(
+              formatDateTime(completedAtValue)
+            )}
+          </div>
+
+        </div>
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Sr.</th>
+              <th>Check Point</th>
+              <th>Temperature / Value</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            ${rows}
+          </tbody>
+
+        </table>
+
+        <script>
+          window.onload = function(){
+            window.print();
+          };
+        <\/script>
+
+      </body>
+      </html>
+    `);
+
+    win.document.close();
+
+  };
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+$("historyBtn").onclick =
+  async () => {
+
+    $("historySection")
+      .classList.toggle("hidden");
+
+    if(
+      !$("historySection")
+        .classList.contains("hidden")
+    ){
+
+      await loadHistory();
+
+      $("historySection")
+        .scrollIntoView({
+          behavior:"smooth"
+        });
+
+    }
+
+  };
+
+
+$("refreshHistoryBtn").onclick =
+  loadHistory;
+
+
+async function loadHistory(){
+
+  $("historyContainer").innerHTML =
+    `<div class="card empty">
+      Loading shared history...
+    </div>`;
+
+  try{
+
+    const snapshot =
+      await getDocs(
+        collection(
+          db,
+          "mixer4_tss_records"
+        )
+      );
+
+    const records =
+      snapshot.docs
+        .map(d => ({
+          id:d.id,
+          ...d.data()
+        }))
+        .sort((a,b) => {
+
+          const ta =
+            a.updatedAt?.toMillis?.() ||
+            a.completedAt?.toMillis?.() ||
+            0;
+
+          const tb =
+            b.updatedAt?.toMillis?.() ||
+            b.completedAt?.toMillis?.() ||
+            0;
+
+          return tb - ta;
+
+        });
+
+    if(!records.length){
+
+      $("historyContainer").innerHTML =
+        `<div class="card empty">
+          No check sheet history found.
+        </div>`;
+
+      return;
+    }
+
+
+    $("historyContainer").innerHTML =
+      records.map(record => {
+
+        const values =
+          record.values || [];
+
+        const filledItems =
+          pointLabels
+            .map((label,index) => ({
+              label,
+              value:values[index] || ""
+            }))
+            .filter(item =>
+              String(item.value).trim() !== ""
+            );
+
+
+        const valueHTML =
+          filledItems.length
+
+            ? filledItems.map(item => `
+                <div class="history-item">
+
+                  <div class="label">
+                    ${escapeHTML(item.label)}
+                  </div>
+
+                  <div class="value">
+                    ${escapeHTML(item.value)}
+                  </div>
+
+                </div>
+              `).join("")
+
+            : `
+              <div style="color:#64748b;font-size:13px;">
+                No filled values.
+              </div>
+            `;
+
+
+        return `
+
+          <div class="card history-card">
+
+            <div class="history-summary">
+
+              <div class="history-meta">
+                <strong>
+                  ${escapeHTML(
+                    record.date || "-"
+                  )}
+                </strong>
+
+                <span>
+                  ${escapeHTML(
+                    record.shift || "-"
+                  )}
+                }
+              </div>
+
+
+              <div class="history-meta">
+
+                <strong>
+                  ${escapeHTML(
+                    record.filledByName ||
+                    record.checkedBy ||
+                    "-"
+                  )}
+                </strong>
+
+                <span>
+                  Filled By
+                </span>
+
+              </div>
+
+
+              <div class="history-meta">
+
+                <strong>
+                  ${escapeHTML(
+                    record.shiftTiming || "-"
+                  )}
+                </strong>
+
+                <span>
+                  Shift Timing
+                </span>
+
+              </div>
+
+
+              <div class="history-meta">
+
+                <strong>
+                  ${escapeHTML(
+                    formatDateTime(
+                      record.completedAt ||
+                      record.updatedAt
+                    )
+                  )}
+                </strong>
+
+                <span>
+                  ${record.status === "Completed"
+                    ? "Completed At"
+                    : "Last Updated"}
+                </span>
+
+              </div>
+
+
+              <div>
+
+                <span
+                  class="completed-badge"
+                  style="
+                    display:inline-block;
+                    background:${
+                      record.status === "Completed"
+                        ? "#dcfce7"
+                        : "#fef3c7"
+                    };
+                    color:${
+                      record.status === "Completed"
+                        ? "#166534"
+                        : "#92400e"
+                    };
+                  "
+                >
+                  ${escapeHTML(
+                    record.status || "Draft"
+                  )}
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="history-values">
+
+              ${valueHTML}
+
+            </div>
+
+          </div>
+
+        `;
+
+      }).join("");
+
+
+  }catch(error){
+
+    console.error(error);
+
+    $("historyContainer").innerHTML =
+      `<div class="message error">
+        Unable to load history.
+        Please check Firestore rules.
+      </div>`;
+
+  }
 
 }
 
-else{
 
-$("auth")
-.classList
-.remove("hidden");
+/* =========================================================
+   CONFETTI
+========================================================= */
 
-$("app")
-.classList
-.add("hidden");
+function celebrate(){
+
+  const count = 55;
+
+  for(let i=0;i<count;i++){
+
+    const piece =
+      document.createElement("div");
+
+    piece.className = "confetti";
+
+    piece.style.left =
+      `${Math.random()*100}vw`;
+
+    piece.style.setProperty(
+      "--x",
+      `${(Math.random()-.5)*300}px`
+    );
+
+    piece.style.background =
+      [
+        "#2563eb",
+        "#06b6d4",
+        "#16a34a",
+        "#f59e0b",
+        "#7c3aed",
+        "#ef4444"
+      ][Math.floor(Math.random()*6)];
+
+    piece.style.animationDelay =
+      `${Math.random()*.25}s`;
+
+    document.body.appendChild(piece);
+
+    setTimeout(
+      () => piece.remove(),
+      2200
+    );
+
+  }
 
 }
 
-});
 
+/* =========================================================
+   INITIAL
+========================================================= */
+
+$("sheetDate").value =
+  indiaToday();
+
+updateShiftTiming();
 
 </script>
 
 </body>
-
 </html>
