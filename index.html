@@ -51,9 +51,8 @@ linear-gradient(
 color:var(--dark);
 }
 
-/* HEADER */
-
 header{
+
 background:
 linear-gradient(
 135deg,
@@ -63,6 +62,7 @@ linear-gradient(
 );
 
 color:white;
+
 padding:22px 16px;
 
 box-shadow:
@@ -87,32 +87,37 @@ transform:translateY(0);
 }
 
 .headerInner{
+
 max-width:1000px;
 margin:auto;
+
 }
 
 header h1{
+
 margin:0;
 font-size:24px;
+
 }
 
 header p{
+
 margin:5px 0 0;
 opacity:.9;
 font-size:13px;
+
 }
 
-/* CONTAINER */
-
 .container{
+
 max-width:1000px;
 margin:auto;
 padding:18px;
+
 }
 
-/* CARD */
-
 .card{
+
 background:
 rgba(255,255,255,.92);
 
@@ -131,36 +136,46 @@ border:1px solid white;
 
 animation:
 cardIn .5s ease;
+
 }
 
 @keyframes cardIn{
 
 from{
+
 opacity:0;
+
 transform:
 translateY(20px)
 scale(.98);
+
 }
 
 to{
+
 opacity:1;
+
 transform:
 translateY(0)
 scale(1);
-}
 
 }
 
-/* AUTH */
+}
 
 .auth{
+
 max-width:500px;
 margin:60px auto;
+
 }
 
 .logo{
+
 text-align:center;
+
 font-size:32px;
+
 font-weight:900;
 
 background:
@@ -172,12 +187,12 @@ linear-gradient(
 );
 
 -webkit-background-clip:text;
+
 color:transparent;
 
 margin-bottom:5px;
-}
 
-/* INPUT */
+}
 
 input,
 select{
@@ -198,6 +213,7 @@ outline:none;
 background:white;
 
 transition:.2s;
+
 }
 
 input:focus,
@@ -207,9 +223,8 @@ border-color:var(--blue);
 
 box-shadow:
 0 0 0 4px #2563eb20;
-}
 
-/* BUTTON */
+}
 
 button{
 
@@ -238,6 +253,7 @@ box-shadow:
 0 5px 16px #2563eb35;
 
 transition:.2s;
+
 }
 
 button:hover{
@@ -247,55 +263,61 @@ translateY(-2px);
 
 box-shadow:
 0 9px 22px #2563eb40;
+
 }
 
 button:active{
+
 transform:scale(.97);
+
 }
 
 button:disabled{
+
 opacity:.65;
+
 cursor:not-allowed;
+
 transform:none;
+
 }
 
 button.secondary{
+
 background:#e8eef8;
+
 color:#172033;
+
 box-shadow:none;
+
 }
 
 button.green{
+
 background:
 linear-gradient(
 135deg,
 #16a34a,
 #059669
 );
-}
 
-button.red{
-background:
-linear-gradient(
-135deg,
-#ef4444,
-#b91c1c
-);
 }
-
-/* AUTH TABS */
 
 .tabs{
+
 display:flex;
+
 gap:10px;
+
 margin-bottom:20px;
+
 }
 
 .tabs button{
-flex:1;
-}
 
-/* FORM */
+flex:1;
+
+}
 
 .grid{
 
@@ -308,37 +330,51 @@ minmax(210px,1fr)
 );
 
 gap:14px;
+
 }
 
 label{
+
 display:block;
+
 font-size:14px;
+
 font-weight:750;
+
 margin-bottom:6px;
+
 }
 
 .field{
+
 margin-bottom:15px;
+
 }
 
-/* NAV */
-
 .nav{
+
 display:flex;
+
 gap:10px;
+
 margin:12px 0;
+
 }
 
 .nav button{
+
 flex:1;
+
 }
 
-/* USER */
-
 .userBox{
+
 display:flex;
+
 align-items:center;
+
 gap:12px;
+
 }
 
 .avatar{
@@ -349,6 +385,7 @@ height:48px;
 border-radius:50%;
 
 display:flex;
+
 align-items:center;
 justify-content:center;
 
@@ -363,9 +400,8 @@ color:white;
 
 font-size:22px;
 font-weight:900;
-}
 
-/* SECTION TITLE */
+}
 
 .sectionTitle{
 
@@ -386,12 +422,12 @@ linear-gradient(
 border-left:5px solid var(--purple);
 
 font-size:16px;
+
 font-weight:850;
 
 color:#312e81;
-}
 
-/* CHECK POINT */
+}
 
 .point{
 
@@ -415,24 +451,6 @@ border-left:
 
 transition:.2s;
 
-animation:
-pointIn .35s ease;
-}
-
-@keyframes pointIn{
-
-from{
-opacity:0;
-transform:
-translateX(-15px);
-}
-
-to{
-opacity:1;
-transform:
-translateX(0);
-}
-
 }
 
 .point:hover{
@@ -442,25 +460,64 @@ translateX(3px);
 
 box-shadow:
 0 5px 20px #2563eb18;
+
 }
 
 .pointHeader{
 
 display:flex;
+
 justify-content:space-between;
+
 gap:10px;
+
 align-items:center;
+
 margin-bottom:10px;
+
 }
 
 .pointNumber{
+
 color:#2563eb;
+
 font-weight:900;
+
 }
 
-.pointLabel{
-font-weight:750;
-line-height:1.4;
+.pointGrid{
+
+display:grid;
+
+grid-template-columns:
+1fr 1fr;
+
+gap:12px;
+
+}
+
+.sidePoint{
+
+padding:12px;
+
+border-radius:12px;
+
+background:#ffffff;
+
+border:1px solid #e2e8f0;
+
+}
+
+.sideTitle{
+
+font-size:12px;
+
+font-weight:800;
+
+color:#475569;
+
+margin-bottom:7px;
+
 }
 
 .status{
@@ -478,62 +535,22 @@ color:#4338ca;
 font-weight:700;
 
 white-space:nowrap;
+
 }
 
 .status.saved{
 
 background:#dcfce7;
+
 color:#166534;
-}
-
-/* TWO SIDE POINT */
-
-.pointGrid{
-
-display:grid;
-
-grid-template-columns:
-1fr 1fr;
-
-gap:12px;
-}
-
-.sidePoint{
-
-padding:12px;
-
-border-radius:12px;
-
-background:#ffffff;
-
-border:1px solid #e2e8f0;
-}
-
-.sideTitle{
-
-font-size:12px;
-
-font-weight:800;
-
-color:#475569;
-
-margin-bottom:7px;
-}
-
-@media(max-width:650px){
-
-.pointGrid{
-grid-template-columns:1fr;
-}
 
 }
-
-/* HISTORY */
 
 .history{
 
 display:grid;
 gap:12px;
+
 }
 
 .historyItem{
@@ -550,16 +567,6 @@ border:
 box-shadow:
 0 4px 15px #33415510;
 
-transition:.2s;
-}
-
-.historyItem:hover{
-
-transform:
-translateY(-2px);
-
-box-shadow:
-0 8px 22px #33415518;
 }
 
 .badge{
@@ -579,15 +586,16 @@ background:#eef2ff;
 color:#4338ca;
 
 margin:3px;
+
 }
 
 .badge.green{
 
 background:#dcfce7;
-color:#166534;
-}
 
-/* MESSAGE */
+color:#166534;
+
+}
 
 .message{
 
@@ -600,25 +608,30 @@ border-radius:10px;
 font-size:13px;
 
 display:none;
+
 }
 
 .message.show{
+
 display:block;
+
 }
 
 .message.ok{
 
 background:#dcfce7;
+
 color:#166534;
+
 }
 
 .message.error{
 
 background:#fee2e2;
-color:#991b1b;
-}
 
-/* LOADING */
+color:#991b1b;
+
+}
 
 .loader{
 
@@ -637,6 +650,7 @@ spin .7s linear infinite;
 display:inline-block;
 
 vertical-align:middle;
+
 }
 
 @keyframes spin{
@@ -647,18 +661,28 @@ transform:rotate(360deg);
 
 }
 
-/* HIDDEN */
-
 .hidden{
+
 display:none !important;
+
 }
 
-/* RESPONSIVE */
+@media(max-width:650px){
+
+.pointGrid{
+
+grid-template-columns:1fr;
+
+}
+
+}
 
 @media(max-width:600px){
 
 .container{
+
 padding:10px;
+
 }
 
 .card{
@@ -666,10 +690,13 @@ padding:10px;
 padding:15px;
 
 border-radius:17px;
+
 }
 
 header h1{
+
 font-size:20px;
+
 }
 
 .nav{
@@ -687,6 +714,7 @@ backdrop-filter:blur(10px);
 padding:7px;
 
 border-radius:15px;
+
 }
 
 .nav button{
@@ -694,6 +722,7 @@ border-radius:15px;
 font-size:12px;
 
 padding:11px 7px;
+
 }
 
 }
@@ -702,9 +731,7 @@ padding:11px 7px;
 
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -720,16 +747,11 @@ Cloud Monitoring • Secure Login • Auto Save • Shared History
 
 </header>
 
-
 <div class="container">
 
+<!-- ================= AUTH ================= -->
 
-<!-- AUTH -->
-
-<section
-id="auth"
-class="card auth"
->
+<section id="auth" class="card auth">
 
 <div class="logo">
 MIXER-4
@@ -739,26 +761,22 @@ MIXER-4
 TSS Control System
 </h2>
 
-
 <div class="tabs">
 
 <button
 id="loginTab"
-type="button"
->
+type="button">
 🔐 Login
 </button>
 
 <button
 id="signupTab"
 type="button"
-class="secondary"
->
+class="secondary">
 ➕ Create ID
 </button>
 
 </div>
-
 
 <!-- LOGIN -->
 
@@ -771,12 +789,9 @@ class="secondary"
 <input
 id="loginEmail"
 type="email"
-autocomplete="email"
-placeholder="Enter your email"
->
+placeholder="Enter your email">
 
 </div>
-
 
 <div class="field">
 
@@ -785,18 +800,14 @@ placeholder="Enter your email"
 <input
 id="loginPassword"
 type="password"
-autocomplete="current-password"
-placeholder="Enter password"
->
+placeholder="Enter password">
 
 </div>
-
 
 <button
 id="loginButton"
 type="button"
-style="width:100%"
->
+style="width:100%">
 
 🔐 Login
 
@@ -804,16 +815,9 @@ style="width:100%"
 
 </div>
 
-
 <!-- SIGNUP -->
 
-<div
-id="signupBox"
-class="hidden"
->
-
-
-<!-- NAME ADDED -->
+<div id="signupBox" class="hidden">
 
 <div class="field">
 
@@ -822,12 +826,9 @@ class="hidden"
 <input
 id="signupName"
 type="text"
-autocomplete="name"
-placeholder="Enter your full name"
->
+placeholder="Enter your full name">
 
 </div>
-
 
 <div class="field">
 
@@ -836,12 +837,9 @@ placeholder="Enter your full name"
 <input
 id="signupEmail"
 type="email"
-autocomplete="email"
-placeholder="Enter your email"
->
+placeholder="Enter your email">
 
 </div>
-
 
 <div class="field">
 
@@ -850,18 +848,14 @@ placeholder="Enter your email"
 <input
 id="signupPassword"
 type="password"
-autocomplete="new-password"
-placeholder="Minimum 6 characters"
->
+placeholder="Minimum 6 characters">
 
 </div>
-
 
 <button
 id="signupButton"
 type="button"
-style="width:100%"
->
+style="width:100%">
 
 ➕ Create Account
 
@@ -869,23 +863,17 @@ style="width:100%"
 
 </div>
 
-
 <div
 id="authMessage"
-class="message"
-></div>
-
+class="message">
+</div>
 
 </section>
 
 
-<!-- APP -->
+<!-- ================= APP ================= -->
 
-<section
-id="app"
-class="hidden"
->
-
+<section id="app" class="hidden">
 
 <!-- USER -->
 
@@ -905,9 +893,8 @@ User
 
 <div
 id="userEmail"
-style="font-size:12px;color:#64748b"
->
-Logged in successfully
+style="font-size:12px;color:#64748b">
+
 </div>
 
 </div>
@@ -916,9 +903,10 @@ Logged in successfully
 id="logoutButton"
 class="secondary"
 style="margin-left:auto"
-type="button"
->
+type="button">
+
 Logout
+
 </button>
 
 </div>
@@ -932,36 +920,35 @@ Logout
 
 <button
 id="newSheetButton"
-type="button"
->
+type="button">
+
 📝 New Sheet
+
 </button>
 
 <button
 id="historyButton"
 class="secondary"
-type="button"
->
+type="button">
+
 📚 All History
+
 </button>
 
 </div>
 
 
-<!-- SHEET -->
+<!-- ================= SHEET ================= -->
 
 <section
 id="sheetView"
-class="card"
->
+class="card">
 
 <h2>
 📝 Daily Check Sheet
 </h2>
 
-
 <div class="grid">
-
 
 <div class="field">
 
@@ -969,11 +956,9 @@ class="card"
 
 <input
 id="sheetDate"
-type="date"
->
+type="date">
 
 </div>
-
 
 <div class="field">
 
@@ -982,17 +967,13 @@ type="date"
 <select id="sheetShift">
 
 <option>A</option>
-
 <option>B</option>
-
 <option>C</option>
-
 <option>General</option>
 
 </select>
 
 </div>
-
 
 <div class="field">
 
@@ -1000,23 +981,21 @@ type="date"
 
 <input
 id="sheetMachine"
-value="MIXER-4 / TSS UNIT"
->
+value="MIXER-4 / TSS UNIT">
 
 </div>
 
 </div>
-
 
 <p
-style="color:#64748b;font-size:13px"
->
-💡 Enter temperature / pressure / observation values. Data is automatically saved to Firebase Cloud.
+style="color:#64748b;font-size:13px">
+
+💡 Enter temperature / pressure / observation values.
+Data is automatically saved to Firebase Cloud.
+
 </p>
 
-
 <div id="points"></div>
-
 
 <div
 style="
@@ -1024,43 +1003,41 @@ display:flex;
 gap:10px;
 flex-wrap:wrap;
 margin-top:15px;
-"
->
+">
 
 <button
 id="completeButton"
 class="green"
-type="button"
->
+type="button">
+
 ✅ Complete Sheet
+
 </button>
 
 <button
 id="downloadButton"
 class="secondary"
-type="button"
->
+type="button">
+
 ⬇️ Download Sheet
+
 </button>
 
 </div>
 
-
 <div
 id="saveMessage"
-class="message"
-></div>
-
+class="message">
+</div>
 
 </section>
 
 
-<!-- HISTORY -->
+<!-- ================= HISTORY ================= -->
 
 <section
 id="historyView"
-class="card hidden"
->
+class="card hidden">
 
 <div
 style="
@@ -1068,8 +1045,7 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 gap:10px;
-"
->
+">
 
 <h2>
 📚 Check Sheet History
@@ -1078,33 +1054,33 @@ gap:10px;
 <button
 id="refreshButton"
 class="secondary"
-type="button"
->
+type="button">
+
 🔄 Refresh
+
 </button>
 
 </div>
 
-
 <p
-style="font-size:13px;color:#64748b"
->
-All logged-in users can see previous check sheets and the values filled in them.
-</p>
+style="font-size:13px;color:#64748b">
 
+All logged-in users can see previous check sheets,
+values and the name of the person who filled them.
+
+</p>
 
 <div
 id="historyList"
-class="history"
->
+class="history">
+
 Loading...
+
 </div>
 
 </section>
 
-
 </section>
-
 
 </div>
 
@@ -1122,7 +1098,6 @@ initializeApp
 from
 "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 
-
 import {
 getAuth,
 onAuthStateChanged,
@@ -1132,7 +1107,6 @@ signOut
 }
 from
 "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-
 
 import {
 getFirestore,
@@ -1177,7 +1151,7 @@ appId:
 
 
 /* =========================================
-   INITIALIZE FIREBASE
+   INITIALIZE
 ========================================= */
 
 const firebaseApp=
@@ -1216,7 +1190,7 @@ let saveTimer=null;
 
 
 /* =========================================
-   EXACT 42 CHECK POINTS
+   EXACT 42 CHECK VALUES
 ========================================= */
 
 const sections=[
@@ -1229,26 +1203,14 @@ rows:[
 
 ["1",
 "Gear 1st stage Rotary side",
-"Gear 1st stage Rotary side"],
+"Gear 1st stage Cal side"],
 
 ["2",
 "Gear 2nd stage Rotary side",
-"Gear 2nd stage Rotary side"],
+"Gear 2nd stage Cal side"],
 
 ["3",
 "Gear 3rd stage Rotary side",
-"Gear 3rd stage Rotary side"],
-
-["4",
-"Gear 1st stage Cal side",
-"Gear 1st stage Cal side"],
-
-["5",
-"Gear 2nd stage Cal side",
-"Gear 2nd stage Cal side"],
-
-["6",
-"Gear 3rd stage Cal side",
 "Gear 3rd stage Cal side"]
 
 ]
@@ -1262,25 +1224,25 @@ title:
 
 rows:[
 
-["7",
+["4",
 "Input Universal joint bearing",
 "Output RH Universal joint bearing"],
 
-["8",
+["5",
 "Output LH Universal joint bearing",
 "Screw RH 1st bearing"],
 
-["9",
+["6",
 "Screw LH 1st bearing",
 "Screw RH 2nd bearing"],
 
-["10",
+["7",
 "Screw LH 2nd bearing",
 "Screw RH 3rd bearing"],
 
-["11",
+["8",
 "Screw LH 3rd bearing",
-""]
+"Screw RH 4th bearing"]
 
 ]
 
@@ -1293,17 +1255,17 @@ title:
 
 rows:[
 
-["12",
+["9",
 "Top roll TCU temp",
-""],
+"Bottom roll TCU temp"],
 
-["13",
-"Bottom roll TCU temp",
-""],
-
-["14",
+["10",
 "TSS Screw temp",
-""]
+"Top roll TCU pressure"],
+
+["11",
+"Bottom roll TCU pressure",
+"TSS Screw pressure"]
 
 ]
 
@@ -1316,11 +1278,11 @@ title:
 
 rows:[
 
-["15",
+["12",
 "Top roll Drive side housing",
 "Top roll Water side housing"],
 
-["16",
+["13",
 "Bottom roll Drive side housing",
 "Bottom roll Water side housing"]
 
@@ -1335,9 +1297,13 @@ title:
 
 rows:[
 
-["17",
+["14",
 "FLS oil pressure",
-"FLS oil temp"]
+"FLS oil temp"],
+
+["15",
+"FLS filter condition",
+"FLS oil level"]
 
 ]
 
@@ -1350,23 +1316,23 @@ title:
 
 rows:[
 
-["18",
+["16",
 "Input shaft bearing motor side",
 "Input shaft bearing outside"],
 
-["19",
+["17",
 "2nd stage bearing temp motor side",
 "2nd stage bearing outside"],
 
-["20",
+["18",
 "3rd stage bearing temp motor side",
 "3rd stage bearing outside"],
 
-["21",
+["19",
 "Top roll coupling bearing motor side",
 "Top roll coupling bearing outside"],
 
-["22",
+["20",
 "Bottom roll coupling bearing motor side",
 "Bottom roll coupling bearing outside"]
 
@@ -1381,9 +1347,104 @@ title:
 
 rows:[
 
-["23",
+["21",
 "FLS oil pressure",
-"FLS oil temp"]
+"FLS oil temp"],
+
+["22",
+"FLS filter condition",
+"FLS oil level"]
+
+]
+
+},
+
+{
+
+title:
+"ADDITIONAL TSS CONDITION CHECK",
+
+rows:[
+
+["23",
+"Top roll surface condition",
+"Bottom roll surface condition"],
+
+["24",
+"Top roll water circulation",
+"Bottom roll water circulation"],
+
+["25",
+"Top roll temperature",
+"Bottom roll temperature"],
+
+["26",
+"Top roll bearing condition",
+"Bottom roll bearing condition"],
+
+["27",
+"Top roll gearbox oil level",
+"Bottom roll gearbox oil level"],
+
+["28",
+"Top roll gearbox leakage",
+"Bottom roll gearbox leakage"],
+
+["29",
+"Screw gearbox oil level",
+"Screw gearbox leakage"],
+
+["30",
+"Universal joint condition",
+"Universal joint lubrication"],
+
+["31",
+"Screw bearing noise",
+"Screw bearing vibration"],
+
+["32",
+"Calendar gearbox noise",
+"Calendar gearbox vibration"],
+
+["33",
+"Gearbox coupling condition",
+"Gear coupling condition"],
+
+["34",
+"Hydraulic pressure",
+"Hydraulic oil temperature"],
+
+["35",
+"TCU pump condition",
+"TCU valve condition"],
+
+["36",
+"Cooling water pressure",
+"Cooling water flow"],
+
+["37",
+"Cooling water temperature",
+"Cooling water leakage"],
+
+["38",
+"FLS pump condition",
+"FLS filter condition"],
+
+["39",
+"Oil leakage inspection",
+"Grease leakage inspection"],
+
+["40",
+"Abnormal sound observation",
+"Abnormal vibration observation"],
+
+["41",
+"Safety guard condition",
+"Emergency stop condition"],
+
+["42",
+"Overall machine condition",
+"Maintenance observation"]
 
 ]
 
@@ -1393,17 +1454,7 @@ rows:[
 
 
 /* =========================================
-   DATE
-========================================= */
-
-$("sheetDate").value=
-new Date()
-.toISOString()
-.slice(0,10);
-
-
-/* =========================================
-   BUILD CHECK SHEET
+   BUILD 42 POINTS
 ========================================= */
 
 function buildSheet(){
@@ -1431,11 +1482,14 @@ container.appendChild(title);
 
 section.rows.forEach(row=>{
 
-const sr=row[0];
+const pointNumber=
+row[0];
 
-const left=row[1];
+const left=
+row[1];
 
-const right=row[2];
+const right=
+row[2];
 
 const point=
 document.createElement("div");
@@ -1444,33 +1498,21 @@ point.className=
 "point";
 
 
-let leftIndex=null;
-let rightIndex=null;
-
-
-if(left){
-
-leftIndex=
+const leftIndex=
 valueIndex++;
 
-}
-
-if(right){
-
-rightIndex=
+const rightIndex=
 valueIndex++;
 
-}
 
-
-let html=`
+point.innerHTML=`
 
 <div class="pointHeader">
 
 <div>
 
 <span class="pointNumber">
-Point ${sr}
+Point ${pointNumber}
 </span>
 
 </div>
@@ -1478,12 +1520,6 @@ Point ${sr}
 </div>
 
 <div class="pointGrid">
-`;
-
-
-if(left){
-
-html+=`
 
 <div class="sidePoint">
 
@@ -1501,28 +1537,20 @@ align-items:center;
 id="point-${leftIndex}"
 data-value="${leftIndex}"
 placeholder="Enter value"
-autocomplete="off"
->
+autocomplete="off">
 
 <span
 id="status-${leftIndex}"
-class="status"
->
+class="status">
+
 Not filled
+
 </span>
 
 </div>
 
 </div>
 
-`;
-
-}
-
-
-if(right){
-
-html+=`
 
 <div class="sidePoint">
 
@@ -1540,33 +1568,23 @@ align-items:center;
 id="point-${rightIndex}"
 data-value="${rightIndex}"
 placeholder="Enter value"
-autocomplete="off"
->
+autocomplete="off">
 
 <span
 id="status-${rightIndex}"
-class="status"
->
+class="status">
+
 Not filled
+
 </span>
 
 </div>
 
 </div>
 
-`;
-
-}
-
-
-html+=`
-
 </div>
 
 `;
-
-point.innerHTML=
-html;
 
 container.appendChild(point);
 
@@ -1580,6 +1598,16 @@ container.appendChild(point);
 /* BUILD */
 
 buildSheet();
+
+
+/* =========================================
+   DATE
+========================================= */
+
+$("sheetDate").value=
+new Date()
+.toISOString()
+.slice(0,10);
 
 
 /* =========================================
@@ -1707,7 +1735,6 @@ return;
 
 }
 
-
 if(!email){
 
 authMessage(
@@ -1717,7 +1744,6 @@ authMessage(
 return;
 
 }
-
 
 if(password.length<6){
 
@@ -1748,10 +1774,6 @@ email,
 password
 );
 
-
-/*
-   SAVE USER NAME IN FIRESTORE
-*/
 
 await setDoc(
 
@@ -1784,11 +1806,6 @@ name;
 authMessage(
 "ACCOUNT CREATED! You are now logged in.",
 "ok"
-);
-
-console.log(
-"UID:",
-result.user.uid
 );
 
 }
@@ -1848,7 +1865,6 @@ return;
 
 }
 
-
 if(!password){
 
 authMessage(
@@ -1871,16 +1887,10 @@ button.innerHTML=
 
 try{
 
-const result=
 await signInWithEmailAndPassword(
 auth,
 email,
 password
-);
-
-console.log(
-"LOGIN SUCCESS:",
-result.user.uid
 );
 
 authMessage(
@@ -1915,17 +1925,10 @@ button.textContent=
 }
 
 
+/* LOGIN BUTTON */
+
 $("loginButton").onclick=
 loginUser;
-
-
-/* GLOBAL */
-
-window.loginUser=
-loginUser;
-
-window.signupUser=
-signupUser;
 
 
 /* =========================================
@@ -1964,10 +1967,7 @@ return user.email;
 
 catch(error){
 
-console.error(
-"User name fetch error:",
-error
-);
+console.error(error);
 
 return user.email;
 
@@ -2106,7 +2106,8 @@ status.textContent=
 status.className=
 "status saved";
 
-}else{
+}
+else{
 
 status.textContent=
 "Not filled";
@@ -2118,8 +2119,7 @@ status.className=
 
 scheduleSave();
 
-}
-);
+});
 
 }
 
@@ -2170,10 +2170,6 @@ currentRecordId=
 
 }
 
-
-/*
-   SAVE NAME + EMAIL
-*/
 
 await setDoc(
 
@@ -2230,9 +2226,11 @@ merge:true
 
 );
 
+
 saveMessage(
 "☁️ Automatically saved by "+
-(currentUserName || currentUser.email),
+(currentUserName ||
+currentUser.email),
 "ok"
 );
 
@@ -2304,18 +2302,18 @@ currentRecordId
 status:
 "Completed",
 
-checkedBy:
-currentUserName ||
-currentUser.email,
-
-checkedByEmail:
-currentUser.email,
-
 filledBy:
 currentUserName ||
 currentUser.email,
 
 filledByEmail:
+currentUser.email,
+
+checkedBy:
+currentUserName ||
+currentUser.email,
+
+checkedByEmail:
 currentUser.email,
 
 completedAt:
@@ -2334,8 +2332,9 @@ merge:true
 
 
 saveMessage(
-"✅ CHECK SHEET COMPLETED & SAVED BY "+
-(currentUserName || currentUser.email),
+"✅ CHECK SHEET COMPLETED BY "+
+(currentUserName ||
+currentUser.email),
 "ok"
 );
 
@@ -2359,7 +2358,7 @@ error.message,
 
 
 /* =========================================
-   HISTORY BUTTON
+   HISTORY
 ========================================= */
 
 $("historyButton").onclick=
@@ -2387,7 +2386,7 @@ loadHistory;
 
 
 /* =========================================
-   POINT LABEL MAP
+   POINT LABELS
 ========================================= */
 
 function getPointLabels(){
@@ -2398,17 +2397,11 @@ sections.forEach(section=>{
 
 section.rows.forEach(row=>{
 
-if(row[1]){
-
+if(row[1])
 labels.push(row[1]);
 
-}
-
-if(row[2]){
-
+if(row[2])
 labels.push(row[2]);
-
-}
 
 });
 
@@ -2483,11 +2476,7 @@ Array.isArray(d.values)
 ?
 d.values
 :
-Array.from(
-{length:42},
-(_,i)=>
-d[`p${i+1}`]||""
-);
+Array(42).fill("");
 
 
 const item=
@@ -2497,11 +2486,8 @@ item.className=
 "historyItem";
 
 
-/*
-   ONLY FILLED VALUES
-*/
-
 let valueHTML="";
+
 
 values.forEach(
 (v,i)=>{
@@ -2511,16 +2497,14 @@ return;
 
 valueHTML+=`
 
-<div
-style="
+<div style="
 padding:9px;
 border-bottom:1px solid #eee;
 font-size:13px;
-"
->
+">
 
 <b>
-${pointLabels[i]||`Point ${i+1}`}:
+${i+1}. ${pointLabels[i]||"Check Point"}:
 </b>
 
 <span>
@@ -2536,24 +2520,21 @@ ${v}
 
 if(!valueHTML){
 
-valueHTML=
-`
-<div
-style="
+valueHTML=`
+
+<div style="
 padding:10px;
 color:#94a3b8;
-"
->
+">
+
 No values filled.
+
 </div>
+
 `;
 
 }
 
-
-/*
-   NAME LOGIC
-*/
 
 const filledBy=
 d.filledBy ||
@@ -2585,26 +2566,27 @@ Shift ${d.shift||"-"}
 </div>
 
 
-<div
-style="
+<div style="
 font-size:13px;
 color:#64748b;
 margin-top:8px;
 line-height:1.6;
-"
->
+">
 
 🏭 ${d.machine||"MIXER-4 / TSS UNIT"}
 
 <br>
 
-👤 <b>Filled By:</b> ${filledBy}
+👤 <b>Filled By:</b>
+${filledBy}
 
-${filledByEmail
+${
+filledByEmail
 ?
 `<br>📧 <b>Email:</b> ${filledByEmail}`
 :
-""}
+""
+}
 
 </div>
 
@@ -2629,8 +2611,7 @@ ${values.filter(v=>v).length}/42 Filled
 <button
 type="button"
 style="margin-top:10px"
-data-open
->
+data-open>
 
 👁️ View Filled Values
 
@@ -2640,10 +2621,7 @@ data-open
 <div
 data-values
 class="hidden"
-style="
-margin-top:12px;
-"
->
+style="margin-top:12px">
 
 ${valueHTML}
 
@@ -2674,16 +2652,14 @@ catch(error){
 
 console.error(error);
 
-list.innerHTML=
-`
-<div
-style="
+list.innerHTML=`
+
+<div style="
 color:#b91c1c;
 padding:12px;
 background:#fee2e2;
 border-radius:10px;
-"
->
+">
 
 <b>History Error:</b>
 
@@ -2696,6 +2672,7 @@ ${error.code}
 ${error.message}
 
 </div>
+
 `;
 
 }
@@ -2744,7 +2721,6 @@ let text=
 text+=
 "============================================\n\n";
 
-
 text+=
 "Date: "+
 $("sheetDate").value+
@@ -2771,7 +2747,6 @@ text+=
 currentUser.email+
 "\n\n";
 
-
 text+=
 "FILLED CHECK VALUES\n";
 
@@ -2784,7 +2759,6 @@ values.forEach(
 
 if(!v)
 return;
-
 
 text+=
 `${i+1}. ${pointLabels[i]||"Check Point"} : ${v}\n`;
@@ -2815,8 +2789,7 @@ URL.createObjectURL(blob);
 const a=
 document.createElement("a");
 
-a.href=
-url;
+a.href=url;
 
 a.download=
 `MIXER-4-${$("sheetDate").value}-Shift-${$("sheetShift").value}.txt`;
@@ -2850,10 +2823,6 @@ currentUserName=
 await getUserName(user);
 
 
-/*
-   DISPLAY NAME + EMAIL
-*/
-
 $("userName").textContent=
 currentUserName ||
 user.email;
@@ -2861,10 +2830,6 @@ user.email;
 $("userEmail").textContent=
 user.email;
 
-
-/*
-   SHOW APP
-*/
 
 $("auth")
 .classList
@@ -2874,19 +2839,12 @@ $("app")
 .classList
 .remove("hidden");
 
-console.log(
-"AUTHENTICATED:",
-user.uid
-);
-
-console.log(
-"USER NAME:",
-currentUserName
-);
 
 loadHistory();
 
-}else{
+}
+
+else{
 
 currentUserName="";
 
