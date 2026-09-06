@@ -1,461 +1,524 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>MIXER-4 TSS Daily Check Sheet</title>
 
 <style>
-:root{
-  --bg:#07111f;
-  --card:#0d1b2d;
-  --line:#28445f;
-  --text:#edf6ff;
-  --muted:#9eb3c9;
-  --a:#25d0ff;
-  --b:#7c5cff;
-  --good:#36e58d;
-  --bad:#ff667d;
+
+*{
+    box-sizing:border-box;
 }
 
-*{box-sizing:border-box}
-
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  color:var(--text);
-  background:
-    radial-gradient(circle at 10% 0%,#153455,transparent 35%),
-    radial-gradient(circle at 90% 10%,#241d52,transparent 35%),
-    var(--bg);
-  min-height:100vh;
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(circle at top left,#163b57 0%,transparent 35%),
+        radial-gradient(circle at top right,#30265c 0%,transparent 35%),
+        #06121e;
+    color:#f4f8ff;
+    min-height:100vh;
 }
 
 .container{
-  width:min(1250px,94%);
-  margin:auto;
+    width:94%;
+    max-width:1200px;
+    margin:auto;
 }
 
 .card{
-  background:rgba(13,27,45,.95);
-  border:1px solid var(--line);
-  border-radius:20px;
-  box-shadow:0 20px 60px #0006;
+    background:rgba(12,29,46,.96);
+    border:1px solid #28445d;
+    border-radius:20px;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
 }
 
-/* LOGIN */
+/* ================= LOGIN ================= */
 
-.auth{
-  max-width:520px;
-  margin:8vh auto;
-  padding:30px;
+#auth{
+    width:100%;
+    max-width:470px;
+    margin:8vh auto;
+    padding:28px;
 }
 
-.auth h2{
-  margin-top:0;
+.logo{
+    text-align:center;
+    font-size:30px;
+    font-weight:800;
+    margin-bottom:8px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#91a9bf;
+    font-size:13px;
+    margin-bottom:25px;
 }
 
 .tabs{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin:20px 0;
-}
-
-button{
-  border:0;
-  border-radius:11px;
-  padding:12px 16px;
-  font-weight:700;
-  cursor:pointer;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-bottom:20px;
 }
 
 .tab{
-  background:#142a42;
-  color:#abc;
+    padding:12px;
+    border:0;
+    border-radius:10px;
+    background:#142b42;
+    color:#b9cde0;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.tab.active,
-.primary{
-  background:linear-gradient(90deg,var(--a),var(--b));
-  color:#03121e;
+.tab.active{
+    background:linear-gradient(90deg,#27d2ff,#785cff);
+    color:#04131e;
 }
 
-.secondary{
-  background:#19324d;
-  color:#dceeff;
+.field{
+    margin-bottom:15px;
 }
 
-.danger{
-  background:#522336;
-  color:#ffdce2;
+.field label{
+    display:block;
+    color:#abc0d4;
+    font-size:13px;
+    margin-bottom:6px;
 }
 
 input,
 select{
-  width:100%;
-  padding:11px;
-  border-radius:10px;
-  border:1px solid #31506e;
-  background:#091827;
-  color:#fff;
-  outline:0;
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #31516d;
+    background:#091b2b;
+    color:#fff;
+    outline:none;
 }
 
 input:focus,
 select:focus{
-  border-color:var(--a);
-  box-shadow:0 0 0 3px rgba(37,208,255,.1);
+    border-color:#25d3ff;
+    box-shadow:0 0 0 3px rgba(37,211,255,.12);
 }
 
-label{
-  display:block;
-  font-size:13px;
-  color:#b9cde0;
-  margin-bottom:6px;
+.btn{
+    border:0;
+    border-radius:10px;
+    padding:12px 16px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.field{
-  margin:12px 0;
+.primary{
+    background:linear-gradient(90deg,#27d2ff,#785cff);
+    color:#03121d;
 }
 
-.form-row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
+.secondary{
+    background:#17324b;
+    color:#e7f4ff;
 }
 
-.msg{
-  min-height:22px;
-  margin-top:10px;
-  font-size:13px;
+.danger{
+    background:#53283a;
+    color:#ffe2e8;
+}
+
+.full{
+    width:100%;
+}
+
+.message{
+    min-height:22px;
+    margin-top:12px;
+    font-size:13px;
 }
 
 .error{
-  color:#ff9cac;
+    color:#ff8fa2;
 }
 
 .success{
-  color:#6ff0ae;
+    color:#6df0ac;
 }
 
-/* APP */
+/* ================= APP ================= */
 
 #app{
-  display:none;
-  padding-bottom:50px;
+    display:none;
+    padding-bottom:50px;
 }
 
-header{
-  padding:28px 0 18px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  flex-wrap:wrap;
+.top{
+    padding:25px 0 15px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    flex-wrap:wrap;
 }
 
-header h1{
-  margin:0;
-  font-size:clamp(25px,4vw,42px);
+.top h1{
+    margin:0;
+    font-size:clamp(26px,5vw,40px);
 }
 
-header p{
-  color:var(--muted);
-  margin:7px 0;
+.top p{
+    margin:6px 0 0;
+    color:#91a9bf;
 }
 
-.pill{
-  padding:9px 14px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  color:#bfeaff;
+.user{
+    border:1px solid #28445d;
+    background:#0c2235;
+    padding:9px 14px;
+    border-radius:999px;
+    color:#8ee7ff;
+    font-size:12px;
 }
 
 .toolbar{
-  padding:15px;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
+    padding:14px;
+    display:flex;
+    gap:9px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
 }
 
 .spacer{
-  flex:1;
+    flex:1;
 }
 
-/* SHEET */
+/* ================= SHEET ================= */
 
 .sheet{
-  padding:18px;
+    padding:18px;
 }
 
-.sheet-top{
-  display:grid;
-  grid-template-columns:1fr 180px 180px;
-  gap:12px;
-  margin-bottom:18px;
+.sheet-info{
+    display:grid;
+    grid-template-columns:1fr 180px 180px;
+    gap:12px;
+    margin-bottom:18px;
 }
 
-.sheet-title{
-  padding:16px;
-  border-radius:14px;
-  background:#0a1929;
-  border:1px solid var(--line);
+.sheet-name{
+    border:1px solid #28445d;
+    background:#091b2b;
+    border-radius:14px;
+    padding:15px;
 }
 
-.sheet-title h2{
-  margin:0 0 5px;
-  font-size:19px;
+.sheet-name h2{
+    margin:0 0 5px;
+    font-size:18px;
 }
 
-.sheet-title small{
-  color:var(--muted);
+.sheet-name small{
+    color:#8fa7bc;
+}
+
+.label{
+    display:block;
+    color:#a9bfd2;
+    font-size:12px;
+    margin-bottom:6px;
+}
+
+/* ================= TABLE ================= */
+
+/*
+   IMPORTANT:
+   DATE / TIME COLUMN REMOVED
+
+   Sr | LH Check Point | Temp | RH Check Point | Temp
+*/
+
+.table-head,
+.table-row{
+    display:grid;
+    grid-template-columns:
+        55px
+        minmax(190px,1fr)
+        140px
+        minmax(190px,1fr)
+        140px;
 }
 
 .section{
-  margin:18px 0;
-  border:1px solid var(--line);
-  border-radius:14px;
-  overflow:hidden;
+    border:1px solid #294862;
+    border-radius:14px;
+    overflow:hidden;
+    margin-bottom:18px;
 }
 
 .section-title{
-  padding:12px 14px;
-  background:#10283d;
-  font-weight:800;
+    padding:13px 15px;
+    background:#102b42;
+    font-weight:bold;
+    font-size:13px;
 }
 
-.grid-head,
-.row{
-  display:grid;
-
-  /*
-    DATE / TIME COLUMN REMOVED
-    New columns:
-    Sr | LH Point | LH Temp | RH Point | RH Temp
-  */
-
-  grid-template-columns:
-    55px
-    minmax(200px,1fr)
-    145px
-    minmax(200px,1fr)
-    145px;
+.table-head{
+    background:#081827;
+    color:#91a9bf;
+    font-size:11px;
+    font-weight:bold;
 }
 
-.grid-head{
-  background:#081726;
-  color:#9eb3c9;
-  font-size:12px;
-  font-weight:700;
+.table-head div,
+.table-row div{
+    padding:9px;
+    border-right:1px solid #294862;
+    border-bottom:1px solid #294862;
 }
 
-.grid-head>div,
-.row>div{
-  padding:9px;
-  border-right:1px solid var(--line);
-  border-bottom:1px solid var(--line);
+.table-head div:last-child,
+.table-row div:last-child{
+    border-right:0;
 }
 
-.grid-head>div:last-child,
-.row>div:last-child{
-  border-right:0;
+.table-row:last-child div{
+    border-bottom:0;
 }
 
-.row:last-child>div{
-  border-bottom:0;
+.number{
+    text-align:center;
+    color:#64dcff;
+    font-weight:bold;
 }
 
-.row{
-  font-size:13px;
+.point{
+    font-size:12px;
+    display:flex;
+    align-items:center;
 }
 
-.num{
-  text-align:center;
-  font-weight:bold;
-  color:#6bdcff;
+.temp{
+    display:flex;
+    align-items:center;
 }
 
-.blank{
-  color:#61778e;
+.temp input{
+    padding:9px;
 }
 
-.row input{
-  padding:8px;
-  border-radius:8px;
+.empty{
+    color:#526b82;
+}
+
+/* ================= BOTTOM ================= */
+
+.bottom-fields{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:18px;
 }
 
 .actions{
-  display:flex;
-  justify-content:flex-end;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:18px;
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:18px;
 }
 
-/* HISTORY */
+#saveMessage{
+    min-height:20px;
+    margin-top:10px;
+    font-size:13px;
+}
+
+/* ================= HISTORY ================= */
 
 .history{
-  margin-top:20px;
-  padding:18px;
+    margin-top:18px;
+    padding:18px;
 }
 
-.history h2{
-  margin:0 0 14px;
+.history-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.history-title h2{
+    margin:0;
 }
 
 .history-card{
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:14px;
-  margin:10px 0;
+    border:1px solid #294862;
+    background:#091b2b;
+    border-radius:13px;
+    padding:14px;
+    margin-top:12px;
 }
 
-.history-head{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
+.history-header{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:10px;
 }
 
-.history-head strong{
-  color:#75e4ff;
-}
-
-.filled-list{
-  display:grid;
-  grid-template-columns:
-    repeat(auto-fit,minmax(280px,1fr));
-  gap:8px;
-  margin-top:10px;
-}
-
-.item{
-  padding:9px;
-  background:#091827;
-  border:1px solid #203a53;
-  border-radius:9px;
-}
-
-.item b{
-  color:#b7c9da;
-}
-
-.item span{
-  color:#6ff0ae;
-  font-weight:bold;
-}
-
-.loading{
-  text-align:center;
-  color:var(--muted);
-  padding:15px;
-}
-
-.hidden{
-  display:none!important;
-}
-
-/* MOBILE */
-
-@media(max-width:900px){
-
-  .sheet-top{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .sheet-title{
-    grid-column:1/-1;
-  }
-
-  .grid-head,
-  .row{
-    grid-template-columns:
-      42px
-      minmax(140px,1fr)
-      105px
-      minmax(140px,1fr)
-      105px;
-  }
-}
-
-@media(max-width:650px){
-
-  .form-row,
-  .sheet-top{
-    grid-template-columns:1fr;
-  }
-
-  .grid-head{
-    display:none;
-  }
-
-  .row{
-    grid-template-columns:40px 1fr 1fr;
-  }
-
-  .row .left-label,
-  .row .right-label{
-    grid-column:2/4;
+.history-date{
+    color:#66ddff;
     font-weight:bold;
-    background:#0a1929;
-  }
-
-  .row .left-temp,
-  .row .right-temp{
-    grid-column:auto;
-  }
 }
 
-/* PRINT */
+.history-user{
+    color:#a8bacb;
+    font-size:12px;
+}
+
+.filled-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:8px;
+}
+
+.filled-item{
+    border:1px solid #223e56;
+    border-radius:9px;
+    padding:9px;
+    background:#071624;
+    font-size:12px;
+}
+
+.filled-item b{
+    color:#a9bfd2;
+}
+
+.filled-item span{
+    color:#6df0ac;
+    font-weight:bold;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:850px){
+
+    .sheet-info{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .sheet-name{
+        grid-column:1/-1;
+    }
+
+    .table-head,
+    .table-row{
+        grid-template-columns:
+            42px
+            minmax(140px,1fr)
+            105px
+            minmax(140px,1fr)
+            105px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .sheet-info{
+        grid-template-columns:1fr;
+    }
+
+    .sheet-name{
+        grid-column:auto;
+    }
+
+    .bottom-fields{
+        grid-template-columns:1fr;
+    }
+
+    .table-head{
+        display:none;
+    }
+
+    .table-row{
+        grid-template-columns:40px 1fr 100px;
+    }
+
+    .left-point{
+        grid-column:2/4;
+        background:#0a1e30;
+        font-weight:bold;
+    }
+
+    .left-temp{
+        grid-column:2;
+    }
+
+    .right-point{
+        grid-column:2/4;
+        background:#0a1e30;
+        font-weight:bold;
+    }
+
+    .right-temp{
+        grid-column:3;
+    }
+
+}
+
+/* ================= PRINT ================= */
 
 @media print{
 
-  body{
-    background:#fff;
-    color:#000;
-  }
+    body{
+        background:#fff;
+        color:#000;
+    }
 
-  .auth,
-  .toolbar,
-  .history,
-  .actions,
-  .pill{
-    display:none!important;
-  }
+    #auth,
+    .toolbar,
+    .history,
+    .actions,
+    .user{
+        display:none!important;
+    }
 
-  #app{
-    display:block!important;
-  }
+    #app{
+        display:block!important;
+    }
 
-  .sheet{
-    box-shadow:none;
-    border:0;
-    padding:0;
-  }
+    .sheet{
+        box-shadow:none;
+        border:0;
+    }
 
-  .sheet-title,
-  .section-title{
-    background:#fff;
-    color:#000;
-  }
+    .sheet-name,
+    .section-title{
+        background:#fff;
+        color:#000;
+    }
 
-  .grid-head,
-  .row{
-    color:#000;
-  }
+    input,
+    select{
+        color:#000;
+        background:#fff;
+        border:0;
+    }
 
-  .grid-head>div,
-  .row>div{
-    border-color:#777;
-  }
+    .table-head,
+    .table-row{
+        color:#000;
+    }
 
-  .row input{
-    border:0;
-    background:#fff;
-    color:#000;
-  }
 }
+
 </style>
 </head>
 
@@ -463,1655 +526,1993 @@ header p{
 
 <div class="container">
 
-<!-- ================= LOGIN ================= -->
+<!-- =====================================================
+     LOGIN / CREATE ID
+===================================================== -->
 
-<section id="auth" class="card auth">
+<div id="auth" class="card">
 
-  <h2>🔐 MIXER-4 TSS Login</h2>
-
-  <p style="color:var(--muted)">
-    Create your own ID or login to access the shared daily check sheet.
-  </p>
-
-  <div class="tabs">
-
-    <button id="loginTab" class="tab active">
-      Login
-    </button>
-
-    <button id="signupTab" class="tab">
-      Create ID
-    </button>
-
-  </div>
-
-  <!-- LOGIN -->
-
-  <div id="loginBox">
-
-    <div class="field">
-      <label>Email / ID</label>
-      <input
-        id="loginEmail"
-        type="email"
-        autocomplete="username"
-        placeholder="your@email.com">
+    <div class="logo">
+        ⚙️ MIXER-4 TSS
     </div>
 
-    <div class="field">
-      <label>Password</label>
-      <input
-        id="loginPassword"
-        type="password"
-        autocomplete="current-password">
+    <div class="subtitle">
+        Daily Temperature Check Sheet
+        <br>
+        Cloud Monitoring System
     </div>
 
-    <button
-      id="loginBtn"
-      class="primary"
-      style="width:100%">
-      Login
-    </button>
+    <div class="tabs">
 
-  </div>
+        <button
+            id="loginTab"
+            class="tab active">
+            Login
+        </button>
 
-  <!-- CREATE ID -->
-
-  <div id="signupBox" class="hidden">
-
-    <div class="field">
-      <label>Email / ID</label>
-
-      <input
-        id="signupEmail"
-        type="email"
-        autocomplete="username"
-        placeholder="your@email.com">
-    </div>
-
-    <div class="field">
-
-      <label>Password</label>
-
-      <input
-        id="signupPassword"
-        type="password"
-        autocomplete="new-password"
-        placeholder="Minimum 6 characters">
+        <button
+            id="signupTab"
+            class="tab">
+            Create ID
+        </button>
 
     </div>
 
-    <button
-      id="signupBtn"
-      class="primary"
-      style="width:100%">
-      Create ID
-    </button>
 
-  </div>
+    <!-- LOGIN -->
 
-  <div id="authMsg" class="msg"></div>
+    <div id="loginBox">
 
-</section>
+        <div class="field">
 
+            <label>Email</label>
 
-<!-- ================= APP ================= -->
+            <input
+                id="loginEmail"
+                type="email"
+                placeholder="Enter your email"
+                autocomplete="username">
 
-<section id="app">
-
-<header>
-
-  <div>
-
-    <h1>MIXER-4 TSS</h1>
-
-    <p>
-      Gearbox & Bearing Temperature Monitoring
-    </p>
-
-  </div>
-
-  <div class="pill">
-    ● <span id="userLabel">Logged in</span>
-  </div>
-
-</header>
+        </div>
 
 
-<!-- TOOLBAR -->
+        <div class="field">
 
-<div class="toolbar card">
+            <label>Password</label>
 
-  <button id="newBtn" class="secondary">
-    ➕ New Sheet
-  </button>
+            <input
+                id="loginPassword"
+                type="password"
+                placeholder="Enter password"
+                autocomplete="current-password">
 
-  <button id="historyBtn" class="secondary">
-    📚 Shared History
-  </button>
+        </div>
 
-  <button id="refreshHistory" class="secondary hidden">
-    ↻ Refresh
-  </button>
 
-  <div class="spacer"></div>
+        <button
+            id="loginBtn"
+            class="btn primary full">
 
-  <button id="logoutBtn" class="danger">
-    Logout
-  </button>
+            🔐 Login
+
+        </button>
+
+    </div>
+
+
+    <!-- CREATE ID -->
+
+    <div
+        id="signupBox"
+        style="display:none">
+
+        <div class="field">
+
+            <label>Email</label>
+
+            <input
+                id="signupEmail"
+                type="email"
+                placeholder="Enter new email"
+                autocomplete="username">
+
+        </div>
+
+
+        <div class="field">
+
+            <label>Password</label>
+
+            <input
+                id="signupPassword"
+                type="password"
+                placeholder="Minimum 6 characters"
+                autocomplete="new-password">
+
+        </div>
+
+
+        <button
+            id="signupBtn"
+            class="btn primary full">
+
+            ➕ Create ID
+
+        </button>
+
+    </div>
+
+
+    <div
+        id="authMessage"
+        class="message">
+    </div>
 
 </div>
 
 
-<!-- SHEET -->
+<!-- =====================================================
+     MAIN APP
+===================================================== -->
 
-<div class="card sheet">
+<div id="app">
 
-  <div class="sheet-top">
+    <div class="top">
 
-    <div class="sheet-title">
+        <div>
 
-      <h2>
-        MIXER-4 TSS GEARBOX & BEARING TEMPERATURE MONITORING
-      </h2>
+            <h1>MIXER-4 TSS</h1>
 
-      <small>
-        Daily Check Sheet — cloud saved
-      </small>
+            <p>
+                Gearbox & Bearing Temperature Monitoring
+            </p>
 
-    </div>
+        </div>
 
-
-    <div>
-
-      <label>Date</label>
-
-      <input
-        id="sheetDate"
-        type="date">
+        <div class="user">
+            👤 <span id="userEmail"></span>
+        </div>
 
     </div>
 
 
-    <div>
+    <!-- TOOLBAR -->
 
-      <label>Shift</label>
+    <div class="toolbar card">
 
-      <select id="sheetShift">
+        <button
+            id="newBtn"
+            class="btn secondary">
 
-        <option>A</option>
-        <option>B</option>
-        <option>C</option>
+            📝 New Check Sheet
 
-      </select>
+        </button>
+
+
+        <button
+            id="historyBtn"
+            class="btn secondary">
+
+            📚 Shared History
+
+        </button>
+
+
+        <button
+            id="refreshBtn"
+            class="btn secondary"
+            style="display:none">
+
+            🔄 Refresh
+
+        </button>
+
+
+        <div class="spacer"></div>
+
+
+        <button
+            id="logoutBtn"
+            class="btn danger">
+
+            🚪 Logout
+
+        </button>
 
     </div>
 
-  </div>
+
+    <!-- SHEET -->
+
+    <div class="sheet card">
+
+        <div class="sheet-info">
+
+            <div class="sheet-name">
+
+                <h2>
+                    MIXER-4 TSS GEARBOX & BEARING
+                    TEMPERATURE MONITORING
+                </h2>
+
+                <small>
+                    Daily Temperature Check Sheet
+                </small>
+
+            </div>
 
 
-  <div id="sheetBody"></div>
+            <div>
+
+                <label class="label">
+                    Date
+                </label>
+
+                <input
+                    id="sheetDate"
+                    type="date">
+
+            </div>
 
 
-  <!-- CHECKED / VERIFIED -->
+            <div>
 
-  <div
-    class="form-row"
-    style="margin-top:16px">
+                <label class="label">
+                    Shift
+                </label>
 
-    <div>
+                <select id="sheetShift">
 
-      <label>Checked By</label>
+                    <option value="A">
+                        Shift A
+                    </option>
 
-      <input id="checkedBy">
+                    <option value="B">
+                        Shift B
+                    </option>
+
+                    <option value="C">
+                        Shift C
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div id="sheetBody"></div>
+
+
+        <div class="bottom-fields">
+
+            <div>
+
+                <label class="label">
+                    Checked By
+                </label>
+
+                <input id="checkedBy">
+
+            </div>
+
+
+            <div>
+
+                <label class="label">
+                    Verified By
+                </label>
+
+                <input id="verifiedBy">
+
+            </div>
+
+        </div>
+
+
+        <div class="actions">
+
+            <button
+                id="saveBtn"
+                class="btn secondary">
+
+                ☁️ Save Now
+
+            </button>
+
+
+            <button
+                id="finishBtn"
+                class="btn primary">
+
+                ✓ Finish & Print
+
+            </button>
+
+        </div>
+
+
+        <div id="saveMessage"></div>
 
     </div>
 
-    <div>
 
-      <label>Verified By</label>
+    <!-- HISTORY -->
 
-      <input id="verifiedBy">
+    <div
+        id="historyPanel"
+        class="history card"
+        style="display:none">
+
+        <div class="history-title">
+
+            <h2>
+                📚 Shared History
+            </h2>
+
+            <button
+                id="closeHistory"
+                class="btn secondary">
+
+                Close
+
+            </button>
+
+        </div>
+
+
+        <div id="historyList">
+        </div>
 
     </div>
 
-  </div>
-
-
-  <div class="actions">
-
-    <button
-      id="saveBtn"
-      class="secondary">
-      ☁ Save Now
-    </button>
-
-    <button
-      id="finishBtn"
-      class="primary">
-      ✓ Finish & Print
-    </button>
-
-  </div>
-
-  <div id="saveMsg" class="msg"></div>
+</div>
 
 </div>
 
 
-<!-- HISTORY -->
-
-<div
-  id="historyPanel"
-  class="card history hidden">
-
-  <div
-    style="
-    display:flex;
-    justify-content:space-between;
-    align-items:center">
-
-    <h2>📚 Shared History</h2>
-
-    <button
-      id="closeHistory"
-      class="secondary">
-      Close
-    </button>
-
-  </div>
-
-  <div id="historyList"></div>
-
-</div>
-
-</section>
-
-</div>
-
-
-<!-- ================= FIREBASE ================= -->
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
 
 <script type="module">
 
 import {
-  initializeApp
-}
-from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 
 
 import {
-  getAuth,
-  onAuthStateChanged,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut
-}
-from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+    getAuth,
+    onAuthStateChanged,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 
 import {
-  getFirestore,
-  collection,
-  doc,
-  setDoc,
-  getDoc,
-  getDocs,
-  query,
-  orderBy,
-  serverTimestamp
-}
-from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+    getFirestore,
+    collection,
+    doc,
+    setDoc,
+    getDoc,
+    getDocs,
+    query,
+    orderBy,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 
-/* ================= FIREBASE CONFIG ================= */
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
 
 const firebaseConfig = {
 
-  apiKey:
-    "AIzaSyDztHV-dnH2De1UoxsworjfWqOcYzUw8tY",
+    apiKey:
+        "AIzaSyDztHV-dnH2De1UoxsworjfWqOcYzUw8tY",
 
-  authDomain:
-    "mixer4-tss.firebaseapp.com",
+    authDomain:
+        "mixer4-tss.firebaseapp.com",
 
-  projectId:
-    "mixer4-tss",
+    projectId:
+        "mixer4-tss",
 
-  storageBucket:
-    "mixer4-tss.firebasestorage.app",
+    storageBucket:
+        "mixer4-tss.firebasestorage.app",
 
-  messagingSenderId:
-    "281329772926",
+    messagingSenderId:
+        "281329772926",
 
-  appId:
-    "1:281329772926:web:c2321755e3ad4d54236b2f"
+    appId:
+        "1:281329772926:web:c2321755e3ad4d54236b2f"
 
 };
 
 
-const fb =
-  initializeApp(firebaseConfig);
+const firebaseApp =
+    initializeApp(firebaseConfig);
+
 
 const auth =
-  getAuth(fb);
+    getAuth(firebaseApp);
+
 
 const db =
-  getFirestore(fb);
-
-const records =
-  collection(db,"mixer4_tss_records");
+    getFirestore(firebaseApp);
 
 
-const $ =
-  id => document.getElementById(id);
+const recordsRef =
+    collection(
+        db,
+        "mixer4_tss_records"
+    );
 
 
-let user = null;
-let timer;
+let currentUser = null;
 
 
-/* ================= ORIGINAL CHECK POINTS ================= */
+/* =====================================================
+   CHECK SHEET DATA
+===================================================== */
 
 const sections = [
 
-[
-"",
-[
+    {
+        title:
+            "MIXER-4 TSS GEARBOX & BEARING TEMPERATURE MONITORING",
 
-["1",
-"Gear 1st stage Rotary side",
-"Gear 1st stage Rotary side"],
+        rows:[
+            ["1","Gear 1st stage Rotary side","Gear 1st stage Rotary side"],
+            ["2","Gear 2nd stage Rotary side","Gear 2nd stage Rotary side"],
+            ["3","Gear 3rd stage Rotary side","Gear 3rd stage Rotary side"],
+            ["4","Gear 1st stage Cal side","Gear 1st stage Cal side"],
+            ["5","Gear 2nd stage Cal side","Gear 2nd stage Cal side"],
+            ["6","Gear 3rd stage Cal side","Gear 3rd stage Cal side"]
+        ]
+    },
 
-["2",
-"Gear 2nd stage Rotary side",
-"Gear 2nd stage Rotary side"],
+    {
+        title:
+            "TSS SCREW BEARING TEMPERATURE",
 
-["3",
-"Gear 3rd stage Rotary side",
-"Gear 3rd stage Rotary side"],
+        rows:[
+            ["7","Input Universal joint bearing","Output RH Universal joint bearing"],
+            ["8","Output LH Universal joint bearing","Screw RH 1st bearing"],
+            ["9","Screw LH 1st bearing","Screw RH 2nd bearing"],
+            ["10","Screw LH 2nd bearing","Screw RH 3rd bearing"],
+            ["11","Screw LH 3rd bearing",""]
+        ]
+    },
 
-["4",
-"Gear 1st stage Cal side",
-"Gear 1st stage Cal side"],
+    {
+        title:
+            "TSS CALENDAR TCU",
 
-["5",
-"Gear 2nd stage Cal side",
-"Gear 2nd stage Cal side"],
+        rows:[
+            ["12","Top roll TCU temp",""],
+            ["13","Bottom roll TCU temp",""],
+            ["14","TSS Screw temp",""]
+        ]
+    },
 
-["6",
-"Gear 3rd stage Cal side",
-"Gear 3rd stage Cal side"]
+    {
+        title:
+            "TSS CALENDAR ROLL BEARING HOUSING TEMPERATURE",
 
-]
-],
+        rows:[
+            ["15","Top roll Drive side housing","Top roll Water side housing"],
+            ["16","Bottom roll Drive side housing","Bottom roll Water side housing"]
+        ]
+    },
 
+    {
+        title:
+            "TSS SCREW GEARBOX FLS",
 
-[
-"TSS SCREW BEARING TEMPERATURE",
-[
+        rows:[
+            ["17","FLS oil pressure","FLS oil temp"]
+        ]
+    },
 
-["7",
-"Input Universal joint bearing",
-"Output RH Universal joint bearing"],
+    {
+        title:
+            "TSS CALENDAR ROLL GEARBOX BEARING TEMPERATURE",
 
-["8",
-"Output LH Universal joint bearing",
-"Screw RH 1st bearing"],
+        rows:[
+            ["18","Input shaft bearing motor side","Input shaft bearing outside"],
+            ["19","2nd stage bearing temp motor side","2nd stage bearing outside"],
+            ["20","3rd stage bearing temp motor side","3rd stage bearing outside"],
+            ["21","Top roll coupling bearing motor side","Top roll coupling bearing outside"],
+            ["22","Bottom roll coupling bearing motor side","Bottom roll coupling bearing outside"]
+        ]
+    },
 
-["9",
-"Screw LH 1st bearing",
-"Screw RH 2nd bearing"],
+    {
+        title:
+            "TSS CALENDAR ROLL GEARBOX FLS",
 
-["10",
-"Screw LH 2nd bearing",
-"Screw RH 3rd bearing"],
-
-["11",
-"Screw LH 3rd bearing",
-""]
-
-]
-],
-
-
-[
-"TSS CALENDAR TCU",
-[
-
-["12",
-"Top roll TCU temp",
-""],
-
-["13",
-"Bottom roll TCU temp",
-""],
-
-["14",
-"TSS Screw temp",
-""]
-
-]
-],
-
-
-[
-"TSS CALENDAR ROLL BEARING HOUSING TEMPERATURE",
-[
-
-["15",
-"Top roll Drive side housing",
-"Top roll Water side housing"],
-
-["16",
-"Bottom roll Drive side housing",
-"Bottom roll Water side housing"]
-
-]
-],
-
-
-[
-"TSS SCREW GEARBOX FLS",
-[
-
-["17",
-"FLS oil pressure",
-"FLS oil temp"]
-
-]
-],
-
-
-[
-"TSS CALENDAR ROLL GEARBOX BEARING TEMPERATURE",
-[
-
-["18",
-"Input shaft bearing motor side",
-"Input shaft bearing outside"],
-
-["19",
-"2nd stage bearing temp motor side",
-"2nd stage bearing outside"],
-
-["20",
-"3rd stage bearing temp motor side",
-"3rd stage bearing outside"],
-
-["21",
-"Top roll coupling bearing motor side",
-"Top roll coupling bearing outside"],
-
-["22",
-"Bottom roll coupling bearing motor side",
-"Bottom roll coupling bearing outside"]
-
-]
-],
-
-
-[
-"TSS CALENDAR ROLL GEARBOX FLS",
-[
-
-["23",
-"FLS oil pressure",
-"FLS oil temp"]
-
-]
-]
+        rows:[
+            ["23","FLS oil pressure","FLS oil temp"]
+        ]
+    }
 
 ];
 
 
-/* ================= HELPERS ================= */
+/* =====================================================
+   HELPERS
+===================================================== */
 
-const esc =
-  s =>
-    String(s ?? "")
-    .replace(
-      /[&<>"']/g,
-      c => ({
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#39;"
-      }[c])
-    );
+function $(id){
+    return document.getElementById(id);
+}
+
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
 
 
 function today(){
 
-  const d =
-    new Date();
+    const d =
+        new Date();
 
-  return (
-    d.getFullYear()
-    + "-"
-    + String(d.getMonth()+1).padStart(2,"0")
-    + "-"
-    + String(d.getDate()).padStart(2,"0")
-  );
-
-}
-
-
-function msg(id,text,type=""){
-
-  $(id).textContent =
-    text;
-
-  $(id).className =
-    "msg " + type;
+    return (
+        d.getFullYear()
+        + "-"
+        + String(d.getMonth()+1).padStart(2,"0")
+        + "-"
+        + String(d.getDate()).padStart(2,"0")
+    );
 
 }
 
 
-function firebaseError(e){
+function showAuthMessage(
+    text,
+    type=""
+){
 
-  const errors = {
+    $("authMessage").textContent =
+        text;
 
-    "auth/invalid-credential":
-      "Email/ID ya password galat hai.",
-
-    "auth/invalid-login-credentials":
-      "Email/ID ya password galat hai.",
-
-    "auth/email-already-in-use":
-      "Ye ID pehle se registered hai. Login tab use karein.",
-
-    "auth/invalid-email":
-      "Valid email address enter karein.",
-
-    "auth/weak-password":
-      "Password kam se kam 6 characters ka hona chahiye.",
-
-    "auth/network-request-failed":
-      "Internet/network problem.",
-
-    "auth/too-many-requests":
-      "Bahut attempts ho gaye. Thodi der baad try karein.",
-
-    "auth/operation-not-allowed":
-      "Firebase Console me Email/Password sign-in enable karein.",
-
-    "permission-denied":
-      "Firestore permission denied. Firestore Rules check karein."
-
-  };
-
-  return errors[e?.code]
-    || e?.message
-    || "Unknown error";
+    $("authMessage").className =
+        "message " + type;
 
 }
 
 
-/* ================= BUILD SHEET ================= */
+function showSaveMessage(
+    text,
+    type=""
+){
+
+    $("saveMessage").textContent =
+        text;
+
+    $("saveMessage").className =
+        type;
+
+}
+
+
+/* =====================================================
+   FIREBASE ERROR MESSAGE
+===================================================== */
+
+function firebaseError(error){
+
+    console.error(error);
+
+    const code =
+        error?.code || "";
+
+
+    const messages = {
+
+        "auth/invalid-email":
+            "❌ Email address galat hai.",
+
+        "auth/user-not-found":
+            "❌ Is email ka account nahi mila.",
+
+        "auth/wrong-password":
+            "❌ Password galat hai.",
+
+        "auth/invalid-credential":
+            "❌ Email ya password galat hai.",
+
+        "auth/invalid-login-credentials":
+            "❌ Email ya password galat hai.",
+
+        "auth/email-already-in-use":
+            "❌ Ye email pehle se registered hai. Login karein.",
+
+        "auth/weak-password":
+            "❌ Password minimum 6 characters ka hona chahiye.",
+
+        "auth/network-request-failed":
+            "❌ Internet connection problem.",
+
+        "auth/too-many-requests":
+            "❌ Bahut attempts ho gaye. Thodi der baad try karein.",
+
+        "auth/operation-not-allowed":
+            "❌ Firebase Console me Email/Password Login enable nahi hai.",
+
+        "permission-denied":
+            "❌ Firestore permission denied."
+
+    };
+
+
+    return (
+        messages[code]
+        || "❌ " + (error?.message || "Unknown Firebase error")
+    );
+
+}
+
+
+/* =====================================================
+   BUILD SHEET
+===================================================== */
 
 function buildSheet(){
 
-  let index = 0;
+    let valueIndex = 0;
 
-  let html = "";
+    let html = "";
 
-  for(
-    const [title,rows]
-    of sections
-  ){
-
-    html += `
-      <div class="section">
-
-      ${
-        title
-        ?
-        `<div class="section-title">
-          ${esc(title)}
-        </div>`
-        :
-        ""
-      }
-
-      <div class="grid-head">
-
-        <div>Sr.</div>
-
-        <div>
-          SCREW LH GEARBOX TEMP
-        </div>
-
-        <div>
-          TEMPERATURE (°C)
-        </div>
-
-        <div>
-          SCREW RH GEARBOX TEMP
-        </div>
-
-        <div>
-          TEMPERATURE (°C)
-        </div>
-
-      </div>
-    `;
-
-
-    for(const r of rows){
-
-      const leftIndex =
-        index++;
-
-      const rightIndex =
-        index++;
-
-
-      html += `
-
-        <div class="row">
-
-          <div class="num">
-            ${r[0]}
-          </div>
-
-
-          <div class="left-label">
-            ${esc(r[1])}
-          </div>
-
-
-          <div class="left-temp">
-
-            ${
-              r[1]
-              ?
-              `
-              <input
-                data-v="${leftIndex}"
-                type="text"
-                inputmode="decimal"
-                placeholder="Value">
-              `
-              :
-              ""
-            }
-
-          </div>
-
-
-          <div
-            class="right-label
-            ${r[2] ? "" : "blank"}">
-
-            ${esc(r[2] || "—")}
-
-          </div>
-
-
-          <div class="right-temp">
-
-            ${
-              r[2]
-              ?
-              `
-              <input
-                data-v="${rightIndex}"
-                type="text"
-                inputmode="decimal"
-                placeholder="Value">
-              `
-              :
-              ""
-            }
-
-          </div>
-
-        </div>
-
-      `;
-
-    }
-
-    html += `
-      </div>
-    `;
-
-  }
-
-
-  $("sheetBody").innerHTML =
-    html;
-
-}
-
-
-/* ================= CLEAR SHEET ================= */
-
-function clearSheet(){
-
-  document
-    .querySelectorAll("[data-v]")
-    .forEach(
-      x => x.value = ""
-    );
-
-
-  $("checkedBy").value =
-    user?.email?.split("@")[0] || "";
-
-
-  $("verifiedBy").value =
-    "";
-
-}
-
-
-/* ================= COLLECT VALUES ================= */
-
-function collectValues(){
-
-  const values =
-    Array(42).fill("");
-
-
-  document
-    .querySelectorAll("[data-v]")
-    .forEach(
-      x =>
-        values[
-          +x.dataset.v
-        ] =
-        x.value.trim()
-    );
-
-
-  return values;
-
-}
-
-
-/* ================= RECORD ID ================= */
-
-function recordId(){
-
-  return (
-    $("sheetDate").value
-    + "_"
-    + $("sheetShift").value
-  );
-
-}
-
-
-/* ================= SAVE ================= */
-
-async function saveRecord(
-  silent=false
-){
-
-  if(!user)
-    return;
-
-
-  const date =
-    $("sheetDate").value;
-
-
-  if(!date){
-
-    msg(
-      "saveMsg",
-      "Please select date.",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  const values =
-    collectValues();
-
-
-  const filled =
-    values.filter(Boolean).length;
-
-
-  await setDoc(
-
-    doc(
-      db,
-      "mixer4_tss_records",
-      recordId()
-    ),
-
-    {
-
-      date,
-
-      shift:
-        $("sheetShift").value,
-
-      values,
-
-      filled,
-
-      total:42,
-
-      checkedBy:
-        $("checkedBy").value.trim(),
-
-      verifiedBy:
-        $("verifiedBy").value.trim(),
-
-      checkedByEmail:
-        user.email || "",
-
-      updatedBy:
-        user.uid,
-
-      updatedAt:
-        serverTimestamp(),
-
-      area:
-        "MIXER-4 TSS"
-
-    },
-
-    {
-      merge:true
-    }
-
-  );
-
-
-  if(!silent){
-
-    msg(
-      "saveMsg",
-      `Saved to cloud ✓ ${filled}/42 points filled`,
-      "success"
-    );
-
-  }
-
-}
-
-
-/* ================= LOAD RECORD ================= */
-
-async function loadRecord(
-  date,
-  shift
-){
-
-  clearSheet();
-
-
-  $("sheetDate").value =
-    date;
-
-  $("sheetShift").value =
-    shift;
-
-
-  try{
-
-    const snap =
-      await getDoc(
-        doc(
-          db,
-          "mixer4_tss_records",
-          date + "_" + shift
-        )
-      );
-
-
-    if(!snap.exists()){
-
-      msg(
-        "saveMsg",
-        "New sheet — no saved record.",
-        "success"
-      );
-
-      return;
-
-    }
-
-
-    const data =
-      snap.data();
-
-
-    (
-      data.values || []
-    ).forEach(
-      (value,index)=>{
-
-        const el =
-          document.querySelector(
-            `[data-v="${index}"]`
-          );
-
-        if(el)
-          el.value =
-            value || "";
-
-      }
-    );
-
-
-    $("checkedBy").value =
-      data.checkedBy || "";
-
-
-    $("verifiedBy").value =
-      data.verifiedBy || "";
-
-
-    msg(
-      "saveMsg",
-      `Loaded ✓ ${data.filled || 0}/42 points filled`,
-      "success"
-    );
-
-
-  }catch(e){
-
-    console.error(e);
-
-    msg(
-      "saveMsg",
-      firebaseError(e),
-      "error"
-    );
-
-  }
-
-}
-
-
-/* ================= HISTORY LABEL ================= */
-
-function pointLabel(index){
-
-  let count = 0;
-
-
-  for(
-    const [,rows]
-    of sections
-  ){
 
     for(
-      const row
-      of rows
+        const section
+        of sections
     ){
 
-      if(count++ === index){
+        html += `
 
-        return (
-          row[0]
-          + ". LH: "
-          + row[1]
-        );
+        <div class="section">
 
-      }
+            <div class="section-title">
+                ${escapeHTML(section.title)}
+            </div>
 
+            <div class="table-head">
 
-      if(count++ === index){
+                <div>Sr.</div>
 
-        return (
-          row[0]
-          + ". RH: "
-          + row[2]
-        );
+                <div>
+                    SCREW LH GEARBOX TEMP
+                </div>
 
-      }
+                <div>
+                    TEMPERATURE (°C)
+                </div>
 
-    }
+                <div>
+                    SCREW RH GEARBOX TEMP
+                </div>
 
-  }
+                <div>
+                    TEMPERATURE (°C)
+                </div>
 
-
-  return "Point " + (index+1);
-
-}
-
-
-/* ================= HISTORY ================= */
-
-async function loadHistory(){
-
-  $("historyList").innerHTML =
-    '<div class="loading">Loading shared history...</div>';
+            </div>
+        `;
 
 
-  try{
+        for(
+            const row
+            of section.rows
+        ){
 
-    let snap;
+            const number =
+                row[0];
 
+            const left =
+                row[1];
 
-    try{
-
-      snap =
-        await getDocs(
-          query(
-            records,
-            orderBy(
-              "updatedAt",
-              "desc"
-            )
-          )
-        );
-
-    }catch(e){
-
-      snap =
-        await getDocs(records);
-
-    }
+            const right =
+                row[2];
 
 
-    const history =
-      [];
+            let leftIndex = -1;
+            let rightIndex = -1;
 
 
-    snap.forEach(
-      item => {
+            /*
+               IMPORTANT:
+               Only real value cells get an index.
+               Blank cells do NOT consume an index.
+            */
 
-        const data =
-          item.data();
-
-
-        const filled =
-          [];
-
-
-        (
-          data.values || []
-        ).forEach(
-          (value,index)=>{
-
-            if(
-              String(
-                value || ""
-              ).trim()
-            ){
-
-              filled.push([
-                index,
-                String(value).trim()
-              ]);
-
+            if(left){
+                leftIndex =
+                    valueIndex++;
             }
 
-          }
-        );
+
+            if(right){
+                rightIndex =
+                    valueIndex++;
+            }
 
 
-        if(filled.length){
+            html += `
 
-          history.push({
-            data,
-            filled
-          });
+            <div class="table-row">
+
+                <div class="number">
+                    ${escapeHTML(number)}
+                </div>
+
+
+                <div class="point left-point">
+                    ${escapeHTML(left || "—")}
+                </div>
+
+
+                <div class="temp left-temp">
+
+                    ${
+                        left
+                        ?
+                        `
+                        <input
+                            type="text"
+                            inputmode="decimal"
+                            placeholder="Value"
+                            data-value="${leftIndex}">
+                        `
+                        :
+                        ""
+                    }
+
+                </div>
+
+
+                <div
+                    class="point right-point
+                    ${right ? "" : "empty"}">
+
+                    ${escapeHTML(right || "—")}
+
+                </div>
+
+
+                <div class="temp right-temp">
+
+                    ${
+                        right
+                        ?
+                        `
+                        <input
+                            type="text"
+                            inputmode="decimal"
+                            placeholder="Value"
+                            data-value="${rightIndex}">
+                        `
+                        :
+                        ""
+                    }
+
+                </div>
+
+            </div>
+
+            `;
 
         }
 
-      }
-    );
 
-
-    history.sort(
-      (a,b)=>
-        String(
-          b.data.date
-        ).localeCompare(
-          String(a.data.date)
-        )
-    );
-
-
-    if(!history.length){
-
-      $("historyList").innerHTML =
-        '<div class="loading">No filled records yet.</div>';
-
-      return;
+        html += `
+        </div>
+        `;
 
     }
 
 
-    $("historyList").innerHTML =
-      history.map(
-        item => `
-
-          <div class="history-card">
-
-            <div class="history-head">
-
-              <strong>
-                ${esc(item.data.date)}
-                —
-                Shift
-                ${esc(item.data.shift)}
-              </strong>
-
-              <span>
-                ${esc(item.data.checkedBy || "Unknown")}
-                ·
-                ${item.filled.length}/42 filled
-              </span>
-
-            </div>
-
-
-            <div class="filled-list">
-
-              ${
-                item.filled.map(
-                  point => `
-
-                    <div class="item">
-
-                      <b>
-                        ${esc(
-                          pointLabel(point[0])
-                        )}
-                      </b>
-
-                      <br>
-
-                      <span>
-                        ${esc(point[1])}
-                      </span>
-
-                    </div>
-
-                  `
-                ).join("")
-              }
-
-            </div>
-
-          </div>
-
-        `
-      ).join("");
-
-
-  }catch(e){
-
-    console.error(e);
-
-    $("historyList").innerHTML =
-      `
-      <div class="msg error">
-        ${esc(firebaseError(e))}
-      </div>
-      `;
-
-  }
+    $("sheetBody").innerHTML =
+        html;
 
 }
 
 
-/* ================= LOGIN ================= */
+/* =====================================================
+   CLEAR SHEET
+===================================================== */
 
-async function loginUser(){
+function clearSheet(){
 
-  const email =
-    $("loginEmail")
-    .value
-    .trim();
-
-
-  const password =
-    $("loginPassword")
-    .value;
-
-
-  if(!email || !password){
-
-    msg(
-      "authMsg",
-      "Email aur password enter karein."
-    );
-
-    return;
-
-  }
+    document
+        .querySelectorAll("[data-value]")
+        .forEach(
+            input =>
+                input.value = ""
+        );
 
 
-  msg(
-    "authMsg",
-    "Logging in...",
-    "success"
-  );
+    $("checkedBy").value =
+        currentUser?.email
+        ?.split("@")[0]
+        || "";
 
-
-  try{
-
-    await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
-  }catch(e){
-
-    console.error(e);
-
-    msg(
-      "authMsg",
-      firebaseError(e),
-      "error"
-    );
-
-  }
+    $("verifiedBy").value =
+        "";
 
 }
 
 
-/* ================= CREATE ID ================= */
+/* =====================================================
+   GET 42 VALUES
+===================================================== */
 
-async function signupUser(){
+function getValues(){
 
-  const email =
-    $("signupEmail")
-    .value
-    .trim();
+    const values =
+        Array(42).fill("");
 
 
-  const password =
-    $("signupPassword")
-    .value;
+    document
+        .querySelectorAll("[data-value]")
+        .forEach(
+            input => {
 
-
-  if(!email || !password){
-
-    msg(
-      "authMsg",
-      "Email aur password enter karein."
-    );
-
-    return;
-
-  }
-
-
-  if(password.length < 6){
-
-    msg(
-      "authMsg",
-      "Password kam se kam 6 characters ka hona chahiye."
-    );
-
-    return;
-
-  }
-
-
-  msg(
-    "authMsg",
-    "Creating ID...",
-    "success"
-  );
-
-
-  try{
-
-    await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
-  }catch(e){
-
-    console.error(e);
-
-    msg(
-      "authMsg",
-      firebaseError(e),
-      "error"
-    );
-
-  }
-
-}
-
-
-/* Inline compatibility */
-
-window.loginUser =
-  loginUser;
-
-window.signupUser =
-  signupUser;
-
-
-/* ================= LOGIN TABS ================= */
-
-$("loginTab").onclick =
-  () => {
-
-    $("loginTab")
-      .classList
-      .add("active");
-
-    $("signupTab")
-      .classList
-      .remove("active");
-
-
-    $("loginBox")
-      .classList
-      .remove("hidden");
-
-    $("signupBox")
-      .classList
-      .add("hidden");
-
-
-    $("authMsg").textContent =
-      "";
-
-  };
-
-
-$("signupTab").onclick =
-  () => {
-
-    $("signupTab")
-      .classList
-      .add("active");
-
-    $("loginTab")
-      .classList
-      .remove("active");
-
-
-    $("signupBox")
-      .classList
-      .remove("hidden");
-
-    $("loginBox")
-      .classList
-      .add("hidden");
-
-
-    $("authMsg").textContent =
-      "";
-
-  };
-
-
-/* ================= ENTER KEY ================= */
-
-$("loginPassword").onkeydown =
-  e => {
-
-    if(e.key === "Enter")
-      loginUser();
-
-  };
-
-
-$("signupPassword").onkeydown =
-  e => {
-
-    if(e.key === "Enter")
-      signupUser();
-
-  };
-
-
-/* ================= LOGOUT ================= */
-
-$("logoutBtn").onclick =
-  () => signOut(auth);
-
-
-/* ================= NEW SHEET ================= */
-
-$("newBtn").onclick =
-  () => {
-
-    clearSheet();
-
-    $("sheetDate").value =
-      today();
-
-    $("sheetShift").value =
-      "A";
-
-  };
-
-
-/* ================= HISTORY ================= */
-
-$("historyBtn").onclick =
-  () => {
-
-    $("historyPanel")
-      .classList
-      .remove("hidden");
-
-    $("refreshHistory")
-      .classList
-      .remove("hidden");
-
-    loadHistory();
-
-  };
-
-
-$("refreshHistory").onclick =
-  loadHistory;
-
-
-$("closeHistory").onclick =
-  () => {
-
-    $("historyPanel")
-      .classList
-      .add("hidden");
-
-    $("refreshHistory")
-      .classList
-      .add("hidden");
-
-  };
-
-
-/* ================= SAVE BUTTON ================= */
-
-$("saveBtn").onclick =
-  async () => {
-
-    try{
-
-      await saveRecord();
-
-    }catch(e){
-
-      console.error(e);
-
-      msg(
-        "saveMsg",
-        firebaseError(e),
-        "error"
-      );
-
-    }
-
-  };
-
-
-/* ================= FINISH & PRINT ================= */
-
-$("finishBtn").onclick =
-  async () => {
-
-    try{
-
-      await saveRecord();
-
-      setTimeout(
-        () => window.print(),
-        300
-      );
-
-    }catch(e){
-
-      console.error(e);
-
-      msg(
-        "saveMsg",
-        firebaseError(e),
-        "error"
-      );
-
-    }
-
-  };
-
-
-/* ================= DATE / SHIFT ================= */
-
-$("sheetDate").onchange =
-  () =>
-    loadRecord(
-      $("sheetDate").value,
-      $("sheetShift").value
-    );
-
-
-$("sheetShift").onchange =
-  () =>
-    loadRecord(
-      $("sheetDate").value,
-      $("sheetShift").value
-    );
-
-
-/* ================= AUTO SAVE ================= */
-
-document.addEventListener(
-  "input",
-  e => {
-
-    if(
-      e.target.matches(
-        "[data-v],#checkedBy,#verifiedBy"
-      )
-    ){
-
-      clearTimeout(timer);
-
-
-      timer =
-        setTimeout(
-          async () => {
-
-            try{
-
-              await saveRecord(true);
-
-              msg(
-                "saveMsg",
-                "Auto-saved ✓",
-                "success"
-              );
-
-            }catch(error){
-
-              console.error(error);
-
-              msg(
-                "saveMsg",
-                firebaseError(error),
-                "error"
-              );
+                values[
+                    Number(input.dataset.value)
+                ] =
+                    input.value.trim();
 
             }
+        );
 
-          },
-          1200
+
+    return values;
+
+}
+
+
+/* =====================================================
+   RECORD ID
+===================================================== */
+
+function getRecordId(){
+
+    return (
+        $("sheetDate").value
+        + "_"
+        + $("sheetShift").value
+    );
+
+}
+
+
+/* =====================================================
+   SAVE RECORD
+===================================================== */
+
+async function saveRecord(
+    silent=false
+){
+
+    if(!currentUser){
+
+        return;
+
+    }
+
+
+    const date =
+        $("sheetDate").value;
+
+
+    const shift =
+        $("sheetShift").value;
+
+
+    if(!date){
+
+        showSaveMessage(
+            "❌ Please select date.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const values =
+        getValues();
+
+
+    const filled =
+        values.filter(
+            value =>
+                value !== ""
+        ).length;
+
+
+    await setDoc(
+
+        doc(
+            db,
+            "mixer4_tss_records",
+            getRecordId()
+        ),
+
+        {
+
+            date:date,
+
+            shift:shift,
+
+            values:values,
+
+            filled:filled,
+
+            total:42,
+
+            checkedBy:
+                $("checkedBy")
+                .value
+                .trim(),
+
+            verifiedBy:
+                $("verifiedBy")
+                .value
+                .trim(),
+
+            updatedBy:
+                currentUser.uid,
+
+            checkedByEmail:
+                currentUser.email || "",
+
+            area:
+                "MIXER-4 TSS",
+
+            updatedAt:
+                serverTimestamp()
+
+        },
+
+        {
+            merge:true
+        }
+
+    );
+
+
+    if(!silent){
+
+        showSaveMessage(
+            `☁️ Saved successfully — ${filled}/42 filled`,
+            "success"
         );
 
     }
 
-  }
-);
+}
 
 
-/* ================= AUTH STATE ================= */
+/* =====================================================
+   LOAD SAVED RECORD
+===================================================== */
 
-onAuthStateChanged(
-  auth,
-  current => {
+async function loadRecord(){
 
-    user =
-      current;
-
-
-    if(current){
-
-      $("auth")
-        .style
-        .display =
-        "none";
+    if(!currentUser){
+        return;
+    }
 
 
-      $("app")
-        .style
-        .display =
-        "block";
+    const date =
+        $("sheetDate").value;
 
 
-      $("userLabel")
-        .textContent =
-        current.email
-        || "Logged in";
+    const shift =
+        $("sheetShift").value;
 
 
-      loadRecord(
-        $("sheetDate").value,
-        $("sheetShift").value
-      );
+    clearSheet();
 
 
-    }else{
+    try{
 
-      $("auth")
-        .style
-        .display =
-        "block";
+        const snapshot =
+            await getDoc(
+
+                doc(
+                    db,
+                    "mixer4_tss_records",
+                    date + "_" + shift
+                )
+
+            );
 
 
-      $("app")
-        .style
-        .display =
-        "none";
+        if(!snapshot.exists()){
+
+            showSaveMessage(
+                "New sheet — no saved data.",
+                "success"
+            );
+
+            return;
+
+        }
+
+
+        const data =
+            snapshot.data();
+
+
+        const values =
+            data.values || [];
+
+
+        values.forEach(
+            (value,index)=>{
+
+                const input =
+                    document.querySelector(
+                        `[data-value="${index}"]`
+                    );
+
+
+                if(input){
+
+                    input.value =
+                        value || "";
+
+                }
+
+            }
+        );
+
+
+        $("checkedBy").value =
+            data.checkedBy || "";
+
+
+        $("verifiedBy").value =
+            data.verifiedBy || "";
+
+
+        showSaveMessage(
+            `✓ Loaded — ${data.filled || 0}/42 filled`,
+            "success"
+        );
+
+
+    }catch(error){
+
+        showSaveMessage(
+            firebaseError(error),
+            "error"
+        );
 
     }
 
-  }
+}
+
+
+/* =====================================================
+   POINT LABEL FOR HISTORY
+===================================================== */
+
+function getPointLabel(index){
+
+    let counter = 0;
+
+
+    for(
+        const section
+        of sections
+    ){
+
+        for(
+            const row
+            of section.rows
+        ){
+
+            if(row[1]){
+
+                if(counter === index){
+
+                    return (
+                        row[0]
+                        + ". LH — "
+                        + row[1]
+                    );
+
+                }
+
+                counter++;
+
+            }
+
+
+            if(row[2]){
+
+                if(counter === index){
+
+                    return (
+                        row[0]
+                        + ". RH — "
+                        + row[2]
+                    );
+
+                }
+
+                counter++;
+
+            }
+
+        }
+
+    }
+
+
+    return "Point " + (index+1);
+
+}
+
+
+/* =====================================================
+   HISTORY
+===================================================== */
+
+async function loadHistory(){
+
+    $("historyList").innerHTML =
+        '<div style="color:#91a9bf;padding:15px">Loading...</div>';
+
+
+    try{
+
+        let snapshot;
+
+
+        try{
+
+            snapshot =
+                await getDocs(
+
+                    query(
+                        recordsRef,
+                        orderBy(
+                            "updatedAt",
+                            "desc"
+                        )
+                    )
+
+                );
+
+        }catch(error){
+
+            snapshot =
+                await getDocs(
+                    recordsRef
+                );
+
+        }
+
+
+        const records = [];
+
+
+        snapshot.forEach(
+            item => {
+
+                const data =
+                    item.data();
+
+
+                const filled = [];
+
+
+                (
+                    data.values || []
+                ).forEach(
+                    (value,index)=>{
+
+                        if(
+                            String(
+                                value || ""
+                            ).trim() !== ""
+                        ){
+
+                            filled.push({
+
+                                index:index,
+
+                                value:
+                                    String(value).trim()
+
+                            });
+
+                        }
+
+                    }
+                );
+
+
+                /*
+                   Empty records are not shown.
+                */
+
+                if(filled.length > 0){
+
+                    records.push({
+
+                        data:data,
+
+                        filled:filled
+
+                    });
+
+                }
+
+            }
+        );
+
+
+        records.sort(
+            (a,b)=>
+                String(
+                    b.data.date || ""
+                ).localeCompare(
+                    String(
+                        a.data.date || ""
+                    )
+                )
+        );
+
+
+        if(records.length === 0){
+
+            $("historyList").innerHTML =
+                `
+                <div style="color:#91a9bf;padding:15px">
+                    No filled records found.
+                </div>
+                `;
+
+            return;
+
+        }
+
+
+        let html = "";
+
+
+        records.forEach(
+            record => {
+
+                const data =
+                    record.data;
+
+
+                html += `
+
+                <div class="history-card">
+
+                    <div class="history-header">
+
+                        <div class="history-date">
+
+                            📅
+                            ${escapeHTML(data.date || "")}
+
+                            —
+                            Shift
+                            ${escapeHTML(data.shift || "")}
+
+                        </div>
+
+
+                        <div class="history-user">
+
+                            👤
+                            ${escapeHTML(
+                                data.checkedBy
+                                || data.checkedByEmail
+                                || "Unknown"
+                            )}
+
+                            ·
+
+                            ${record.filled.length}/42
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="filled-grid">
+
+                        ${
+                            record.filled
+                            .map(
+                                item => `
+
+                                <div class="filled-item">
+
+                                    <b>
+                                        ${escapeHTML(
+                                            getPointLabel(
+                                                item.index
+                                            )
+                                        )}
+                                    </b>
+
+                                    <br>
+
+                                    <span>
+                                        ${escapeHTML(
+                                            item.value
+                                        )}
+                                    </span>
+
+                                </div>
+
+                                `
+                            )
+                            .join("")
+                        }
+
+                    </div>
+
+                </div>
+
+                `;
+
+            }
+        );
+
+
+        $("historyList").innerHTML =
+            html;
+
+
+    }catch(error){
+
+        $("historyList").innerHTML =
+            `
+            <div class="error" style="padding:15px">
+                ${escapeHTML(
+                    firebaseError(error)
+                )}
+            </div>
+            `;
+
+    }
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+async function loginUser(){
+
+    const email =
+        $("loginEmail")
+        .value
+        .trim();
+
+
+    const password =
+        $("loginPassword")
+        .value;
+
+
+    if(!email){
+
+        showAuthMessage(
+            "❌ Email enter karein.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!password){
+
+        showAuthMessage(
+            "❌ Password enter karein.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    $("loginBtn").disabled =
+        true;
+
+
+    $("loginBtn").textContent =
+        "Logging in...";
+
+
+    showAuthMessage(
+        "Please wait...",
+        "success"
+    );
+
+
+    try{
+
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+
+    }catch(error){
+
+        showAuthMessage(
+            firebaseError(error),
+            "error"
+        );
+
+    }
+
+
+    $("loginBtn").disabled =
+        false;
+
+
+    $("loginBtn").textContent =
+        "🔐 Login";
+
+}
+
+
+/* =====================================================
+   CREATE ACCOUNT
+===================================================== */
+
+async function signupUser(){
+
+    const email =
+        $("signupEmail")
+        .value
+        .trim();
+
+
+    const password =
+        $("signupPassword")
+        .value;
+
+
+    if(!email){
+
+        showAuthMessage(
+            "❌ Email enter karein.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(password.length < 6){
+
+        showAuthMessage(
+            "❌ Password minimum 6 characters ka hona chahiye.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    $("signupBtn").disabled =
+        true;
+
+
+    $("signupBtn").textContent =
+        "Creating...";
+
+
+    showAuthMessage(
+        "Account create ho raha hai...",
+        "success"
+    );
+
+
+    try{
+
+        await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+
+    }catch(error){
+
+        showAuthMessage(
+            firebaseError(error),
+            "error"
+        );
+
+    }
+
+
+    $("signupBtn").disabled =
+        false;
+
+
+    $("signupBtn").textContent =
+        "➕ Create ID";
+
+}
+
+
+/* =====================================================
+   MAKE GLOBAL
+===================================================== */
+
+window.loginUser =
+    loginUser;
+
+window.signupUser =
+    signupUser;
+
+
+/* =====================================================
+   LOGIN TAB
+===================================================== */
+
+$("loginTab").addEventListener(
+    "click",
+    ()=>{
+
+        $("loginTab")
+            .classList
+            .add("active");
+
+
+        $("signupTab")
+            .classList
+            .remove("active");
+
+
+        $("loginBox")
+            .style
+            .display =
+            "block";
+
+
+        $("signupBox")
+            .style
+            .display =
+            "none";
+
+
+        showAuthMessage("");
+
+    }
 );
 
 
-/* ================= START ================= */
+/* =====================================================
+   SIGNUP TAB
+===================================================== */
+
+$("signupTab").addEventListener(
+    "click",
+    ()=>{
+
+        $("signupTab")
+            .classList
+            .add("active");
+
+
+        $("loginTab")
+            .classList
+            .remove("active");
+
+
+        $("signupBox")
+            .style
+            .display =
+            "block";
+
+
+        $("loginBox")
+            .style
+            .display =
+            "none";
+
+
+        showAuthMessage("");
+
+    }
+);
+
+
+/* =====================================================
+   LOGIN BUTTON
+===================================================== */
+
+$("loginBtn").addEventListener(
+    "click",
+    loginUser
+);
+
+
+/* =====================================================
+   CREATE ID BUTTON
+===================================================== */
+
+$("signupBtn").addEventListener(
+    "click",
+    signupUser
+);
+
+
+/* =====================================================
+   ENTER KEY
+===================================================== */
+
+$("loginPassword").addEventListener(
+    "keydown",
+    event => {
+
+        if(event.key === "Enter"){
+            loginUser();
+        }
+
+    }
+);
+
+
+$("signupPassword").addEventListener(
+    "keydown",
+    event => {
+
+        if(event.key === "Enter"){
+            signupUser();
+        }
+
+    }
+);
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+$("logoutBtn").addEventListener(
+    "click",
+    async ()=>{
+
+        await signOut(auth);
+
+    }
+);
+
+
+/* =====================================================
+   NEW SHEET
+===================================================== */
+
+$("newBtn").addEventListener(
+    "click",
+    ()=>{
+
+        $("sheetDate").value =
+            today();
+
+        $("sheetShift").value =
+            "A";
+
+        clearSheet();
+
+        showSaveMessage(
+            "New blank sheet ready.",
+            "success"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   DATE CHANGE
+===================================================== */
+
+$("sheetDate").addEventListener(
+    "change",
+    loadRecord
+);
+
+
+/* =====================================================
+   SHIFT CHANGE
+===================================================== */
+
+$("sheetShift").addEventListener(
+    "change",
+    loadRecord
+);
+
+
+/* =====================================================
+   SAVE
+===================================================== */
+
+$("saveBtn").addEventListener(
+    "click",
+    async ()=>{
+
+        try{
+
+            await saveRecord();
+
+        }catch(error){
+
+            showSaveMessage(
+                firebaseError(error),
+                "error"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   FINISH + PRINT
+===================================================== */
+
+$("finishBtn").addEventListener(
+    "click",
+    async ()=>{
+
+        try{
+
+            await saveRecord();
+
+            setTimeout(
+                ()=>{
+                    window.print();
+                },
+                400
+            );
+
+        }catch(error){
+
+            showSaveMessage(
+                firebaseError(error),
+                "error"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   HISTORY OPEN
+===================================================== */
+
+$("historyBtn").addEventListener(
+    "click",
+    async ()=>{
+
+        $("historyPanel")
+            .style
+            .display =
+            "block";
+
+
+        $("refreshBtn")
+            .style
+            .display =
+            "inline-block";
+
+
+        await loadHistory();
+
+    }
+);
+
+
+/* =====================================================
+   HISTORY REFRESH
+===================================================== */
+
+$("refreshBtn").addEventListener(
+    "click",
+    loadHistory
+);
+
+
+/* =====================================================
+   HISTORY CLOSE
+===================================================== */
+
+$("closeHistory").addEventListener(
+    "click",
+    ()=>{
+
+        $("historyPanel")
+            .style
+            .display =
+            "none";
+
+
+        $("refreshBtn")
+            .style
+            .display =
+            "none";
+
+    }
+);
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+onAuthStateChanged(
+    auth,
+    async user => {
+
+        currentUser =
+            user;
+
+
+        if(user){
+
+            $("auth")
+                .style
+                .display =
+                "none";
+
+
+            $("app")
+                .style
+                .display =
+                "block";
+
+
+            $("userEmail")
+                .textContent =
+                user.email
+                || "User";
+
+
+            $("sheetDate").value =
+                today();
+
+
+            $("sheetShift").value =
+                "A";
+
+
+            await loadRecord();
+
+        }else{
+
+            $("auth")
+                .style
+                .display =
+                "block";
+
+
+            $("app")
+                .style
+                .display =
+                "none";
+
+
+            $("userEmail")
+                .textContent =
+                "";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   AUTO SAVE
+===================================================== */
+
+let autoSaveTimer = null;
+
+
+document.addEventListener(
+    "input",
+    event => {
+
+        if(
+            event.target.matches(
+                "[data-value],#checkedBy,#verifiedBy"
+            )
+        ){
+
+            clearTimeout(
+                autoSaveTimer
+            );
+
+
+            autoSaveTimer =
+                setTimeout(
+                    async ()=>{
+
+                        if(!currentUser){
+                            return;
+                        }
+
+
+                        try{
+
+                            await saveRecord(true);
+
+
+                            showSaveMessage(
+                                "☁️ Auto-saved",
+                                "success"
+                            );
+
+                        }catch(error){
+
+                            showSaveMessage(
+                                firebaseError(error),
+                                "error"
+                            );
+
+                        }
+
+                    },
+                    1500
+                );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
 
 buildSheet();
 
 $("sheetDate").value =
-  today();
+    today();
 
 </script>
 
