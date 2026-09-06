@@ -241,7 +241,8 @@ h1{
   margin-bottom:7px;
 }
 
-input,select{
+input,
+select{
   width:100%;
   padding:13px 14px;
   border-radius:12px;
@@ -257,7 +258,8 @@ select option{
   color:white;
 }
 
-input:focus,select:focus{
+input:focus,
+select:focus{
   border-color:var(--cyan);
   box-shadow:0 0 0 3px rgba(35,229,255,.08);
 }
@@ -306,6 +308,7 @@ input:focus,select:focus{
   border-radius:11px;
   font-size:13px;
   display:none;
+  line-height:1.45;
 }
 
 .message.show{
@@ -385,6 +388,7 @@ input:focus,select:focus{
   background:rgba(255,184,77,.10);
   color:#ffd28c;
   border:1px solid rgba(255,184,77,.20);
+  white-space:nowrap;
 }
 
 .status.complete{
@@ -545,7 +549,8 @@ input:focus,select:focus{
 }
 
 .signature{
-  padding:18px;
+  padding:0;
+  overflow:hidden;
 }
 
 .signature label{
@@ -599,6 +604,7 @@ input:focus,select:focus{
   color:#8bd6ff;
   font-size:11px;
   font-weight:900;
+  white-space:nowrap;
 }
 
 .history-meta{
@@ -661,6 +667,8 @@ input:focus,select:focus{
   box-shadow:0 15px 40px rgba(0,0,0,.35);
   z-index:100;
   transition:.3s;
+  max-width:90%;
+  text-align:center;
 }
 
 .toast.show{
@@ -673,6 +681,7 @@ input:focus,select:focus{
 }
 
 @media(max-width:850px){
+
   .point{
     grid-template-columns:40px 1fr 125px;
   }
@@ -693,9 +702,11 @@ input:focus,select:focus{
   .checker-grid{
     grid-template-columns:1fr;
   }
+
 }
 
 @media(max-width:580px){
+
   .container{
     width:94%;
   }
@@ -706,6 +717,11 @@ input:focus,select:focus{
 
   .sheet-head{
     padding:17px;
+  }
+
+  .sheet-title{
+    flex-direction:column;
+    align-items:flex-start;
   }
 
   .point{
@@ -743,9 +759,13 @@ input:focus,select:focus{
   .actions .btn{
     width:100%;
   }
+
 }
 
+/* PRINT */
+
 @media print{
+
   body{
     background:white!important;
     color:#111!important;
@@ -758,7 +778,9 @@ input:focus,select:focus{
   .actions,
   .save-dot,
   .toast,
-  #historyView{
+  #historyView,
+  .status,
+  .progress-area{
     display:none!important;
   }
 
@@ -770,10 +792,21 @@ input:focus,select:focus{
     box-shadow:none!important;
     background:white!important;
     border:1px solid #ccc!important;
+    color:#111!important;
   }
 
   .section{
     break-inside:avoid;
+  }
+
+  .section-title{
+    background:#eee!important;
+    color:#111!important;
+  }
+
+  .section-title h3,
+  .section-title span{
+    color:#111!important;
   }
 
   .point{
@@ -782,7 +815,13 @@ input:focus,select:focus{
     color:#111!important;
   }
 
-  input,select{
+  .point-name,
+  .side{
+    color:#111!important;
+  }
+
+  input,
+  select{
     color:#111!important;
     background:white!important;
     border:1px solid #bbb!important;
@@ -791,7 +830,9 @@ input:focus,select:focus{
   .print-only{
     display:block;
   }
+
 }
+
 </style>
 </head>
 
@@ -801,154 +842,452 @@ input:focus,select:focus{
 
 <header>
   <div class="header-card">
+
     <div class="logo-row">
+
       <div class="logo">
-        <div class="logo-icon">⚙️</div>
+
+        <div class="logo-icon">
+          ⚙️
+        </div>
+
         <div>
           <h1>MIXER-4 TSS</h1>
-          <div class="subtitle">Daily Temperature Check Sheet • Cloud Monitoring System</div>
+
+          <div class="subtitle">
+            Daily Temperature Check Sheet • Cloud Monitoring System
+          </div>
         </div>
+
       </div>
-      <div id="userPill" class="user-pill hidden"></div>
+
+      <div
+        id="userPill"
+        class="user-pill hidden">
+      </div>
+
     </div>
+
   </div>
 </header>
 
-<!-- LOGIN -->
-<section id="authView" class="auth-wrap">
+
+<!-- =====================================================
+     LOGIN / CREATE ID
+===================================================== -->
+
+<section
+  id="authView"
+  class="auth-wrap">
+
   <div class="card auth-card">
 
     <div class="auth-title">
-      <div class="big">🛠️</div>
-      <h2>MIXER-4 TSS Portal</h2>
-      <p>Login to access your cloud check sheet</p>
+
+      <div class="big">
+        🛠️
+      </div>
+
+      <h2>
+        MIXER-4 TSS Portal
+      </h2>
+
+      <p>
+        Login or create your own ID
+      </p>
+
     </div>
+
 
     <div class="tabs">
-      <button id="loginTab" class="tab active">🔐 Login</button>
-      <button id="signupTab" class="tab">✨ Create ID</button>
+
+      <button
+        id="loginTab"
+        class="tab active"
+        type="button">
+
+        🔐 Login
+
+      </button>
+
+
+      <button
+        id="signupTab"
+        class="tab"
+        type="button">
+
+        ✨ Create ID
+
+      </button>
+
     </div>
+
 
     <div class="field">
-      <label>Email / User ID</label>
-      <input id="email" type="email" placeholder="Enter your email">
+
+      <label>
+        Email / User ID
+      </label>
+
+      <input
+        id="email"
+        type="email"
+        autocomplete="email"
+        placeholder="Enter your email">
+
     </div>
+
 
     <div class="field">
-      <label>Password</label>
-      <input id="password" type="password" placeholder="Enter password">
+
+      <label>
+        Password
+      </label>
+
+      <input
+        id="password"
+        type="password"
+        autocomplete="current-password"
+        placeholder="Minimum 6 characters">
+
     </div>
 
-    <button id="loginBtn" class="btn btn-primary">🔐 Login</button>
-    <button id="signupBtn" class="btn btn-primary hidden">✨ Create Account</button>
 
-    <div id="authMessage" class="message"></div>
+    <button
+      id="loginBtn"
+      class="btn btn-primary"
+      type="button">
+
+      🔐 Login
+
+    </button>
+
+
+    <button
+      id="signupBtn"
+      class="btn btn-primary hidden"
+      type="button">
+
+      ✨ Create Account
+
+    </button>
+
+
+    <div
+      id="authMessage"
+      class="message">
+    </div>
+
   </div>
+
 </section>
 
-<!-- APP -->
-<section id="appView" class="app hidden">
+
+<!-- =====================================================
+     APPLICATION
+===================================================== -->
+
+<section
+  id="appView"
+  class="app hidden">
+
+
+  <!-- NAVIGATION -->
 
   <div class="card nav">
+
     <div class="nav-left">
-      <button id="newBtn" class="active">📝 New Check Sheet</button>
-      <button id="historyBtn">📜 Shared History</button>
+
+      <button
+        id="newBtn"
+        class="active"
+        type="button">
+
+        📝 New Check Sheet
+
+      </button>
+
+
+      <button
+        id="historyBtn"
+        type="button">
+
+        📜 Shared History
+
+      </button>
+
     </div>
 
-    <button id="logoutBtn" class="btn btn-red">Logout</button>
+
+    <button
+      id="logoutBtn"
+      class="btn btn-red"
+      type="button">
+
+      🚪 Logout
+
+    </button>
+
   </div>
 
-  <!-- SHEET VIEW -->
+
+  <!-- ===================================================
+       SHEET VIEW
+  =================================================== -->
+
   <div id="sheetView">
 
+
     <div class="card sheet-head">
+
       <div class="sheet-title">
+
         <div>
-          <h2>🌡️ Daily Temperature Monitoring</h2>
-          <p class="subtitle">MIXER-4 TSS GEARBOX & BEARING TEMPERATURE MONITORING</p>
+
+          <h2>
+            🌡️ Daily Temperature Monitoring
+          </h2>
+
+          <p class="subtitle">
+            MIXER-4 TSS GEARBOX & BEARING TEMPERATURE MONITORING
+          </p>
+
         </div>
-        <div id="sheetStatus" class="status">● IN PROGRESS</div>
+
+
+        <div
+          id="sheetStatus"
+          class="status">
+
+          ● IN PROGRESS
+
+        </div>
+
       </div>
+
 
       <div class="meta-grid">
 
-        <div class="field">
-          <label>Date</label>
-          <input id="sheetDate" type="date">
-        </div>
 
         <div class="field">
-          <label>Shift</label>
+
+          <label>
+            Date
+          </label>
+
+          <input
+            id="sheetDate"
+            type="date">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Shift
+          </label>
+
           <select id="shift">
-            <option value="A">Shift A</option>
-            <option value="B">Shift B</option>
-            <option value="C">Shift C</option>
-            <option value="General">General</option>
+
+            <option value="A">
+              Shift A
+            </option>
+
+            <option value="B">
+              Shift B
+            </option>
+
+            <option value="C">
+              Shift C
+            </option>
+
+            <option value="General">
+              General
+            </option>
+
           </select>
+
         </div>
 
+
         <div class="field">
-          <label>Area / Machine</label>
-          <input id="area" value="MIXER-4 / TSS UNIT">
+
+          <label>
+            Area / Machine
+          </label>
+
+          <input
+            id="area"
+            value="MIXER-4 / TSS UNIT">
+
         </div>
+
 
       </div>
+
 
       <div class="progress-area">
+
         <div class="progress-top">
-          <span>Completion Progress</span>
-          <span id="progressText">0 / 42 filled</span>
+
+          <span>
+            Completion Progress
+          </span>
+
+          <span id="progressText">
+            0 / 42 filled
+          </span>
+
         </div>
+
+
         <div class="progress">
-          <div id="progressBar" class="progress-bar"></div>
+
+          <div
+            id="progressBar"
+            class="progress-bar">
+          </div>
+
         </div>
+
       </div>
+
     </div>
+
+
+    <!-- DYNAMIC ORIGINAL 42 POINTS -->
 
     <div id="sections"></div>
 
+
+    <!-- CHECKER -->
+
     <div class="card signature">
+
       <div class="checker-grid">
 
         <div>
-          <label>Checked By</label>
-          <input id="checkedBy" placeholder="Name / Employee ID">
+
+          <label>
+            Checked By
+          </label>
+
+          <input
+            id="checkedBy"
+            placeholder="Name / Employee ID">
+
         </div>
 
+
         <div>
-          <label>Verified By</label>
-          <input id="verifiedBy" placeholder="Name / Employee ID">
+
+          <label>
+            Verified By
+          </label>
+
+          <input
+            id="verifiedBy"
+            placeholder="Name / Employee ID">
+
         </div>
 
       </div>
+
     </div>
+
+
+    <!-- ACTIONS -->
 
     <div class="actions">
-      <button id="finishBtn" class="btn btn-green">✅ Complete Check Sheet</button>
-      <button id="printBtn" class="btn btn-dark">🖨️ Print / Download PDF</button>
-      <button id="clearBtn" class="btn btn-dark">↻ New Blank Sheet</button>
+
+      <button
+        id="finishBtn"
+        class="btn btn-green"
+        type="button">
+
+        ✅ Complete Check Sheet
+
+      </button>
+
+
+      <button
+        id="printBtn"
+        class="btn btn-dark"
+        type="button">
+
+        🖨️ Print / Download PDF
+
+      </button>
+
+
+      <button
+        id="clearBtn"
+        class="btn btn-dark"
+        type="button">
+
+        ↻ New Blank Sheet
+
+      </button>
+
     </div>
 
+
     <div class="print-only">
+
       <br>
+
       Generated from MIXER-4 TSS Cloud Check Sheet
+
     </div>
 
   </div>
 
-  <!-- HISTORY VIEW -->
-  <div id="historyView" class="history-wrap hidden">
+
+  <!-- ===================================================
+       HISTORY
+  =================================================== -->
+
+  <div
+    id="historyView"
+    class="history-wrap hidden">
+
 
     <div class="card history-head">
+
       <div>
-        <h2>📜 Shared Check Sheet History</h2>
-        <p class="subtitle">All logged-in users can read previously filled values.</p>
+
+        <h2>
+          📜 Shared Check Sheet History
+        </h2>
+
+        <p class="subtitle">
+          All logged-in users can read previously filled values.
+        </p>
+
       </div>
-      <button id="refreshHistory" class="btn btn-dark">🔄 Refresh</button>
+
+
+      <button
+        id="refreshHistory"
+        class="btn btn-dark"
+        type="button">
+
+        🔄 Refresh
+
+      </button>
+
     </div>
 
-    <div id="historyList" class="history-list">
-      <div class="loading">Loading history...</div>
+
+    <div
+      id="historyList"
+      class="history-list">
+
+      <div class="loading">
+        Loading history...
+      </div>
+
     </div>
 
   </div>
@@ -957,13 +1296,30 @@ input:focus,select:focus{
 
 </div>
 
-<div id="saveDot" class="save-dot">☁️ Ready</div>
-<div id="toast" class="toast"></div>
+
+<div
+  id="saveDot"
+  class="save-dot">
+
+  ☁️ Ready
+
+</div>
+
+
+<div
+  id="toast"
+  class="toast">
+</div>
+
+
+<!-- =====================================================
+     FIREBASE + APPLICATION JAVASCRIPT
+===================================================== -->
 
 <script type="module">
 
 /* =========================================================
-   FIREBASE IMPORTS
+   FIREBASE
 ========================================================= */
 
 import { initializeApp }
@@ -994,91 +1350,230 @@ from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 /* =========================================================
    FIREBASE CONFIG
-   DO NOT CHANGE
 ========================================================= */
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDztHV-dnII1DeUoxsworjfWqOcYzUw8tY",
-  authDomain: "mixer4-tss.firebaseapp.com",
-  projectId: "mixer4-tss",
-  storageBucket: "mixer4-tss.firebasestorage.app",
-  messagingSenderId: "281329772926",
-  appId: "1:281329772926:web:c2321755e3ad4d54236b2f"
+
+  apiKey:
+    "AIzaSyDztHV-dnII1DeUoxsworjfWqOcYzUw8tY",
+
+  authDomain:
+    "mixer4-tss.firebaseapp.com",
+
+  projectId:
+    "mixer4-tss",
+
+  storageBucket:
+    "mixer4-tss.firebasestorage.app",
+
+  messagingSenderId:
+    "281329772926",
+
+  appId:
+    "1:281329772926:web:c2321755e3ad4d54236b2f"
+
 };
 
-const firebaseApp = initializeApp(firebaseConfig);
-const auth = getAuth(firebaseApp);
-const db = getFirestore(firebaseApp);
+
+const firebaseApp =
+  initializeApp(firebaseConfig);
+
+
+const auth =
+  getAuth(firebaseApp);
+
+
+const db =
+  getFirestore(firebaseApp);
 
 
 /* =========================================================
-   EXACT ORIGINAL EXCEL POINTS
+   ORIGINAL EXCEL DATA
 ========================================================= */
 
 const sections = [
 
   {
-    title: "MIXER-4 TSS GEARBOX & BEARING TEMPERATURE MONITORING",
+    title:
+      "MIXER-4 TSS GEARBOX & BEARING TEMPERATURE MONITORING",
+
     points: [
-      ["Gear 1st stage Rotary side", "Gear 1st stage Rotary side"],
-      ["Gear 2nd stage Rotary side", "Gear 2nd stage Rotary side"],
-      ["Gear 3rd stage Rotary side", "Gear 3rd stage Rotary side"],
-      ["Gear 1st stage Cal side", "Gear 1st stage Cal side"],
-      ["Gear 2nd stage Cal side", "Gear 2nd stage Cal side"],
-      ["Gear 3rd stage Cal side", "Gear 3rd stage Cal side"]
+
+      [
+        "Gear 1st stage Rotary side",
+        "Gear 1st stage Rotary side"
+      ],
+
+      [
+        "Gear 2nd stage Rotary side",
+        "Gear 2nd stage Rotary side"
+      ],
+
+      [
+        "Gear 3rd stage Rotary side",
+        "Gear 3rd stage Rotary side"
+      ],
+
+      [
+        "Gear 1st stage Cal side",
+        "Gear 1st stage Cal side"
+      ],
+
+      [
+        "Gear 2nd stage Cal side",
+        "Gear 2nd stage Cal side"
+      ],
+
+      [
+        "Gear 3rd stage Cal side",
+        "Gear 3rd stage Cal side"
+      ]
+
     ]
   },
 
+
   {
-    title: "TSS SCREW BEARING TEMPERATURE",
+    title:
+      "TSS SCREW BEARING TEMPERATURE",
+
     points: [
-      ["Input Universal joint bearing", "Output RH Universal joint bearing"],
-      ["Output LH Universal joint bearing", "Screw RH 1st bearing"],
-      ["Screw LH 1st bearing", "Screw RH 2nd bearing"],
-      ["Screw LH 2nd bearing", "Screw RH 3rd bearing"],
-      ["Screw LH 3rd bearing", ""]
+
+      [
+        "Input Universal joint bearing",
+        "Output RH Universal joint bearing"
+      ],
+
+      [
+        "Output LH Universal joint bearing",
+        "Screw RH 1st bearing"
+      ],
+
+      [
+        "Screw LH 1st bearing",
+        "Screw RH 2nd bearing"
+      ],
+
+      [
+        "Screw LH 2nd bearing",
+        "Screw RH 3rd bearing"
+      ],
+
+      [
+        "Screw LH 3rd bearing",
+        ""
+      ]
+
     ]
   },
 
+
   {
-    title: "TSS CALENDAR TCU",
+    title:
+      "TSS CALENDAR TCU",
+
     points: [
-      ["Top roll TCU temp", ""],
-      ["Bottom roll TCU temp", ""],
-      ["TSS Screw temp", ""]
+
+      [
+        "Top roll TCU temp",
+        ""
+      ],
+
+      [
+        "Bottom roll TCU temp",
+        ""
+      ],
+
+      [
+        "TSS Screw temp",
+        ""
+      ]
+
     ]
   },
 
+
   {
-    title: "TSS CALENDAR ROLL BEARING HOUSING TEMPERATURE",
+    title:
+      "TSS CALENDAR ROLL BEARING HOUSING TEMPERATURE",
+
     points: [
-      ["Top roll Drive side housing", "Top roll Water side housing"],
-      ["Bottom roll Drive side housing", "Bottom roll Water side housing"]
+
+      [
+        "Top roll Drive side housing",
+        "Top roll Water side housing"
+      ],
+
+      [
+        "Bottom roll Drive side housing",
+        "Bottom roll Water side housing"
+      ]
+
     ]
   },
 
+
   {
-    title: "TSS SCREW GEARBOX FLS",
+    title:
+      "TSS SCREW GEARBOX FLS",
+
     points: [
-      ["FLS oil pressure", "FLS oil temp"]
+
+      [
+        "FLS oil pressure",
+        "FLS oil temp"
+      ]
+
     ]
   },
 
+
   {
-    title: "TSS CALENDAR ROLL GEARBOX BEARING TEMPERATURE",
+    title:
+      "TSS CALENDAR ROLL GEARBOX BEARING TEMPERATURE",
+
     points: [
-      ["Input shaft bearing motor side", "Input shaft bearing outside"],
-      ["2nd stage bearing temp motor side", "2nd stage bearing outside"],
-      ["3rd stage bearing temp motor side", "3rd stage bearing outside"],
-      ["Top roll coupling bearing motor side", "Top roll coupling bearing outside"],
-      ["Bottom roll coupling bearing motor side", "Bottom roll coupling bearing outside"]
+
+      [
+        "Input shaft bearing motor side",
+        "Input shaft bearing outside"
+      ],
+
+      [
+        "2nd stage bearing temp motor side",
+        "2nd stage bearing outside"
+      ],
+
+      [
+        "3rd stage bearing temp motor side",
+        "3rd stage bearing outside"
+      ],
+
+      [
+        "Top roll coupling bearing motor side",
+        "Top roll coupling bearing outside"
+      ],
+
+      [
+        "Bottom roll coupling bearing motor side",
+        "Bottom roll coupling bearing outside"
+      ]
+
     ]
   },
 
+
   {
-    title: "TSS CALENDAR ROLL GEARBOX FLS",
+    title:
+      "TSS CALENDAR ROLL GEARBOX FLS",
+
     points: [
-      ["FLS oil pressure", "FLS oil temp"]
+
+      [
+        "FLS oil pressure",
+        "FLS oil temp"
+      ]
+
     ]
   }
 
@@ -1086,11 +1581,13 @@ const sections = [
 
 
 /* =========================================================
-   GLOBAL VARIABLES
+   VARIABLES
 ========================================================= */
 
 let pointData = [];
+
 let saveTimer = null;
+
 let currentRecordId = null;
 
 
@@ -1098,335 +1595,417 @@ let currentRecordId = null;
    TODAY
 ========================================================= */
 
-function today() {
+function today(){
 
-  const d = new Date();
+  const d =
+    new Date();
 
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const dd = String(d.getDate()).padStart(2, "0");
+  const yyyy =
+    d.getFullYear();
+
+  const mm =
+    String(
+      d.getMonth()+1
+    ).padStart(2,"0");
+
+  const dd =
+    String(
+      d.getDate()
+    ).padStart(2,"0");
 
   return `${yyyy}-${mm}-${dd}`;
+
 }
 
 
 /* =========================================================
-   BUILD CHECK SHEET
+   BUILD POINTS
 ========================================================= */
 
-function buildPoints() {
+function buildPoints(){
 
-  const container = document.getElementById("sections");
-
-  if (!container) return;
+  const container =
+    document.getElementById(
+      "sections"
+    );
 
   container.innerHTML = "";
+
   pointData = [];
 
   let index = 0;
 
-  sections.forEach(section => {
 
-    const sectionCard = document.createElement("div");
-    sectionCard.className = "card section";
+  sections.forEach(
+    section => {
 
-    sectionCard.innerHTML = `
-      <div class="section-title">
-        <h3>${escapeHTML(section.title)}</h3>
-        <span>Temperature monitoring parameters</span>
-      </div>
-    `;
+      const sectionCard =
+        document.createElement(
+          "div"
+        );
 
-    const pointsBox = document.createElement("div");
-    pointsBox.className = "points";
-
-    section.points.forEach(row => {
-
-      const left = row[0];
-      const right = row[1];
-
-      let leftIndex = null;
-      let rightIndex = null;
-
-      if (left) {
-
-        index++;
-
-        leftIndex = index;
-
-        pointData.push({
-          index: index,
-          label: left,
-          side: "LH / Main"
-        });
-      }
-
-      if (right) {
-
-        index++;
-
-        rightIndex = index;
-
-        pointData.push({
-          index: index,
-          label: right,
-          side: "RH / Opposite"
-        });
-      }
+      sectionCard.className =
+        "card section";
 
 
-      /* ============================
-         SINGLE POINT
-      ============================ */
+      const title =
+        document.createElement(
+          "div"
+        );
 
-      if (left && !right) {
-
-        const rowEl = document.createElement("div");
-
-        rowEl.className = "point";
-
-        rowEl.innerHTML = `
-
-          <div class="sr">${leftIndex}</div>
-
-          <div>
-            <div class="point-name">
-              ${escapeHTML(left)}
-            </div>
-
-            <div class="side">
-              Temperature (°C)
-            </div>
-          </div>
-
-          <div class="temp-wrap">
-
-            <input
-              class="temp-input value-input"
-              data-index="${leftIndex}"
-              type="number"
-              step="0.1"
-              placeholder="°C"
-            >
-
-          </div>
-
-          <div class="datetime-wrap">
-
-            <input
-              class="datetime"
-              data-datetime="${leftIndex}"
-              type="datetime-local"
-            >
-
-          </div>
-        `;
-
-        pointsBox.appendChild(rowEl);
-
-        return;
-      }
+      title.className =
+        "section-title";
 
 
-      /* ============================
-         TWO POINTS
-      ============================ */
+      title.innerHTML = `
 
-      const rowEl = document.createElement("div");
+        <h3>
+          ${escapeHTML(section.title)}
+        </h3>
 
-      rowEl.className = "point";
+        <span>
+          Temperature monitoring parameters
+        </span>
 
-      rowEl.style.gridTemplateColumns = "1fr";
-
-      rowEl.innerHTML = `
-
-        <div style="
-          display:grid;
-          grid-template-columns:42px minmax(160px,1fr) 130px 190px;
-          gap:10px;
-          align-items:center;
-        ">
-
-          <div class="sr">
-            ${leftIndex}
-          </div>
-
-          <div>
-
-            <div class="point-name">
-              ${escapeHTML(left)}
-            </div>
-
-            <div class="side">
-              Temperature (°C)
-            </div>
-
-          </div>
-
-          <input
-            class="temp-input value-input"
-            data-index="${leftIndex}"
-            type="number"
-            step="0.1"
-            placeholder="°C"
-          >
-
-          <input
-            class="datetime"
-            data-datetime="${leftIndex}"
-            type="datetime-local"
-          >
-
-        </div>
-
-
-        <div style="
-          display:grid;
-          grid-template-columns:42px minmax(160px,1fr) 130px 190px;
-          gap:10px;
-          align-items:center;
-          margin-top:9px;
-          padding-top:9px;
-          border-top:1px solid rgba(255,255,255,.06);
-        ">
-
-          <div class="sr">
-            ${rightIndex}
-          </div>
-
-          <div>
-
-            <div class="point-name">
-              ${escapeHTML(right)}
-            </div>
-
-            <div class="side">
-              Temperature (°C)
-            </div>
-
-          </div>
-
-          <input
-            class="temp-input value-input"
-            data-index="${rightIndex}"
-            type="number"
-            step="0.1"
-            placeholder="°C"
-          >
-
-          <input
-            class="datetime"
-            data-datetime="${rightIndex}"
-            type="datetime-local"
-          >
-
-        </div>
       `;
 
-      pointsBox.appendChild(rowEl);
 
-    });
-
-    sectionCard.appendChild(pointsBox);
-
-    container.appendChild(sectionCard);
-
-  });
+      sectionCard.appendChild(
+        title
+      );
 
 
-  attachSheetListeners();
+      const pointsBox =
+        document.createElement(
+          "div"
+        );
+
+      pointsBox.className =
+        "points";
+
+
+      section.points.forEach(
+        row => {
+
+          const left =
+            row[0];
+
+          const right =
+            row[1];
+
+
+          let leftIndex =
+            null;
+
+          let rightIndex =
+            null;
+
+
+          if(left){
+
+            index++;
+
+            leftIndex =
+              index;
+
+
+            pointData.push({
+
+              index:
+                index,
+
+              label:
+                left
+
+            });
+
+          }
+
+
+          if(right){
+
+            index++;
+
+            rightIndex =
+              index;
+
+
+            pointData.push({
+
+              index:
+                index,
+
+              label:
+                right
+
+            });
+
+          }
+
+
+          /* SINGLE */
+
+          if(
+            left &&
+            !right
+          ){
+
+            const rowEl =
+              document.createElement(
+                "div"
+              );
+
+            rowEl.className =
+              "point";
+
+
+            rowEl.innerHTML = `
+
+              <div class="sr">
+                ${leftIndex}
+              </div>
+
+              <div>
+
+                <div class="point-name">
+                  ${escapeHTML(left)}
+                </div>
+
+                <div class="side">
+                  Temperature (°C)
+                </div>
+
+              </div>
+
+              <div class="temp-wrap">
+
+                <input
+                  class="temp-input value-input"
+                  data-index="${leftIndex}"
+                  type="number"
+                  step="0.1"
+                  placeholder="°C">
+
+              </div>
+
+              <div class="datetime-wrap">
+
+                <input
+                  class="datetime"
+                  data-datetime="${leftIndex}"
+                  type="datetime-local">
+
+              </div>
+
+            `;
+
+
+            pointsBox.appendChild(
+              rowEl
+            );
+
+            return;
+
+          }
+
+
+          /* TWO SIDED */
+
+          const rowEl =
+            document.createElement(
+              "div"
+            );
+
+          rowEl.className =
+            "point";
+
+          rowEl.style.gridTemplateColumns =
+            "1fr";
+
+
+          rowEl.innerHTML = `
+
+            <div style="
+              display:grid;
+              grid-template-columns:42px minmax(160px,1fr) 130px 190px;
+              gap:10px;
+              align-items:center;
+            ">
+
+              <div class="sr">
+                ${leftIndex}
+              </div>
+
+              <div>
+
+                <div class="point-name">
+                  ${escapeHTML(left)}
+                </div>
+
+                <div class="side">
+                  Temperature (°C)
+                </div>
+
+              </div>
+
+              <input
+                class="temp-input value-input"
+                data-index="${leftIndex}"
+                type="number"
+                step="0.1"
+                placeholder="°C">
+
+              <input
+                class="datetime"
+                data-datetime="${leftIndex}"
+                type="datetime-local">
+
+            </div>
+
+
+            <div style="
+              display:grid;
+              grid-template-columns:42px minmax(160px,1fr) 130px 190px;
+              gap:10px;
+              align-items:center;
+              margin-top:9px;
+              padding-top:9px;
+              border-top:1px solid rgba(255,255,255,.06);
+            ">
+
+              <div class="sr">
+                ${rightIndex}
+              </div>
+
+              <div>
+
+                <div class="point-name">
+                  ${escapeHTML(right)}
+                </div>
+
+                <div class="side">
+                  Temperature (°C)
+                </div>
+
+              </div>
+
+              <input
+                class="temp-input value-input"
+                data-index="${rightIndex}"
+                type="number"
+                step="0.1"
+                placeholder="°C">
+
+              <input
+                class="datetime"
+                data-datetime="${rightIndex}"
+                type="datetime-local">
+
+            </div>
+
+          `;
+
+
+          pointsBox.appendChild(
+            rowEl
+          );
+
+        }
+      );
+
+
+      sectionCard.appendChild(
+        pointsBox
+      );
+
+
+      container.appendChild(
+        sectionCard
+      );
+
+    }
+  );
+
+
+  attachInputListeners();
 
   updateProgress();
+
 }
 
 
 /* =========================================================
-   ATTACH SHEET LISTENERS
+   INPUT LISTENERS
 ========================================================= */
 
-function attachSheetListeners() {
+function attachInputListeners(){
 
-  document.querySelectorAll(".value-input").forEach(input => {
+  document
+    .querySelectorAll(
+      ".value-input"
+    )
+    .forEach(
+      input => {
 
-    input.addEventListener("input", () => {
+        input.addEventListener(
+          "input",
+          () => {
 
-      updateProgress();
-      scheduleSave();
+            updateProgress();
 
-    });
+            scheduleSave();
 
-  });
-
-
-  document.querySelectorAll(".datetime").forEach(input => {
-
-    input.addEventListener("input", scheduleSave);
-
-  });
-
-
-  const dateEl = document.getElementById("sheetDate");
-  const shiftEl = document.getElementById("shift");
-  const areaEl = document.getElementById("area");
-  const checkedEl = document.getElementById("checkedBy");
-  const verifiedEl = document.getElementById("verifiedBy");
-
-
-  if (dateEl) {
-
-    dateEl.addEventListener("change", async () => {
-
-      const selectedDate = dateEl.value;
-
-      clearValuesOnly();
-
-      if (selectedDate) {
-
-        await loadRecord(
-          selectedDate,
-          shiftEl.value || "A"
+          }
         );
 
       }
-
-    });
-
-  }
+    );
 
 
-  if (shiftEl) {
+  document
+    .querySelectorAll(
+      ".datetime"
+    )
+    .forEach(
+      input => {
 
-    shiftEl.addEventListener("change", async () => {
+        input.addEventListener(
+          "input",
+          scheduleSave
+        );
 
-      const selectedDate =
-        dateEl.value || today();
-
-      const selectedShift =
-        shiftEl.value || "A";
-
-      clearValuesOnly();
-
-      await loadRecord(
-        selectedDate,
-        selectedShift
-      );
-
-    });
-
-  }
+      }
+    );
 
 
-  if (areaEl) {
-    areaEl.addEventListener("input", scheduleSave);
-  }
+  document
+    .getElementById(
+      "area"
+    )
+    .addEventListener(
+      "input",
+      scheduleSave
+    );
 
-  if (checkedEl) {
-    checkedEl.addEventListener("input", scheduleSave);
-  }
 
-  if (verifiedEl) {
-    verifiedEl.addEventListener("input", scheduleSave);
-  }
+  document
+    .getElementById(
+      "checkedBy"
+    )
+    .addEventListener(
+      "input",
+      scheduleSave
+    );
+
+
+  document
+    .getElementById(
+      "verifiedBy"
+    )
+    .addEventListener(
+      "input",
+      scheduleSave
+    );
 
 }
 
@@ -1435,11 +2014,15 @@ function attachSheetListeners() {
    GET VALUES
 ========================================================= */
 
-function getValues() {
+function getValues(){
 
   const values = [];
 
-  for (let i = 1; i <= 42; i++) {
+  for(
+    let i=1;
+    i<=42;
+    i++
+  ){
 
     const el =
       document.querySelector(
@@ -1447,37 +2030,47 @@ function getValues() {
       );
 
     values.push(
-      el ? el.value.trim() : ""
+      el
+        ? el.value.trim()
+        : ""
     );
 
   }
 
   return values;
+
 }
 
 
 /* =========================================================
-   GET DATE/TIME
+   GET DATETIMES
 ========================================================= */
 
-function getDateTimes() {
+function getDateTimes(){
 
-  const dateTimes = [];
+  const result = [];
 
-  for (let i = 1; i <= 42; i++) {
+  for(
+    let i=1;
+    i<=42;
+    i++
+  ){
 
     const el =
       document.querySelector(
         `.datetime[data-datetime="${i}"]`
       );
 
-    dateTimes.push(
-      el ? el.value : ""
+    result.push(
+      el
+        ? el.value
+        : ""
     );
 
   }
 
-  return dateTimes;
+  return result;
+
 }
 
 
@@ -1485,122 +2078,70 @@ function getDateTimes() {
    PROGRESS
 ========================================================= */
 
-function updateProgress() {
+function updateProgress(){
 
-  const values = getValues();
+  const values =
+    getValues();
+
 
   const filled =
     values.filter(
-      v => String(v).trim() !== ""
+      value =>
+        value !== ""
     ).length;
 
+
   const percent =
-    Math.round((filled / 42) * 100);
-
-  const progressText =
-    document.getElementById("progressText");
-
-  const progressBar =
-    document.getElementById("progressBar");
-
-  const status =
-    document.getElementById("sheetStatus");
+    Math.round(
+      (filled / 42) * 100
+    );
 
 
-  if (progressText) {
-
-    progressText.textContent =
+  document
+    .getElementById(
+      "progressText"
+    )
+    .textContent =
       `${filled} / 42 filled`;
 
-  }
 
-
-  if (progressBar) {
-
-    progressBar.style.width =
+  document
+    .getElementById(
+      "progressBar"
+    )
+    .style.width =
       `${percent}%`;
 
-  }
+
+  const status =
+    document.getElementById(
+      "sheetStatus"
+    );
 
 
-  if (status) {
+  if(
+    filled === 42
+  ){
 
-    if (filled === 42) {
+    status.textContent =
+      "● COMPLETE";
 
-      status.textContent =
-        "● COMPLETE";
-
-      status.classList.add("complete");
-
-    } else {
-
-      status.textContent =
-        "● IN PROGRESS";
-
-      status.classList.remove("complete");
-
-    }
+    status.classList.add(
+      "complete"
+    );
 
   }
+  else{
 
-}
+    status.textContent =
+      "● IN PROGRESS";
 
+    status.classList.remove(
+      "complete"
+    );
 
-/* =========================================================
-   CLEAR VALUES ONLY
-========================================================= */
+  }
 
-function clearValuesOnly() {
-
-  document
-    .querySelectorAll(".value-input")
-    .forEach(el => el.value = "");
-
-  document
-    .querySelectorAll(".datetime")
-    .forEach(el => el.value = "");
-
-  document.getElementById("checkedBy").value = "";
-  document.getElementById("verifiedBy").value = "";
-
-  currentRecordId = null;
-
-  updateProgress();
-
-  updateSaveStatus("ready");
-}
-
-
-/* =========================================================
-   BLANK SHEET
-========================================================= */
-
-function blankSheet() {
-
-  document.getElementById("sheetDate").value = today();
-
-  document.getElementById("shift").value = "A";
-
-  document.getElementById("area").value =
-    "MIXER-4 / TSS UNIT";
-
-  document.getElementById("checkedBy").value = "";
-
-  document.getElementById("verifiedBy").value = "";
-
-  document
-    .querySelectorAll(".value-input")
-    .forEach(el => el.value = "");
-
-  document
-    .querySelectorAll(".datetime")
-    .forEach(el => el.value = "");
-
-  currentRecordId = null;
-
-  updateProgress();
-
-  updateSaveStatus("ready");
 }
 
 
@@ -1608,30 +2149,23 @@ function blankSheet() {
    RECORD ID
 ========================================================= */
 
-function getRecordId(date, shift) {
+function getRecordId(){
+
+  const date =
+    document.getElementById(
+      "sheetDate"
+    ).value ||
+    today();
+
+
+  const shift =
+    document.getElementById(
+      "shift"
+    ).value ||
+    "A";
+
 
   return `${date}_${shift}`;
-
-}
-
-
-/* =========================================================
-   AUTO SAVE
-========================================================= */
-
-function scheduleSave() {
-
-  if (!auth.currentUser) return;
-
-  updateSaveStatus("saving");
-
-  clearTimeout(saveTimer);
-
-  saveTimer = setTimeout(() => {
-
-    saveSheet(false);
-
-  }, 700);
 
 }
 
@@ -1640,15 +2174,17 @@ function scheduleSave() {
    SAVE STATUS
 ========================================================= */
 
-function updateSaveStatus(type) {
+function updateSaveStatus(type){
 
   const el =
-    document.getElementById("saveDot");
+    document.getElementById(
+      "saveDot"
+    );
 
-  if (!el) return;
 
-
-  if (type === "saving") {
+  if(
+    type === "saving"
+  ){
 
     el.textContent =
       "☁️ Saving...";
@@ -1659,7 +2195,9 @@ function updateSaveStatus(type) {
   }
 
 
-  if (type === "saved") {
+  if(
+    type === "saved"
+  ){
 
     el.textContent =
       "☁️ Cloud Saved";
@@ -1670,7 +2208,9 @@ function updateSaveStatus(type) {
   }
 
 
-  if (type === "ready") {
+  if(
+    type === "ready"
+  ){
 
     el.textContent =
       "☁️ Ready";
@@ -1684,75 +2224,143 @@ function updateSaveStatus(type) {
 
 
 /* =========================================================
-   SAVE TO FIRESTORE
+   AUTO SAVE
 ========================================================= */
 
-async function saveSheet(showToast = true) {
+function scheduleSave(){
 
-  if (!auth.currentUser) {
+  if(
+    !auth.currentUser
+  ){
 
     return;
 
   }
 
 
-  try {
+  updateSaveStatus(
+    "saving"
+  );
+
+
+  clearTimeout(
+    saveTimer
+  );
+
+
+  saveTimer =
+    setTimeout(
+      () => {
+
+        saveSheet(false);
+
+      },
+      800
+    );
+
+}
+
+
+/* =========================================================
+   SAVE FIRESTORE
+========================================================= */
+
+async function saveSheet(
+  showToast = true
+){
+
+  if(
+    !auth.currentUser
+  ){
+
+    return;
+
+  }
+
+
+  try{
 
     const date =
-      document.getElementById("sheetDate").value ||
+      document.getElementById(
+        "sheetDate"
+      ).value ||
       today();
 
+
     const shift =
-      document.getElementById("shift").value ||
+      document.getElementById(
+        "shift"
+      ).value ||
       "A";
+
 
     const values =
       getValues();
 
+
     const dateTimes =
       getDateTimes();
 
+
     const filled =
       values.filter(
-        v => String(v).trim() !== ""
+        v =>
+          v !== ""
       ).length;
 
-    const id =
-      getRecordId(date, shift);
 
-    currentRecordId = id;
+    const id =
+      `${date}_${shift}`;
+
+
+    currentRecordId =
+      id;
 
 
     await setDoc(
+
       doc(
         db,
         "mixer4_tss_records",
         id
       ),
+
       {
 
-        date: date,
+        date:
+          date,
 
-        shift: shift,
+        shift:
+          shift,
 
         area:
-          document.getElementById("area").value ||
+          document.getElementById(
+            "area"
+          ).value ||
           "MIXER-4 / TSS UNIT",
 
-        values: values,
+        values:
+          values,
 
-        dateTimes: dateTimes,
+        dateTimes:
+          dateTimes,
 
-        total: 42,
+        total:
+          42,
 
-        filled: filled,
+        filled:
+          filled,
 
         checkedBy:
-          document.getElementById("checkedBy").value ||
+          document.getElementById(
+            "checkedBy"
+          ).value ||
           "",
 
         verifiedBy:
-          document.getElementById("verifiedBy").value ||
+          document.getElementById(
+            "verifiedBy"
+          ).value ||
           "",
 
         updatedBy:
@@ -1763,16 +2371,20 @@ async function saveSheet(showToast = true) {
           serverTimestamp()
 
       },
+
       {
-        merge: true
+        merge:true
       }
+
     );
 
 
-    updateSaveStatus("saved");
+    updateSaveStatus(
+      "saved"
+    );
 
 
-    if (showToast) {
+    if(showToast){
 
       showToastMessage(
         "☁️ Check sheet saved to cloud"
@@ -1781,17 +2393,20 @@ async function saveSheet(showToast = true) {
     }
 
   }
-  catch (error) {
+  catch(error){
 
     console.error(
       "Firestore save error:",
       error
     );
 
-    updateSaveStatus("ready");
+
+    updateSaveStatus(
+      "ready"
+    );
+
 
     showToastMessage(
-      "Save error: " +
       friendlyError(error),
       true
     );
@@ -1802,19 +2417,28 @@ async function saveSheet(showToast = true) {
 
 
 /* =========================================================
-   LOAD ONE RECORD
-   DIRECT DOCUMENT READ
+   LOAD RECORD
 ========================================================= */
 
-async function loadRecord(date, shift) {
+async function loadRecord(
+  date,
+  shift
+){
 
-  if (!auth.currentUser) return;
+  if(
+    !auth.currentUser
+  ){
+
+    return;
+
+  }
 
 
-  try {
+  try{
 
     const id =
-      getRecordId(date, shift);
+      `${date}_${shift}`;
+
 
     const recordRef =
       doc(
@@ -1823,36 +2447,52 @@ async function loadRecord(date, shift) {
         id
       );
 
-    const snap =
-      await getDoc(recordRef);
+
+    const snapshot =
+      await getDoc(
+        recordRef
+      );
 
 
-    if (snap.exists()) {
+    if(
+      snapshot.exists()
+    ){
 
       applyRecord({
-        id: snap.id,
-        ...snap.data()
+
+        id:
+          snapshot.id,
+
+        ...snapshot.data()
+
       });
 
-    } else {
+    }
+    else{
 
-      currentRecordId = null;
+      currentRecordId =
+        null;
 
       updateProgress();
 
-      updateSaveStatus("ready");
+      updateSaveStatus(
+        "ready"
+      );
 
     }
 
   }
-  catch (error) {
+  catch(error){
 
-    console.warn(
-      "Record load error:",
+    console.error(
+      "Load record error:",
       error
     );
 
-    updateSaveStatus("ready");
+    showToastMessage(
+      friendlyError(error),
+      true
+    );
 
   }
 
@@ -1863,30 +2503,42 @@ async function loadRecord(date, shift) {
    APPLY RECORD
 ========================================================= */
 
-function applyRecord(record) {
+function applyRecord(
+  record
+){
 
   const values =
-    Array.isArray(record.values)
+    Array.isArray(
+      record.values
+    )
       ? record.values
       : [];
 
+
   const dateTimes =
-    Array.isArray(record.dateTimes)
+    Array.isArray(
+      record.dateTimes
+    )
       ? record.dateTimes
       : [];
 
 
-  for (let i = 1; i <= 42; i++) {
+  for(
+    let i=1;
+    i<=42;
+    i++
+  ){
 
     const valueEl =
       document.querySelector(
         `.value-input[data-index="${i}"]`
       );
 
-    if (valueEl) {
+
+    if(valueEl){
 
       valueEl.value =
-        values[i - 1] ?? "";
+        values[i-1] ?? "";
 
     }
 
@@ -1896,35 +2548,48 @@ function applyRecord(record) {
         `.datetime[data-datetime="${i}"]`
       );
 
-    if (timeEl) {
+
+    if(timeEl){
 
       timeEl.value =
-        dateTimes[i - 1] ?? "";
+        dateTimes[i-1] ?? "";
 
     }
 
   }
 
 
-  if (record.area !== undefined) {
+  if(
+    record.area !== undefined
+  ){
 
-    document.getElementById("area").value =
+    document.getElementById(
+      "area"
+    ).value =
       record.area;
 
   }
 
 
-  if (record.checkedBy !== undefined) {
+  if(
+    record.checkedBy !== undefined
+  ){
 
-    document.getElementById("checkedBy").value =
+    document.getElementById(
+      "checkedBy"
+    ).value =
       record.checkedBy;
 
   }
 
 
-  if (record.verifiedBy !== undefined) {
+  if(
+    record.verifiedBy !== undefined
+  ){
 
-    document.getElementById("verifiedBy").value =
+    document.getElementById(
+      "verifiedBy"
+    ).value =
       record.verifiedBy;
 
   }
@@ -1936,7 +2601,89 @@ function applyRecord(record) {
 
   updateProgress();
 
-  updateSaveStatus("saved");
+  updateSaveStatus(
+    "saved"
+  );
+
+}
+
+
+/* =========================================================
+   CLEAR SHEET VALUES
+========================================================= */
+
+function clearValues(){
+
+  document
+    .querySelectorAll(
+      ".value-input"
+    )
+    .forEach(
+      el => {
+        el.value = "";
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      ".datetime"
+    )
+    .forEach(
+      el => {
+        el.value = "";
+      }
+    );
+
+
+  document.getElementById(
+    "checkedBy"
+  ).value = "";
+
+
+  document.getElementById(
+    "verifiedBy"
+  ).value = "";
+
+
+  currentRecordId =
+    null;
+
+
+  updateProgress();
+
+  updateSaveStatus(
+    "ready"
+  );
+
+}
+
+
+/* =========================================================
+   NEW BLANK SHEET
+========================================================= */
+
+function blankSheet(){
+
+  document.getElementById(
+    "sheetDate"
+  ).value =
+    today();
+
+
+  document.getElementById(
+    "shift"
+  ).value =
+    "A";
+
+
+  document.getElementById(
+    "area"
+  ).value =
+    "MIXER-4 / TSS UNIT";
+
+
+  clearValues();
 
 }
 
@@ -1945,10 +2692,13 @@ function applyRecord(record) {
    HISTORY
 ========================================================= */
 
-async function loadHistory() {
+async function loadHistory(){
 
   const list =
-    document.getElementById("historyList");
+    document.getElementById(
+      "historyList"
+    );
+
 
   list.innerHTML =
     `<div class="loading">
@@ -1956,54 +2706,66 @@ async function loadHistory() {
     </div>`;
 
 
-  try {
+  try{
 
     let snapshots;
 
 
-    /* First try newest first */
-
-    try {
+    try{
 
       snapshots =
         await getDocs(
+
           query(
+
             collection(
               db,
               "mixer4_tss_records"
             ),
+
             orderBy(
               "updatedAt",
               "desc"
             )
+
           )
+
         );
 
     }
-    catch (orderError) {
+    catch(error){
 
       console.warn(
-        "History orderBy failed. Using fallback.",
-        orderError
+        "Using history fallback:",
+        error
       );
+
 
       snapshots =
         await getDocs(
+
           collection(
             db,
             "mixer4_tss_records"
           )
+
         );
 
     }
 
 
-    if (snapshots.empty) {
+    if(
+      snapshots.empty
+    ){
 
       list.innerHTML = `
+
         <div class="card empty">
+
           📭 No check sheet history found.
+
         </div>
+
       `;
 
       return;
@@ -2014,63 +2776,1399 @@ async function loadHistory() {
     list.innerHTML = "";
 
 
-    snapshots.forEach(snap => {
+    snapshots.forEach(
+      snapshot => {
 
-      const data =
-        snap.data();
+        const data =
+          snapshot.data();
 
-      const values =
-        Array.isArray(data.values)
-          ? data.values
-          : [];
 
-      const dateTimes =
-        Array.isArray(data.dateTimes)
-          ? data.dateTimes
-          : [];
+        const values =
+          Array.isArray(
+            data.values
+          )
+            ? data.values
+            : [];
 
+
+        const dateTimes =
+          Array.isArray(
+            data.dateTimes
+          )
+            ? data.dateTimes
+            : [];
+
+
+        const date =
+          data.date ||
+          snapshot.id.split("_")[0] ||
+          "-";
+
+
+        const shift =
+          data.shift ||
+          snapshot.id.split("_")[1] ||
+          "-";
+
+
+        const filled =
+          data.filled ??
+          values.filter(
+            value =>
+              value !== undefined &&
+              value !== null &&
+              String(value).trim() !== ""
+          ).length;
+
+
+        const user =
+          data.updatedBy ||
+          data.checkedBy ||
+          "Unknown";
+
+
+        let valueHTML =
+          "";
+
+
+        /* ONLY FILLED VALUES */
+
+        for(
+          let i=0;
+          i<42;
+          i++
+        ){
+
+          const value =
+            values[i];
+
+
+          if(
+            value === undefined ||
+            value === null ||
+            String(value).trim() === ""
+          ){
+
+            continue;
+
+          }
+
+
+          const label =
+            pointData[i]
+              ? pointData[i].label
+              : `Parameter ${i+1}`;
+
+
+          const timeHTML =
+            dateTimes[i]
+              ? `
+                <div style="
+                  color:#647890;
+                  font-size:10px;
+                  margin-top:3px;
+                ">
+                  ${escapeHTML(
+                    formatDateTime(
+                      dateTimes[i]
+                    )
+                  )}
+                </div>
+              `
+              : "";
+
+
+          valueHTML += `
+
+            <div class="value-row">
+
+              <div class="value-label">
+
+                ${i+1}.
+                ${escapeHTML(label)}
+
+              </div>
+
+              <div class="value-value">
+
+                ${escapeHTML(
+                  String(value)
+                )} °C
+
+              </div>
+
+              ${timeHTML}
+
+            </div>
+
+          `;
+
+        }
+
+
+        if(
+          !valueHTML
+        ){
+
+          valueHTML = `
+
+            <div class="value-row">
+
+              <div class="value-label">
+                Values
+              </div>
+
+              <div class="value-value">
+                No values filled
+              </div>
+
+            </div>
+
+          `;
+
+        }
+
+
+        const item =
+          document.createElement(
+            "div"
+          );
+
+
+        item.className =
+          "card history-item";
+
+
+        item.innerHTML = `
+
+          <div class="history-main">
+
+            <div>
+
+              <div class="history-date">
+
+                📅
+                ${escapeHTML(
+                  date
+                )}
+
+              </div>
+
+
+              <div class="history-meta">
+
+                <span>
+                  Shift
+                  ${escapeHTML(
+                    String(shift)
+                  )}
+                </span>
+
+                <span>•</span>
+
+                <span>
+                  ${filled}/42 filled
+                </span>
+
+                <span>•</span>
+
+                <span>
+                  ${escapeHTML(
+                    String(user)
+                  )}
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="badge">
+
+              ${
+                filled === 42
+                  ? "COMPLETE"
+                  : "PARTIAL"
+              }
+
+            </div>
+
+          </div>
+
+
+          ${
+            data.checkedBy ||
+            data.verifiedBy
+              ? `
+
+                <div
+                  class="history-meta"
+                  style="margin-top:12px"
+                >
+
+                  ${
+                    data.checkedBy
+                      ? `
+                        Checked:
+                        ${escapeHTML(
+                          data.checkedBy
+                        )}
+                      `
+                      : ""
+                  }
+
+                  ${
+                    data.verifiedBy
+                      ? `
+                        • Verified:
+                        ${escapeHTML(
+                          data.verifiedBy
+                        )}
+                      `
+                      : ""
+                  }
+
+                </div>
+
+              `
+              : ""
+          }
+
+
+          <div class="history-values">
+
+            ${valueHTML}
+
+          </div>
+
+        `;
+
+
+        list.appendChild(
+          item
+        );
+
+      }
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "History error:",
+      error
+    );
+
+
+    list.innerHTML = `
+
+      <div class="card empty">
+
+        ❌ Unable to load history.
+
+        <br><br>
+
+        <small>
+          ${escapeHTML(
+            friendlyError(error)
+          )}
+        </small>
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* =========================================================
+   AUTH MESSAGE
+========================================================= */
+
+function showAuthMessage(
+  message,
+  isError = false
+){
+
+  const el =
+    document.getElementById(
+      "authMessage"
+    );
+
+
+  el.textContent =
+    message;
+
+
+  el.className =
+    "message show " +
+    (
+      isError
+        ? "error"
+        : "success"
+    );
+
+}
+
+
+function clearAuthMessage(){
+
+  const el =
+    document.getElementById(
+      "authMessage"
+    );
+
+
+  el.textContent =
+    "";
+
+
+  el.className =
+    "message";
+
+}
+
+
+/* =========================================================
+   AUTH MODE
+========================================================= */
+
+function setAuthMode(
+  mode
+){
+
+  const loginTab =
+    document.getElementById(
+      "loginTab"
+    );
+
+
+  const signupTab =
+    document.getElementById(
+      "signupTab"
+    );
+
+
+  const loginBtn =
+    document.getElementById(
+      "loginBtn"
+    );
+
+
+  const signupBtn =
+    document.getElementById(
+      "signupBtn"
+    );
+
+
+  if(
+    mode === "login"
+  ){
+
+    loginTab.classList.add(
+      "active"
+    );
+
+    signupTab.classList.remove(
+      "active"
+    );
+
+
+    loginBtn.classList.remove(
+      "hidden"
+    );
+
+    signupBtn.classList.add(
+      "hidden"
+    );
+
+  }
+  else{
+
+    signupTab.classList.add(
+      "active"
+    );
+
+    loginTab.classList.remove(
+      "active"
+    );
+
+
+    signupBtn.classList.remove(
+      "hidden"
+    );
+
+    loginBtn.classList.add(
+      "hidden"
+    );
+
+  }
+
+
+  clearAuthMessage();
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+async function loginUser(){
+
+  const email =
+    document.getElementById(
+      "email"
+    ).value.trim();
+
+
+  const password =
+    document.getElementById(
+      "password"
+    ).value;
+
+
+  if(
+    !email ||
+    !password
+  ){
+
+    showAuthMessage(
+      "Please enter email and password.",
+      true
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    showAuthMessage(
+      "🔄 Logging in..."
+    );
+
+
+    await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+
+    showAuthMessage(
+      "✅ Login successful."
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "LOGIN ERROR:",
+      error
+    );
+
+
+    showAuthMessage(
+      friendlyError(error),
+      true
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   CREATE ID
+========================================================= */
+
+async function signupUser(){
+
+  const email =
+    document.getElementById(
+      "email"
+    ).value.trim();
+
+
+  const password =
+    document.getElementById(
+      "password"
+    ).value;
+
+
+  if(
+    !email ||
+    !password
+  ){
+
+    showAuthMessage(
+      "Please enter email and password.",
+      true
+    );
+
+    return;
+
+  }
+
+
+  if(
+    password.length < 6
+  ){
+
+    showAuthMessage(
+      "Password must be at least 6 characters.",
+      true
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    showAuthMessage(
+      "🔄 Creating your ID..."
+    );
+
+
+    await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+
+    showAuthMessage(
+      "✅ Account created successfully."
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "SIGNUP ERROR:",
+      error
+    );
+
+
+    showAuthMessage(
+      friendlyError(error),
+      true
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   EXPOSE AUTH FUNCTIONS
+========================================================= */
+
+window.loginUser =
+  loginUser;
+
+window.signupUser =
+  signupUser;
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+onAuthStateChanged(
+  auth,
+  async user => {
+
+    console.log(
+      "AUTH STATE:",
+      user
+        ? user.email
+        : "SIGNED OUT"
+    );
+
+
+    if(user){
+
+      document
+        .getElementById(
+          "authView"
+        )
+        .classList.add(
+          "hidden"
+        );
+
+
+      document
+        .getElementById(
+          "appView"
+        )
+        .classList.remove(
+          "hidden"
+        );
+
+
+      const pill =
+        document.getElementById(
+          "userPill"
+        );
+
+
+      pill.textContent =
+        "👤 " +
+        (
+          user.email ||
+          user.uid
+        );
+
+
+      pill.classList.remove(
+        "hidden"
+      );
+
+
+      buildPoints();
+
+      blankSheet();
+
+
+      await loadRecord(
+        today(),
+        "A"
+      );
+
+    }
+    else{
+
+      document
+        .getElementById(
+          "authView"
+        )
+        .classList.remove(
+          "hidden"
+        );
+
+
+      document
+        .getElementById(
+          "appView"
+        )
+        .classList.add(
+          "hidden"
+        );
+
+
+      document
+        .getElementById(
+          "userPill"
+        )
+        .classList.add(
+          "hidden"
+        );
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   LOGIN TAB
+========================================================= */
+
+document
+  .getElementById(
+    "loginTab"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      setAuthMode(
+        "login"
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   SIGNUP TAB
+========================================================= */
+
+document
+  .getElementById(
+    "signupTab"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      setAuthMode(
+        "signup"
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+document
+  .getElementById(
+    "loginBtn"
+  )
+  .addEventListener(
+    "click",
+    loginUser
+  );
+
+
+/* =========================================================
+   SIGNUP BUTTON
+========================================================= */
+
+document
+  .getElementById(
+    "signupBtn"
+  )
+  .addEventListener(
+    "click",
+    signupUser
+  );
+
+
+/* =========================================================
+   ENTER KEY
+========================================================= */
+
+document
+  .getElementById(
+    "password"
+  )
+  .addEventListener(
+    "keydown",
+    event => {
+
+      if(
+        event.key === "Enter"
+      ){
+
+        const signupBtn =
+          document.getElementById(
+            "signupBtn"
+          );
+
+
+        if(
+          signupBtn.classList.contains(
+            "hidden"
+          )
+        ){
+
+          loginUser();
+
+        }
+        else{
+
+          signupUser();
+
+        }
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+document
+  .getElementById(
+    "logoutBtn"
+  )
+  .addEventListener(
+    "click",
+    async () => {
+
+      try{
+
+        await signOut(
+          auth
+        );
+
+      }
+      catch(error){
+
+        showToastMessage(
+          friendlyError(error),
+          true
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   NEW SHEET BUTTON
+========================================================= */
+
+document
+  .getElementById(
+    "newBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      document
+        .getElementById(
+          "sheetView"
+        )
+        .classList.remove(
+          "hidden"
+        );
+
+
+      document
+        .getElementById(
+          "historyView"
+        )
+        .classList.add(
+          "hidden"
+        );
+
+
+      document
+        .getElementById(
+          "newBtn"
+        )
+        .classList.add(
+          "active"
+        );
+
+
+      document
+        .getElementById(
+          "historyBtn"
+        )
+        .classList.remove(
+          "active"
+        );
+
+    }
+  );
+
+
+/* =========================================================
+   HISTORY BUTTON
+========================================================= */
+
+document
+  .getElementById(
+    "historyBtn"
+  )
+  .addEventListener(
+    "click",
+    async () => {
+
+      document
+        .getElementById(
+          "sheetView"
+        )
+        .classList.add(
+          "hidden"
+        );
+
+
+      document
+        .getElementById(
+          "historyView"
+        )
+        .classList.remove(
+          "hidden"
+        );
+
+
+      document
+        .getElementById(
+          "newBtn"
+        )
+        .classList.remove(
+          "active"
+        );
+
+
+      document
+        .getElementById(
+          "historyBtn"
+        )
+        .classList.add(
+          "active"
+        );
+
+
+      await loadHistory();
+
+    }
+  );
+
+
+/* =========================================================
+   REFRESH HISTORY
+========================================================= */
+
+document
+  .getElementById(
+    "refreshHistory"
+  )
+  .addEventListener(
+    "click",
+    loadHistory
+  );
+
+
+/* =========================================================
+   DATE CHANGE
+========================================================= */
+
+document
+  .getElementById(
+    "sheetDate"
+  )
+  .addEventListener(
+    "change",
+    async () => {
 
       const date =
-        data.date ||
-        snap.id.split("_")[0] ||
-        "-";
+        document.getElementById(
+          "sheetDate"
+        ).value ||
+        today();
 
 
       const shift =
-        data.shift ||
-        snap.id.split("_")[1] ||
-        "-";
+        document.getElementById(
+          "shift"
+        ).value ||
+        "A";
+
+
+      clearValues();
+
+
+      await loadRecord(
+        date,
+        shift
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   SHIFT CHANGE
+========================================================= */
+
+document
+  .getElementById(
+    "shift"
+  )
+  .addEventListener(
+    "change",
+    async () => {
+
+      const date =
+        document.getElementById(
+          "sheetDate"
+        ).value ||
+        today();
+
+
+      const shift =
+        document.getElementById(
+          "shift"
+        ).value ||
+        "A";
+
+
+      clearValues();
+
+
+      await loadRecord(
+        date,
+        shift
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   COMPLETE BUTTON
+========================================================= */
+
+document
+  .getElementById(
+    "finishBtn"
+  )
+  .addEventListener(
+    "click",
+    async () => {
+
+      const values =
+        getValues();
 
 
       const filled =
-        data.filled ??
         values.filter(
-          v =>
-            v !== undefined &&
-            v !== null &&
-            String(v).trim() !== ""
+          value =>
+            value !== ""
         ).length;
 
 
-      const user =
-        data.updatedBy ||
-        data.checkedBy ||
-        "Unknown";
+      if(
+        filled < 42
+      ){
+
+        const ok =
+          confirm(
+            `Only ${filled}/42 values are filled.\n\nDo you still want to complete this sheet?`
+          );
 
 
-      /* ============================================
-         ONLY FILLED VALUES
-      ============================================ */
+        if(!ok){
 
-      let valueHTML = "";
+          return;
 
+        }
 
-      for (let i = 0; i < 42; i++) {
-
-        const value =
-          values[i];
+      }
 
 
-        if (
-          value === undefined ||
-          value ==
+      await saveSheet(
+        false
+      );
+
+
+      const status =
+        document.getElementById(
+          "sheetStatus"
+        );
+
+
+      status.textContent =
+        "● COMPLETE";
+
+
+      status.classList.add(
+        "complete"
+      );
+
+
+      showToastMessage(
+        `✅ Check sheet completed — ${filled}/42 values saved`
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+document
+  .getElementById(
+    "printBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      const values =
+        getValues();
+
+
+      if(
+        values.every(
+          value =>
+            value === ""
+        )
+      ){
+
+        showToastMessage(
+          "Please fill at least one value first.",
+          true
+        );
+
+        return;
+
+      }
+
+
+      window.print();
+
+    }
+  );
+
+
+/* =========================================================
+   CLEAR BUTTON
+========================================================= */
+
+document
+  .getElementById(
+    "clearBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      const ok =
+        confirm(
+          "Create a new blank check sheet?"
+        );
+
+
+      if(ok){
+
+        blankSheet();
+
+
+        showToastMessage(
+          "📝 New blank sheet ready"
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   FIREBASE ERROR MESSAGES
+========================================================= */
+
+function friendlyError(
+  error
+){
+
+  const code =
+    error?.code || "";
+
+
+  const map = {
+
+    "auth/invalid-email":
+      "Invalid email address.",
+
+    "auth/user-not-found":
+      "User not found. Please create an account first.",
+
+    "auth/wrong-password":
+      "Incorrect password.",
+
+    "auth/invalid-credential":
+      "Email or password is incorrect.",
+
+    "auth/email-already-in-use":
+      "This email is already registered. Please login.",
+
+    "auth/weak-password":
+      "Password must be at least 6 characters.",
+
+    "auth/api-key-not-valid":
+      "Firebase API key is not valid.",
+
+    "auth/network-request-failed":
+      "Network error. Check your internet connection.",
+
+    "auth/operation-not-allowed":
+      "Email/Password Authentication is disabled in Firebase.",
+
+    "auth/too-many-requests":
+      "Too many attempts. Please wait and try again.",
+
+    "permission-denied":
+      "Firestore permission denied. Check Firebase Firestore Rules.",
+
+    "unavailable":
+      "Firebase service is temporarily unavailable."
+
+  };
+
+
+  return (
+    map[code] ||
+    error?.message ||
+    "Something went wrong."
+  );
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(
+  value
+){
+
+  return String(value)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+/* =========================================================
+   FORMAT DATE TIME
+========================================================= */
+
+function formatDateTime(
+  value
+){
+
+  if(!value){
+
+    return "";
+
+  }
+
+
+  try{
+
+    const d =
+      new Date(value);
+
+
+    if(
+      Number.isNaN(
+        d.getTime()
+      )
+    ){
+
+      return value;
+
+    }
+
+
+    return d.toLocaleString();
+
+  }
+  catch{
+
+    return value;
+
+  }
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToastMessage(
+  message,
+  error = false
+){
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+
+  toast.textContent =
+    message;
+
+
+  toast.style.borderColor =
+    error
+
+      ? "rgba(255,90,110,.35)"
+
+      : "rgba(41,229,138,.25)";
+
+
+  toast.classList.add(
+    "show"
+  );
+
+
+  setTimeout(
+    () => {
+
+      toast.classList.remove(
+        "show"
+      );
+
+    },
+    3000
+  );
+
+}
+
+
+/* =========================================================
+   INITIAL
+========================================================= */
+
+document
+  .getElementById(
+    "sheetDate"
+  )
+  .value =
+    today();
+
+
+setAuthMode(
+  "login"
+);
+
+
+console.log(
+  "MIXER-4 TSS APP READY"
+);
+
+</script>
+
+</body>
+</html>
