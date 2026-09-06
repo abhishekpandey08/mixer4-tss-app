@@ -1,352 +1,1438 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MIXER-4 TSS Daily Check Sheet</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>MIXER-4 TSS | Digital Check Sheet</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
+
+:root{
+  --blue:#2563eb;
+  --blue2:#1d4ed8;
+  --purple:#7c3aed;
+  --cyan:#06b6d4;
+  --green:#16a34a;
+  --orange:#f59e0b;
+  --red:#dc2626;
+  --dark:#0f172a;
+  --text:#172033;
+  --muted:#64748b;
+  --border:#dbe4f0;
+  --white:#fff;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
 body{
   margin:0;
-  font-family:Arial,sans-serif;
-  background:linear-gradient(135deg,#081b33,#123d66,#0d6b6b);
-  color:#fff;
   min-height:100vh;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+
+  color:var(--text);
+
+  background:
+    radial-gradient(circle at 10% 10%,#dbeafe 0,transparent 30%),
+    radial-gradient(circle at 90% 20%,#ede9fe 0,transparent 30%),
+    radial-gradient(circle at 50% 100%,#cffafe 0,transparent 35%),
+    #f8fafc;
 }
-.container{
-  width:100%;
-  max-width:900px;
+
+/* ANIMATION */
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:translateY(18px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes slideDown{
+  from{
+    opacity:0;
+    transform:translateY(-20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes pulse{
+  0%,100%{
+    transform:scale(1);
+  }
+  50%{
+    transform:scale(1.04);
+  }
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+@keyframes glow{
+  0%,100%{
+    box-shadow:0 0 0 rgba(37,99,235,0);
+  }
+  50%{
+    box-shadow:0 0 25px rgba(37,99,235,.25);
+  }
+}
+
+.animate{
+  animation:fadeIn .5s ease both;
+}
+
+/* HEADER */
+
+header{
+  position:relative;
+  overflow:hidden;
+
+  color:white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1d4ed8,
+      #7c3aed 55%,
+      #0891b2
+    );
+
+  box-shadow:0 8px 30px rgba(30,41,59,.25);
+}
+
+header:before,
+header:after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  background:rgba(255,255,255,.10);
+}
+
+header:before{
+  width:180px;
+  height:180px;
+  right:-60px;
+  top:-80px;
+}
+
+header:after{
+  width:120px;
+  height:120px;
+  left:-50px;
+  bottom:-60px;
+}
+
+.header-inner{
+  position:relative;
+  z-index:2;
+  max-width:1000px;
   margin:auto;
-  padding:15px;
+  padding:22px 16px;
 }
+
+.header-title{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo{
+  width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:14px;
+
+  background:rgba(255,255,255,.18);
+  backdrop-filter:blur(10px);
+
+  font-size:25px;
+
+  animation:pulse 3s infinite;
+}
+
+header h1{
+  margin:0;
+  font-size:22px;
+}
+
+header small{
+  display:block;
+  margin-top:3px;
+  opacity:.9;
+}
+
+/* LAYOUT */
+
+.wrap{
+  width:100%;
+  max-width:1000px;
+  margin:auto;
+  padding:16px;
+}
+
+/* CARD */
+
 .card{
-  background:rgba(255,255,255,.96);
-  color:#17202a;
-  border-radius:18px;
-  padding:18px;
-  margin:12px 0;
-  box-shadow:0 10px 30px rgba(0,0,0,.25);
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(12px);
+
+  border:1px solid rgba(255,255,255,.8);
+
+  border-radius:22px;
+
+  padding:20px;
+
+  margin:15px 0;
+
+  box-shadow:
+    0 12px 35px rgba(15,23,42,.10);
+
+  animation:fadeIn .5s ease both;
 }
-h1{
+
+.hidden{
+  display:none!important;
+}
+
+/* AUTH */
+
+#auth{
+  max-width:560px;
+  margin:40px auto;
+  animation:fadeIn .6s ease;
+}
+
+.auth-logo{
+  width:80px;
+  height:80px;
+
+  margin:0 auto 12px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:24px;
+
+  color:white;
+  font-size:36px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--blue),
+      var(--purple),
+      var(--cyan)
+    );
+
+  box-shadow:0 10px 30px rgba(37,99,235,.25);
+
+  animation:glow 3s infinite;
+}
+
+.auth-title{
   text-align:center;
-  margin:8px 0 4px;
+  margin:5px 0;
   font-size:25px;
 }
-.subtitle{
-  text-align:center;
-  opacity:.85;
-  margin-bottom:15px;
-}
-.hidden{display:none!important}
 
-input,select,button{
-  width:100%;
-  padding:13px;
-  border-radius:10px;
-  border:1px solid #ccc;
-  font-size:16px;
-  margin:6px 0;
+.auth-sub{
+  text-align:center;
+  color:var(--muted);
+  margin-bottom:22px;
 }
-button{
-  border:0;
-  background:#087f8c;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
-button:active{transform:scale(.98)}
-.btn-green{background:#159447}
-.btn-blue{background:#1769aa}
-.btn-red{background:#c62828}
-.btn-orange{background:#ef8b00}
-.btn-gray{background:#555}
-.small-btn{
-  width:auto;
-  padding:9px 12px;
-  font-size:14px;
-}
+
+/* TABS */
+
 .tabs{
   display:flex;
-  gap:7px;
-}
-.tabs button{flex:1}
-.tab-active{background:#123d66}
-
-.status{
-  padding:10px;
-  border-radius:10px;
-  background:#e9f7f7;
-  color:#075c63;
-  margin:8px 0;
-  font-weight:bold;
-}
-.error{
-  background:#ffe7e7;
-  color:#a00000;
-}
-.success{
-  background:#e4f8e9;
-  color:#116329;
-}
-
-.topbar{
-  display:flex;
   gap:8px;
-  align-items:center;
-  justify-content:space-between;
-  flex-wrap:wrap;
-}
-.userinfo{
-  font-size:13px;
-  color:#555;
+  margin-bottom:20px;
 }
 
-.meta-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;
+.tabs button{
+  flex:1;
 }
 
-.progress{
-  height:13px;
-  background:#ddd;
-  border-radius:20px;
-  overflow:hidden;
-  margin:8px 0;
-}
-.progress-bar{
-  height:100%;
-  width:0%;
-  background:#16a085;
-  transition:.3s;
+/* INPUTS */
+
+.field{
+  margin-bottom:15px;
 }
 
-.sheet-table{
+label{
+  display:block;
+  font-size:14px;
+  font-weight:750;
+  margin-bottom:6px;
+  color:#334155;
+}
+
+input,
+select,
+button{
   width:100%;
-  border-collapse:collapse;
-  margin-top:10px;
+  min-height:46px;
+
+  padding:11px 13px;
+
+  border-radius:12px;
+
+  font-size:15px;
+
+  font-family:inherit;
 }
-.sheet-table th,
-.sheet-table td{
-  border:1px solid #ccc;
-  padding:7px;
-  text-align:center;
+
+input,
+select{
+  border:1px solid var(--border);
+  background:#fff;
+  color:var(--text);
+  outline:none;
+
+  transition:.2s;
 }
-.sheet-table th{
-  background:#123d66;
+
+input:focus,
+select:focus{
+  border-color:var(--blue);
+
+  box-shadow:
+    0 0 0 4px rgba(37,99,235,.12);
+}
+
+/* BUTTON */
+
+button{
+  border:0;
   color:white;
+  font-weight:750;
+
+  cursor:pointer;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--blue),
+      var(--purple)
+    );
+
+  box-shadow:
+    0 6px 16px rgba(37,99,235,.22);
+
+  transition:
+    transform .18s,
+    box-shadow .18s,
+    opacity .18s;
 }
-.sheet-table input{
+
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:
+    0 9px 22px rgba(37,99,235,.28);
+}
+
+button:active{
+  transform:scale(.97);
+}
+
+button.secondary{
+  background:#e8eef8;
+  color:#172033;
+  box-shadow:none;
+}
+
+button.success{
+  background:
+    linear-gradient(
+      135deg,
+      #16a34a,
+      #059669
+    );
+}
+
+button.danger{
+  background:
+    linear-gradient(
+      135deg,
+      #ef4444,
+      #b91c1c
+    );
+}
+
+button.cyan{
+  background:
+    linear-gradient(
+      135deg,
+      #0891b2,
+      #06b6d4
+    );
+}
+
+/* ROW */
+
+.row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.row button{
+  width:auto;
+}
+
+.right{
+  margin-left:auto;
+}
+
+/* APP USER */
+
+.user-card{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.user-icon{
+  width:48px;
+  height:48px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:15px;
+
+  background:#eef2ff;
+  color:#4338ca;
+
+  font-size:22px;
+}
+
+/* NAV */
+
+.nav{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:15px 0;
+}
+
+/* DASHBOARD */
+
+.dashboard{
+  display:grid;
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:12px;
+
+  margin-bottom:15px;
+}
+
+.stat{
+  padding:15px;
+
+  border-radius:16px;
+
+  color:white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #4f46e5
+    );
+
+  box-shadow:0 8px 20px rgba(37,99,235,.20);
+
+  animation:fadeIn .5s ease both;
+}
+
+.stat:nth-child(2){
+  background:
+    linear-gradient(
+      135deg,
+      #0891b2,
+      #06b6d4
+    );
+}
+
+.stat:nth-child(3){
+  background:
+    linear-gradient(
+      135deg,
+      #16a34a,
+      #059669
+    );
+}
+
+.stat-number{
+  font-size:25px;
+  font-weight:900;
+}
+
+.stat-label{
+  font-size:12px;
+  opacity:.9;
+}
+
+/* FORM */
+
+.section-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.section-title h2{
   margin:0;
-  padding:9px;
-  text-align:center;
-  min-width:75px;
+  color:#312e81;
 }
+
+.badge{
+  padding:5px 9px;
+  border-radius:99px;
+
+  background:#eef2ff;
+  color:#4338ca;
+
+  font-size:12px;
+  font-weight:800;
+}
+
+/* CHECK POINT */
+
+.point{
+  position:relative;
+
+  padding:14px;
+  margin:10px 0;
+
+  border:1px solid var(--border);
+  border-left:5px solid var(--blue);
+
+  border-radius:15px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #f8faff,
+      #fff
+    );
+
+  transition:.2s;
+
+  animation:fadeIn .4s ease both;
+}
+
+.point:hover{
+  transform:translateX(3px);
+
+  box-shadow:
+    0 7px 20px rgba(37,99,235,.10);
+}
+
+.point:nth-child(3n){
+  border-left-color:var(--cyan);
+}
+
+.point:nth-child(3n+2){
+  border-left-color:var(--orange);
+}
+
+.point-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+}
+
+.point-number{
+  font-weight:850;
+}
+
+.pill{
+  display:inline-block;
+
+  padding:5px 9px;
+
+  border-radius:99px;
+
+  background:#f1f5f9;
+
+  color:#64748b;
+
+  font-size:11px;
+  font-weight:800;
+}
+
+.pill.saved{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.pill.completed{
+  background:#dbeafe;
+  color:#1d4ed8;
+}
+
+.point input{
+  margin-top:9px;
+}
+
+/* SAVE BAR */
+
+.save-bar{
+  position:sticky;
+  bottom:10px;
+  z-index:10;
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  margin-top:15px;
+  padding:10px 12px;
+
+  border-radius:15px;
+
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(12px);
+
+  box-shadow:
+    0 8px 25px rgba(15,23,42,.16);
+}
+
+.save-dot{
+  width:10px;
+  height:10px;
+
+  border-radius:50%;
+
+  background:var(--green);
+
+  animation:pulse 1.5s infinite;
+}
+
+/* HISTORY */
 
 .history-item{
-  border:1px solid #ccc;
-  border-radius:13px;
-  padding:12px;
+  padding:15px;
+
+  border:1px solid var(--border);
+  border-radius:16px;
+
   margin:10px 0;
-  background:#f8fafb;
-}
-.history-title{
-  font-weight:bold;
-  color:#123d66;
-}
-.badge{
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
-  background:#159447;
-  color:white;
-  font-size:12px;
-  font-weight:bold;
-}
-.history-values{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:5px;
-  margin-top:10px;
-}
-.value-box{
+
   background:white;
-  border:1px solid #ddd;
-  border-radius:8px;
-  padding:7px;
+
+  transition:.2s;
+
+  animation:fadeIn .4s ease both;
+}
+
+.history-item:hover{
+  box-shadow:
+    0 7px 22px rgba(15,23,42,.10);
+}
+
+.history-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.history-actions{
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+}
+
+.history-actions button{
+  flex:1;
+}
+
+/* MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:15px;
+
+  background:rgba(15,23,42,.65);
+  backdrop-filter:blur(5px);
+}
+
+.modal-box{
+  width:100%;
+  max-width:850px;
+  max-height:90vh;
+
+  overflow:auto;
+
+  background:white;
+
+  border-radius:22px;
+
+  padding:20px;
+
+  animation:fadeIn .3s ease;
+}
+
+.modal-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.modal-header h2{
+  margin:0;
+}
+
+.value-grid{
+  display:grid;
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap:9px;
+
+  margin-top:15px;
+}
+
+.value-item{
+  padding:11px;
+
+  border-radius:12px;
+
+  background:#f8fafc;
+
+  border:1px solid var(--border);
+}
+
+.value-item b{
+  display:block;
+  margin-bottom:5px;
+}
+
+/* MESSAGE */
+
+.message{
+  margin-top:12px;
+  padding:10px 12px;
+
+  border-radius:10px;
+
+  font-size:13px;
+
+  display:none;
+}
+
+.message.show{
+  display:block;
+}
+
+.message.ok{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.message.error{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+/* LOADER */
+
+.loader{
+  width:18px;
+  height:18px;
+
+  border:3px solid rgba(255,255,255,.4);
+  border-top-color:white;
+
+  border-radius:50%;
+
+  animation:spin .7s linear infinite;
+
+  display:inline-block;
+
+  vertical-align:middle;
+
+  margin-right:5px;
+}
+
+/* MUTED */
+
+.muted{
+  color:var(--muted);
   font-size:13px;
 }
-.value-box b{color:#123d66}
 
-.actions{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:7px;
+.small{
+  font-size:12px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:700px){
+
+  .dashboard{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .value-grid{
+    grid-template-columns:1fr;
+  }
 }
 
 @media(max-width:600px){
-  .container{padding:8px}
-  .card{padding:13px;border-radius:14px}
-  h1{font-size:21px}
-  .meta-grid{grid-template-columns:1fr}
-  .history-values{grid-template-columns:repeat(2,1fr)}
-  .actions{grid-template-columns:1fr}
-  .sheet-table{font-size:13px}
-  .sheet-table input{min-width:65px}
-}
 
-@media print{
-  body{background:white;color:black}
-  .no-print{display:none!important}
-  .card{box-shadow:none}
+  .wrap{
+    padding:10px;
+  }
+
+  .card{
+    padding:14px;
+    border-radius:17px;
+  }
+
+  .header-inner{
+    padding:18px 12px;
+  }
+
+  header h1{
+    font-size:18px;
+  }
+
+  .nav{
+    position:sticky;
+    bottom:8px;
+    z-index:20;
+
+    padding:7px;
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,.9);
+
+    box-shadow:
+      0 7px 22px rgba(0,0,0,.15);
+  }
+
+  .nav button{
+    font-size:13px;
+  }
+
+  .dashboard{
+    grid-template-columns:1fr;
+  }
+
+  .row{
+    flex-wrap:wrap;
+  }
+
+  .row button{
+    width:auto;
+  }
+
+  .history-head{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .history-actions{
+    flex-direction:column;
+  }
+
+  .history-actions button{
+    width:100%;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- HEADER -->
 
-<h1>🔧 MIXER-4 TSS DAILY CHECK SHEET</h1>
-<div class="subtitle">Cloud Based Daily Inspection System</div>
+<header>
 
-<!-- AUTH -->
-<div id="authSection" class="card">
+  <div class="header-inner">
+
+    <div class="header-title">
+
+      <div class="logo">
+        ⚙️
+      </div>
+
+      <div>
+
+        <h1>
+          MIXER-4 TSS Daily Check Sheet
+        </h1>
+
+        <small>
+          Digital Maintenance • Cloud • Shared History
+        </small>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<div class="wrap">
+
+
+<!-- ================= AUTH ================= -->
+
+<section id="auth" class="card">
+
+  <div class="auth-logo">
+    ⚙️
+  </div>
+
+  <h2 class="auth-title">
+    MIXER-4 TSS
+  </h2>
+
+  <div class="auth-sub">
+    Maintenance Check Sheet System
+  </div>
+
 
   <div class="tabs">
-    <button id="loginTab" class="tab-active" onclick="showLogin()">🔐 Login</button>
-    <button id="signupTab" onclick="showSignup()">🆕 Create ID</button>
+
+    <button
+      id="loginTab"
+      type="button"
+    >
+      🔐 Login
+    </button>
+
+    <button
+      id="signupTab"
+      type="button"
+      class="secondary"
+    >
+      👤 Create ID
+    </button>
+
   </div>
 
-  <div id="authStatus" class="status hidden"></div>
+
+  <!-- LOGIN -->
 
   <div id="loginBox">
-    <h3>Login</h3>
-    <input id="loginEmail" type="email" placeholder="Email">
-    <input id="loginPassword" type="password" placeholder="Password">
-    <button onclick="loginUser()">🔐 Login</button>
-    <button class="btn-gray" onclick="forgotPassword()">🔑 Forgot Password</button>
+
+    <div class="field">
+
+      <label>
+        Email ID
+      </label>
+
+      <input
+        id="loginEmail"
+        type="email"
+        autocomplete="email"
+        placeholder="Enter your email"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Password
+      </label>
+
+      <input
+        id="loginPass"
+        type="password"
+        autocomplete="current-password"
+        placeholder="Enter password"
+      >
+
+    </div>
+
+
+    <button
+      id="loginBtn"
+      type="button"
+    >
+      🔐 Login
+    </button>
+
   </div>
 
-  <div id="signupBox" class="hidden">
-    <h3>Create New ID</h3>
-    <input id="signupEmail" type="email" placeholder="Email">
-    <input id="signupPassword" type="password" placeholder="Password">
-    <input id="signupPassword2" type="password" placeholder="Confirm Password">
-    <button class="btn-green" onclick="createAccount()">🆕 Create Account</button>
+
+  <!-- SIGNUP -->
+
+  <div
+    id="signupBox"
+    class="hidden"
+  >
+
+    <div class="field">
+
+      <label>
+        Email ID
+      </label>
+
+      <input
+        id="signupEmail"
+        type="email"
+        autocomplete="email"
+        placeholder="Enter email"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Password
+      </label>
+
+      <input
+        id="signupPass"
+        type="password"
+        autocomplete="new-password"
+        placeholder="Minimum 6 characters"
+      >
+
+    </div>
+
+
+    <button
+      id="signupBtn"
+      type="button"
+    >
+      👤 Create Account
+    </button>
+
   </div>
 
-</div>
 
-<!-- APP -->
-<div id="appSection" class="hidden">
+  <div
+    id="authMsg"
+    class="message"
+  ></div>
+
+
+  <p class="muted small">
+    Each engineer/operator can use their own Firebase account.
+  </p>
+
+</section>
+
+
+<!-- ================= APP ================= -->
+
+<section
+  id="app"
+  class="hidden"
+>
+
+
+  <!-- USER -->
 
   <div class="card">
-    <div class="topbar">
-      <div>
-        <b>👤 Logged in</b>
-        <div id="userEmail" class="userinfo"></div>
-      </div>
-      <button class="btn-red small-btn" onclick="logoutUser()">Logout</button>
-    </div>
-  </div>
 
-  <div id="appStatus" class="status hidden"></div>
+    <div class="user-card">
 
-  <!-- SHEET -->
-  <div class="card">
-
-    <div class="topbar">
-      <h3>📋 Daily Check Sheet</h3>
-      <button class="btn-orange small-btn" onclick="newSheet()">➕ New Sheet</button>
-    </div>
-
-    <div class="meta-grid">
-      <div>
-        <label>Date</label>
-        <input id="sheetDate" type="date">
+      <div class="user-icon">
+        👤
       </div>
 
       <div>
-        <label>Shift</label>
-        <select id="sheetShift">
-          <option value="A">A Shift</option>
-          <option value="B">B Shift</option>
-          <option value="C">C Shift</option>
-        </select>
+
+        <b id="userLabel">
+          User
+        </b>
+
+        <div class="muted">
+          Logged-in user
+        </div>
+
       </div>
 
-      <div>
-        <label>Machine</label>
-        <input id="machine" value="MIXER-4">
-      </div>
+      <button
+        id="logoutBtn"
+        type="button"
+        class="secondary right"
+      >
+        Logout
+      </button>
 
-      <div>
-        <label>Checked By</label>
-        <input id="checkedBy" placeholder="Name">
-      </div>
-    </div>
-
-    <div>
-      <b>Progress: <span id="progressText">0 / 42</span></b>
-      <div class="progress">
-        <div id="progressBar" class="progress-bar"></div>
-      </div>
-    </div>
-
-    <table class="sheet-table">
-      <thead>
-        <tr>
-          <th>Point</th>
-          <th>TSS Value</th>
-        </tr>
-      </thead>
-      <tbody id="pointsBody"></tbody>
-    </table>
-
-    <div class="actions no-print">
-      <button class="btn-blue" onclick="saveSheet()">☁️ Save to Cloud</button>
-      <button class="btn-green" onclick="completeSheet()">✅ Complete Sheet</button>
     </div>
 
   </div>
 
-  <!-- HISTORY -->
-  <div class="card">
-    <div class="topbar">
-      <h3>📚 All Completed History</h3>
-      <button class="btn-blue small-btn" onclick="loadHistory()">🔄 Refresh</button>
+
+  <!-- DASHBOARD -->
+
+  <div class="dashboard">
+
+    <div class="stat">
+
+      <div
+        class="stat-number"
+        id="totalRecords"
+      >
+        0
+      </div>
+
+      <div class="stat-label">
+        Total Records
+      </div>
+
     </div>
 
-    <p style="font-size:13px;color:#555">
-      Yahan sabhi logged-in users ki <b>completed</b> check sheets
-      aur unki 42 entered values dikhengi.
+
+    <div class="stat">
+
+      <div
+        class="stat-number"
+        id="myRecords"
+      >
+        0
+      </div>
+
+      <div class="stat-label">
+        My Records
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div
+        class="stat-number"
+        id="completedRecords"
+      >
+        0
+      </div>
+
+      <div class="stat-label">
+        Completed
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- NAV -->
+
+  <div class="nav">
+
+    <button
+      id="newBtn"
+      type="button"
+    >
+      ➕ New Check Sheet
+    </button>
+
+
+    <button
+      id="historyBtn"
+      type="button"
+      class="secondary"
+    >
+      📚 Previous History
+    </button>
+
+  </div>
+
+
+  <!-- ================= FORM ================= -->
+
+  <section
+    id="formView"
+    class="card"
+  >
+
+    <div class="section-title">
+
+      <h2>
+        Daily Check Sheet
+      </h2>
+
+      <span class="badge">
+        42 Points
+      </span>
+
+    </div>
+
+
+    <p class="muted">
+      Fill the observations below. Values are automatically saved to Firebase Cloud.
     </p>
 
-    <div id="historyList">
-      Loading...
+
+    <div class="grid">
+
+      <div class="field">
+
+        <label>
+          Date
+        </label>
+
+        <input
+          id="date"
+          type="date"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Shift
+        </label>
+
+        <select id="shift">
+
+          <option value="A">
+            A Shift
+          </option>
+
+          <option value="B">
+            B Shift
+          </option>
+
+          <option value="C">
+            C Shift
+          </option>
+
+          <option value="General">
+            General
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Area / Machine
+        </label>
+
+        <input
+          id="machine"
+          value="MIXER-4 / TSS UNIT"
+        >
+
+      </div>
+
     </div>
+
+
+    <div id="points"></div>
+
+
+    <div class="save-bar">
+
+      <span class="save-dot"></span>
+
+      <span
+        id="saveMsg"
+        class="small"
+      >
+        Ready
+      </span>
+
+      <button
+        id="finishBtn"
+        type="button"
+        class="success right"
+      >
+        ✅ Complete Sheet
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= HISTORY ================= -->
+
+  <section
+    id="historyView"
+    class="card hidden"
+  >
+
+    <div class="row">
+
+      <div>
+
+        <h2>
+          📚 Previous Records
+        </h2>
+
+        <div class="muted">
+          All users' submitted check sheets
+        </div>
+
+      </div>
+
+
+      <button
+        id="refreshHistory"
+        type="button"
+        class="secondary right"
+      >
+        🔄 Refresh
+      </button>
+
+    </div>
+
+
+    <div id="history">
+
+      <p class="muted">
+        Loading records...
+      </p>
+
+    </div>
+
+  </section>
+
+</section>
+
+</div>
+
+
+<!-- ================= VIEW MODAL ================= -->
+
+<div
+  id="viewModal"
+  class="modal hidden"
+>
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+
+      <h2>
+        📋 Check Sheet Details
+      </h2>
+
+      <button
+        id="closeModal"
+        type="button"
+        class="secondary right"
+      >
+        ✕ Close
+      </button>
+
+    </div>
+
+
+    <div
+      id="modalInfo"
+      class="card"
+    ></div>
+
+
+    <div
+      id="modalValues"
+      class="value-grid"
+    ></div>
+
+
+    <div
+      class="row"
+      style="margin-top:15px"
+    >
+
+      <button
+        id="downloadBtn"
+        type="button"
+        class="success"
+      >
+        ⬇️ Download / Print
+      </button>
+
+      <button
+        id="closeModal2"
+        type="button"
+        class="secondary"
+      >
+        Close
+      </button>
+
+    </div>
+
   </div>
 
 </div>
 
-</div>
 
 <script type="module">
 
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+/* =====================================================
+   FIREBASE IMPORTS
+===================================================== */
+
+import {
+  initializeApp
+} from
+"https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+
 
 import {
   getAuth,
+  onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  sendPasswordResetEmail,
-  onAuthStateChanged,
   signOut
-}
-from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+} from
+"https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
 
 import {
   getFirestore,
@@ -354,676 +1440,120 @@ import {
   doc,
   setDoc,
   getDocs,
+  getDoc,
   query,
-  where,
+  orderBy,
   serverTimestamp
-}
-from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+} from
+"https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 
-/* =========================
+/* =====================================================
    FIREBASE CONFIG
-========================= */
+===================================================== */
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDztHV-dnII1DeUoxsworjfWqOcYzUw8tY",
-  authDomain: "mixer4-tss.firebaseapp.com",
-  projectId: "mixer4-tss",
-  storageBucket: "mixer4-tss.firebasestorage.app",
-  messagingSenderId: "281329772926",
-  appId: "1:281329772926:web:c2321755e3ad4d54236b2f"
+
+  apiKey:
+    "AIzaSyDztHV-dnII1DeUoxsworjfWqOcYzUw8tY",
+
+  authDomain:
+    "mixer4-tss.firebaseapp.com",
+
+  projectId:
+    "mixer4-tss",
+
+  storageBucket:
+    "mixer4-tss.firebasestorage.app",
+
+  messagingSenderId:
+    "281329772926",
+
+  appId:
+    "1:281329772926:web:c2321755e3ad4d54236b2f"
+
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+const firebaseApp =
+  initializeApp(firebaseConfig);
+
+const auth =
+  getAuth(firebaseApp);
+
+const db =
+  getFirestore(firebaseApp);
 
 
-/* =========================
+/* =====================================================
+   HELPER
+===================================================== */
+
+const $ =
+  id =>
+  document.getElementById(id);
+
+
+/* =====================================================
    VARIABLES
-========================= */
+===================================================== */
 
 let currentUser = null;
+
 let recordId = null;
-let saveTimer = null;
 
-const TOTAL_POINTS = 42;
+let saveTimers = {};
 
+let selectedRecord = null;
 
-/* =========================
-   UI HELPERS
-========================= */
 
-function showStatus(id,msg,type=""){
-  const el=document.getElementById(id);
-  el.textContent=msg;
-  el.className="status "+type;
-  el.classList.remove("hidden");
-}
+/* =====================================================
+   CHECK POINTS
+===================================================== */
 
-function hideStatus(id){
-  document.getElementById(id).classList.add("hidden");
-}
-
-function escapeHtml(value){
-  return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
-
-
-/* =========================
-   AUTH TABS
-========================= */
-
-window.showLogin=function(){
-  document.getElementById("loginBox").classList.remove("hidden");
-  document.getElementById("signupBox").classList.add("hidden");
-  document.getElementById("loginTab").classList.add("tab-active");
-  document.getElementById("signupTab").classList.remove("tab-active");
-  hideStatus("authStatus");
-}
-
-window.showSignup=function(){
-  document.getElementById("loginBox").classList.add("hidden");
-  document.getElementById("signupBox").classList.remove("hidden");
-  document.getElementById("loginTab").classList.remove("tab-active");
-  document.getElementById("signupTab").classList.add("tab-active");
-  hideStatus("authStatus");
-}
-
-
-/* =========================
-   CREATE ACCOUNT
-========================= */
-
-window.createAccount=async function(){
-
-  const email=document.getElementById("signupEmail").value.trim();
-  const password=document.getElementById("signupPassword").value;
-  const password2=document.getElementById("signupPassword2").value;
-
-  if(!email || !password){
-    showStatus("authStatus","Email aur password enter karein.","error");
-    return;
-  }
-
-  if(password.length < 6){
-    showStatus("authStatus","Password minimum 6 characters ka hona chahiye.","error");
-    return;
-  }
-
-  if(password !== password2){
-    showStatus("authStatus","Passwords match nahi kar rahe.","error");
-    return;
-  }
-
-  try{
-
-    showStatus("authStatus","Account create ho raha hai...");
-
-    await createUserWithEmailAndPassword(auth,email,password);
-
-    showStatus(
-      "authStatus",
-      "✅ Account successfully created. Login ho gaya.",
-      "success"
-    );
-
-  }catch(error){
-
-    showStatus(
-      "authStatus",
-      "ERROR: "+error.code+" — "+error.message,
-      "error"
-    );
-
-  }
-}
-
-
-/* =========================
-   LOGIN
-========================= */
-
-window.loginUser=async function(){
-
-  const email=document.getElementById("loginEmail").value.trim();
-  const password=document.getElementById("loginPassword").value;
-
-  if(!email || !password){
-    showStatus("authStatus","Email aur password enter karein.","error");
-    return;
-  }
-
-  try{
-
-    showStatus("authStatus","Login ho raha hai...");
-
-    await signInWithEmailAndPassword(auth,email,password);
-
-  }catch(error){
-
-    showStatus(
-      "authStatus",
-      "ERROR: "+error.code+" — "+error.message,
-      "error"
-    );
-
-  }
-}
-
-
-/* =========================
-   FORGOT PASSWORD
-========================= */
-
-window.forgotPassword=async function(){
-
-  const email=document.getElementById("loginEmail").value.trim();
-
-  if(!email){
-    showStatus(
-      "authStatus",
-      "Pehle Email enter karein.",
-      "error"
-    );
-    return;
-  }
-
-  try{
-
-    await sendPasswordResetEmail(auth,email);
-
-    showStatus(
-      "authStatus",
-      "✅ Password reset email bhej diya gaya.",
-      "success"
-    );
-
-  }catch(error){
-
-    showStatus(
-      "authStatus",
-      "ERROR: "+error.code+" — "+error.message,
-      "error"
-    );
-
-  }
-}
-
-
-/* =========================
-   LOGOUT
-========================= */
-
-window.logoutUser=async function(){
-
-  await signOut(auth);
-}
-
-
-/* =========================
-   AUTH STATE
-========================= */
-
-onAuthStateChanged(auth,(user)=>{
-
-  currentUser=user;
-
-  if(user){
-
-    document.getElementById("authSection").classList.add("hidden");
-    document.getElementById("appSection").classList.remove("hidden");
-
-    document.getElementById("userEmail").textContent=user.email;
-
-    createPoints();
-
-    if(!document.getElementById("sheetDate").value){
-      setToday();
-    }
-
-    loadHistory();
-
-  }else{
-
-    document.getElementById("authSection").classList.remove("hidden");
-    document.getElementById("appSection").classList.add("hidden");
-
-  }
-
-});
-
-
-/* =========================
-   DATE
-========================= */
-
-function setToday(){
-
-  const now=new Date();
-
-  const yyyy=now.getFullYear();
-  const mm=String(now.getMonth()+1).padStart(2,"0");
-  const dd=String(now.getDate()).padStart(2,"0");
-
-  document.getElementById("sheetDate").value =
-    `${yyyy}-${mm}-${dd}`;
-}
-
-
-/* =========================
-   CREATE 42 POINTS
-========================= */
-
-function createPoints(){
-
-  const body=document.getElementById("pointsBody");
-
-  if(body.children.length===TOTAL_POINTS) return;
-
-  body.innerHTML="";
-
-  for(let i=1;i<=TOTAL_POINTS;i++){
-
-    const tr=document.createElement("tr");
-
-    tr.innerHTML=`
-      <td><b>${i}</b></td>
-      <td>
-        <input
-          type="number"
-          step="any"
-          class="point-input"
-          data-point="${i}"
-          placeholder="Enter value"
-        >
-      </td>
-    `;
-
-    body.appendChild(tr);
-  }
-
-  document.querySelectorAll(".point-input")
-    .forEach(input=>{
-
-      input.addEventListener("input",()=>{
-
-        updateProgress();
-
-        if(recordId){
-          clearTimeout(saveTimer);
-
-          saveTimer=setTimeout(()=>{
-            saveSheet(true);
-          },1200);
-        }
-
-      });
-
-    });
-
-  updateProgress();
-}
-
-
-/* =========================
-   GET VALUES
-========================= */
-
-function getValues(){
-
-  return [...document.querySelectorAll(".point-input")]
-    .map(input=>input.value.trim());
-
-}
-
-
-/* =========================
-   PROGRESS
-========================= */
-
-function updateProgress(){
-
-  const values=getValues();
-
-  const filled=values.filter(v=>v!=="").length;
-
-  document.getElementById("progressText").textContent =
-    `${filled} / ${TOTAL_POINTS}`;
-
-  document.getElementById("progressBar").style.width =
-    `${(filled/TOTAL_POINTS)*100}%`;
-}
-
-
-/* =========================
-   NEW SHEET
-========================= */
-
-window.newSheet=function(){
-
-  recordId=null;
-
-  document.getElementById("sheetDate").value="";
-  document.getElementById("checkedBy").value="";
-
-  setToday();
-
-  document.querySelectorAll(".point-input")
-    .forEach(input=>input.value="");
-
-  updateProgress();
-
-  showStatus(
-    "appStatus",
-    "🆕 New Check Sheet ready hai.",
-    "success"
+const POINTS =
+  Array.from(
+    {length:42},
+    (_,i) =>
+      `Check Point ${i+1}`
   );
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
 
-}
+/* =====================================================
+   DATE
+===================================================== */
 
+$("date").value =
+  new Date()
+    .toISOString()
+    .slice(0,10);
 
-/* =========================
-   SAVE SHEET
-========================= */
 
-window.saveSheet=async function(auto=false){
+/* =====================================================
+   CREATE POINTS
+===================================================== */
 
-  if(!currentUser){
-    showStatus("appStatus","Please login karein.","error");
-    return;
-  }
+POINTS.forEach(
+  (name,i) => {
 
-  const date=document.getElementById("sheetDate").value;
-  const shift=document.getElementById("sheetShift").value;
-  const machine=document.getElementById("machine").value.trim();
-  const checkedBy=document.getElementById("checkedBy").value.trim();
+    const div =
+      document.createElement("div");
 
-  const values=getValues();
-  const filled=values.filter(v=>v!=="").length;
+    div.className =
+      "point";
 
-  if(!date){
-    showStatus("appStatus","Date select karein.","error");
-    return;
-  }
+    div.innerHTML = `
 
-  if(!recordId){
-    recordId=doc(collection(db,"mixer4_tss_records")).id;
-  }
+      <div class="point-top">
 
-  const data={
-    userId:currentUser.uid,
-    userEmail:currentUser.email,
+        <span class="point-number">
+          ${i+1}. ${name}
+        </span>
 
-    recordId:recordId,
-
-    date:date,
-    shift:shift,
-    machine:machine || "MIXER-4",
-    checkedBy:checkedBy,
-
-    values:values,
-    filled:filled,
-    total:TOTAL_POINTS,
-
-    status:filled===TOTAL_POINTS ? "Completed" : "Draft",
-
-    updatedBy:currentUser.email,
-    updatedAt:serverTimestamp()
-  };
-
-  try{
-
-    await setDoc(
-      doc(db,"mixer4_tss_records",recordId),
-      data,
-      {merge:true}
-    );
-
-    if(!auto){
-
-      showStatus(
-        "appStatus",
-        `☁️ Saved successfully — ${filled}/${TOTAL_POINTS} values.`,
-        "success"
-      );
-
-      loadHistory();
-    }
-
-  }catch(error){
-
-    showStatus(
-      "appStatus",
-      "SAVE ERROR: "+error.code+" — "+error.message,
-      "error"
-    );
-
-  }
-}
-
-
-/* =========================
-   COMPLETE SHEET
-========================= */
-
-window.completeSheet=async function(){
-
-  const values=getValues();
-
-  const filled=values.filter(v=>v!=="").length;
-
-  if(filled!==TOTAL_POINTS){
-
-    showStatus(
-      "appStatus",
-      `⚠️ Sheet complete karne ke liye 42/42 values bharna zaroori hai. Abhi ${filled}/42 hai.`,
-      "error"
-    );
-
-    return;
-  }
-
-  await saveSheet(false);
-
-  try{
-
-    await setDoc(
-      doc(db,"mixer4_tss_records",recordId),
-      {
-        status:"Completed",
-        completedAt:serverTimestamp()
-      },
-      {merge:true}
-    );
-
-    showStatus(
-      "appStatus",
-      "✅ CHECK SHEET COMPLETED & CLOUD ME SAVE HO GAYI.",
-      "success"
-    );
-
-    loadHistory();
-
-  }catch(error){
-
-    showStatus(
-      "appStatus",
-      "COMPLETE ERROR: "+error.code+" — "+error.message,
-      "error"
-    );
-
-  }
-}
-
-
-/* =========================
-   HISTORY
-========================= */
-
-async function loadHistory(){
-
-  if(!currentUser) return;
-
-  const list=document.getElementById("historyList");
-
-  list.innerHTML="Loading...";
-
-  try{
-
-    /*
-      IMPORTANT:
-      Ab sirf current user's history nahi.
-      Sabhi logged-in users ki completed sheets read hongi.
-    */
-
-    const q=query(
-      collection(db,"mixer4_tss_records"),
-      where("status","==","Completed")
-    );
-
-    const snapshot=await getDocs(q);
-
-    const records=[];
-
-    snapshot.forEach(item=>{
-
-      records.push({
-        id:item.id,
-        ...item.data()
-      });
-
-    });
-
-    records.sort((a,b)=>{
-
-      const da=a.date || "";
-      const db=b.date || "";
-
-      return db.localeCompare(da);
-
-    });
-
-    if(records.length===0){
-
-      list.innerHTML=
-        "<p>No completed check sheets found.</p>";
-
-      return;
-    }
-
-    list.innerHTML="";
-
-    records.forEach(record=>{
-
-      const values=Array.isArray(record.values)
-        ? record.values
-        : [];
-
-      const item=document.createElement("div");
-
-      item.className="history-item";
-
-      const valuesHtml=values
-        .map((value,index)=>`
-          <div class="value-box">
-            <b>P${index+1}</b><br>
-            ${escapeHtml(value)}
-          </div>
-        `)
-        .join("");
-
-      item.innerHTML=`
-
-        <div class="history-title">
-          📋 MIXER-4 — ${escapeHtml(record.date || "")}
-        </div>
-
-        <div style="margin:7px 0">
-          <span class="badge">✅ Completed</span>
-        </div>
-
-        <div style="font-size:13px;color:#555">
-          <b>Shift:</b> ${escapeHtml(record.shift || "-")}
-          &nbsp; | &nbsp;
-          <b>Checked By:</b> ${escapeHtml(record.checkedBy || "-")}
-          <br>
-          <b>User:</b> ${escapeHtml(record.userEmail || "-")}
-          <br>
-          <b>Values:</b> ${values.length}/42
-        </div>
-
-        <div class="history-values">
-          ${valuesHtml}
-        </div>
-
-        <div class="actions no-print" style="margin-top:10px">
-          <button class="btn-blue"
-            onclick='downloadPDF(${JSON.stringify(record)})'>
-            📥 Download PDF
-          </button>
-
-          <button class="btn-gray"
-            onclick='printRecord(${JSON.stringify(record)})'>
-            🖨️ Print
-          </button>
-        </div>
-      `;
-
-      list.appendChild(item);
-
-    });
-
-  }catch(error){
-
-    list.innerHTML=`
-      <div class="status error">
-        HISTORY ERROR:<br>
-        ${escapeHtml(error.code)}<br>
-        ${escapeHtml(error.message)}
-      </div>
-    `;
-
-  }
-}
-
-window.loadHistory=loadHistory;
-
-
-/* =========================
-   PDF DOWNLOAD
-========================= */
-
-window.downloadPDF=function(record){
-
-  const values=Array.isArray(record.values)
-    ? record.values
-    : [];
-
-  let rows="";
-
-  for(let i=0;i<TOTAL_POINTS;i++){
-
-    rows+=`
-      <tr>
-        <td>${i+1}</td>
-        <td>${escapeHtml(values[i] || "")}</td>
-      </tr>
-    `;
-
-  }
-
-  const pdfWindow=window.open("","_blank");
-
-  if(!pdfWindow){
-    alert("Popup blocked hai. Browser me popup allow karein."
+        <span
+          class="pill"
+          id=
