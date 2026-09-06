@@ -1,70 +1,266 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>MIXER-4 TEST</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <style>
-    body{
-      font-family:Arial;
-      text-align:center;
-      padding:40px 20px;
-      background:#eef2ff;
-    }
+<title>Firebase Connection Test</title>
 
-    button{
-      display:block;
-      width:100%;
-      max-width:350px;
-      margin:15px auto;
-      padding:16px;
-      border:0;
-      border-radius:12px;
-      background:#2563eb;
-      color:white;
-      font-size:18px;
-      font-weight:bold;
-    }
+<style>
+body{
+  margin:0;
+  padding:30px 15px;
+  font-family:Arial,sans-serif;
+  background:#eef2ff;
+  text-align:center;
+}
 
-    #result{
-      margin-top:25px;
-      padding:15px;
-      background:white;
-      border-radius:12px;
-      font-weight:bold;
-    }
-  </style>
+.card{
+  max-width:500px;
+  margin:20px auto;
+  padding:25px;
+  background:white;
+  border-radius:18px;
+  box-shadow:0 8px 25px #0002;
+}
+
+button{
+  width:100%;
+  padding:15px;
+  margin-top:15px;
+  border:0;
+  border-radius:12px;
+  background:#2563eb;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+}
+
+#result{
+  margin-top:20px;
+  padding:15px;
+  border-radius:12px;
+  background:#f1f5f9;
+  word-break:break-word;
+  line-height:1.5;
+}
+
+.success{
+  background:#dcfce7 !important;
+  color:#166534;
+}
+
+.error{
+  background:#fee2e2 !important;
+  color:#991b1b;
+}
+</style>
 </head>
 
 <body>
 
-<h1>🚀 MIXER-4 TSS</h1>
+<div class="card">
 
-<p>Website Button Test</p>
+<h1>🔥 Firebase Test</h1>
 
-<button onclick="testButton()">
-  TEST BUTTON
-</button>
+<p>Checking MIXER-4 Firebase connection...</p>
 
-<button onclick="testSecond()">
-  SECOND BUTTON
+<button id="testBtn">
+  TEST FIREBASE CONNECTION
 </button>
 
 <div id="result">
-  अभी कोई button नहीं दबाया गया।
+  ⏳ Waiting for test...
 </div>
 
-<script>
+</div>
 
-function testButton(){
-  document.getElementById("result").innerHTML =
-    "✅ BUTTON WORKING";
-}
 
-function testSecond(){
-  document.getElementById("result").innerHTML =
-    "🎉 JAVASCRIPT WORKING";
-}
+<script type="module">
+
+import {
+  initializeApp
+} from
+"https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+
+import {
+  getAuth
+} from
+"https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  getDocs
+} from
+"https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+
+/* ================================
+   YOUR FIREBASE CONFIG
+================================ */
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyDztHV-dnII1DeUoxsworjfWqOcYzUw8tY",
+
+  authDomain:
+    "mixer4-tss.firebaseapp.com",
+
+  projectId:
+    "mixer4-tss",
+
+  storageBucket:
+    "mixer4-tss.firebasestorage.app",
+
+  messagingSenderId:
+    "281329772926",
+
+  appId:
+    "1:281329772926:web:c2321755e3ad4d54236b2f"
+
+};
+
+
+/* ================================
+   RESULT BOX
+================================ */
+
+const result =
+  document.getElementById("result");
+
+
+const button =
+  document.getElementById("testBtn");
+
+
+/* ================================
+   FIREBASE TEST
+================================ */
+
+button.addEventListener(
+  "click",
+  async () => {
+
+    button.disabled = true;
+
+    button.textContent =
+      "Testing...";
+
+    result.className = "";
+
+    result.innerHTML =
+      "⏳ Connecting to Firebase...";
+
+
+    try{
+
+      /* Firebase App */
+
+      const app =
+        initializeApp(firebaseConfig);
+
+
+      /* Firebase Auth */
+
+      const auth =
+        getAuth(app);
+
+
+      /* Firestore */
+
+      const db =
+        getFirestore(app);
+
+
+      result.innerHTML =
+        "🟢 Firebase initialized successfully.<br><br>" +
+        "Project: <b>" +
+        firebaseConfig.projectId +
+        "</b><br><br>" +
+        "Checking Firestore...";
+
+
+      /* Read Firestore */
+
+      const snapshot =
+        await getDocs(
+          collection(
+            db,
+            "mixer4_tss_records"
+          )
+        );
+
+
+      result.className =
+        "success";
+
+
+      result.innerHTML =
+
+        "🟢 <b>FIREBASE CONNECTED!</b>" +
+
+        "<br><br>" +
+
+        "Firebase App: ✅" +
+
+        "<br>" +
+
+        "Authentication: ✅" +
+
+        "<br>" +
+
+        "Firestore: ✅" +
+
+        "<br><br>" +
+
+        "Records found: <b>" +
+        snapshot.size +
+        "</b>" +
+
+        "<br><br>" +
+
+        "🎉 GitHub Pages → Firebase connection is working.";
+
+    }
+
+    catch(error){
+
+      console.error(error);
+
+
+      result.className =
+        "error";
+
+
+      result.innerHTML =
+
+        "🔴 <b>FIREBASE ERROR</b>" +
+
+        "<br><br>" +
+
+        "Code: <b>" +
+        (error.code || "unknown") +
+        "</b>" +
+
+        "<br><br>" +
+
+        error.message;
+
+    }
+
+    finally{
+
+      button.disabled = false;
+
+      button.textContent =
+        "TEST FIREBASE CONNECTION";
+
+    }
+
+  }
+);
 
 </script>
 
