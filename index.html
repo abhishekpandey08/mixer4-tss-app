@@ -1,2520 +1,2256 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MIXER-4 TSS Daily Check Sheet</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>MIXER-4 TSS Control</title>
 
 <style>
 
 *{
-    box-sizing:border-box;
+box-sizing:border-box;
+}
+
+:root{
+--blue:#2563eb;
+--purple:#7c3aed;
+--cyan:#0891b2;
+--green:#16a34a;
+--orange:#f59e0b;
+--red:#dc2626;
+--dark:#172033;
+--muted:#64748b;
+--border:#dbe4f0;
 }
 
 body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:
-        radial-gradient(circle at top left,#163b57 0%,transparent 35%),
-        radial-gradient(circle at top right,#30265c 0%,transparent 35%),
-        #06121e;
-    color:#f4f8ff;
-    min-height:100vh;
+
+margin:0;
+
+font-family:
+system-ui,
+-apple-system,
+Segoe UI,
+Roboto,
+Arial,
+sans-serif;
+
+min-height:100vh;
+
+background:
+linear-gradient(
+135deg,
+#eef2ff,
+#ecfeff,
+#fff7ed
+);
+
+color:var(--dark);
+
 }
+
+/* HEADER */
+
+header{
+
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#7c3aed,
+#0891b2
+);
+
+color:white;
+
+padding:22px 16px;
+
+box-shadow:
+0 8px 30px #312e8140;
+
+animation:
+headerDrop .7s ease;
+
+}
+
+@keyframes headerDrop{
+
+from{
+opacity:0;
+transform:translateY(-30px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+.headerInner{
+
+max-width:1000px;
+
+margin:auto;
+
+}
+
+header h1{
+
+margin:0;
+
+font-size:24px;
+
+}
+
+header p{
+
+margin:5px 0 0;
+
+opacity:.9;
+
+font-size:13px;
+
+}
+
+/* CONTAINER */
 
 .container{
-    width:94%;
-    max-width:1200px;
-    margin:auto;
+
+max-width:1000px;
+
+margin:auto;
+
+padding:18px;
+
 }
+
+/* CARD */
 
 .card{
-    background:rgba(12,29,46,.96);
-    border:1px solid #28445d;
-    border-radius:20px;
-    box-shadow:0 20px 60px rgba(0,0,0,.35);
+
+background:
+rgba(255,255,255,.92);
+
+backdrop-filter:blur(10px);
+
+border-radius:22px;
+
+padding:20px;
+
+margin:15px 0;
+
+box-shadow:
+0 10px 35px #33415522;
+
+border:1px solid white;
+
+animation:
+cardIn .5s ease;
+
 }
 
-/* ================= LOGIN ================= */
+@keyframes cardIn{
 
-#auth{
-    width:100%;
-    max-width:470px;
-    margin:8vh auto;
-    padding:28px;
+from{
+
+opacity:0;
+
+transform:
+translateY(20px)
+scale(.98);
+
+}
+
+to{
+
+opacity:1;
+
+transform:
+translateY(0)
+scale(1);
+
+}
+
+}
+
+/* AUTH */
+
+.auth{
+
+max-width:500px;
+
+margin:
+60px auto;
+
 }
 
 .logo{
-    text-align:center;
-    font-size:30px;
-    font-weight:800;
-    margin-bottom:8px;
+
+text-align:center;
+
+font-size:32px;
+
+font-weight:900;
+
+background:
+linear-gradient(
+90deg,
+#2563eb,
+#7c3aed,
+#0891b2
+);
+
+-webkit-background-clip:text;
+
+color:transparent;
+
+margin-bottom:5px;
+
 }
 
-.subtitle{
-    text-align:center;
-    color:#91a9bf;
-    font-size:13px;
-    margin-bottom:25px;
-}
-
-.tabs{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-    margin-bottom:20px;
-}
-
-.tab{
-    padding:12px;
-    border:0;
-    border-radius:10px;
-    background:#142b42;
-    color:#b9cde0;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.tab.active{
-    background:linear-gradient(90deg,#27d2ff,#785cff);
-    color:#04131e;
-}
-
-.field{
-    margin-bottom:15px;
-}
-
-.field label{
-    display:block;
-    color:#abc0d4;
-    font-size:13px;
-    margin-bottom:6px;
-}
+/* INPUT */
 
 input,
 select{
-    width:100%;
-    padding:12px;
-    border-radius:10px;
-    border:1px solid #31516d;
-    background:#091b2b;
-    color:#fff;
-    outline:none;
+
+width:100%;
+
+padding:13px;
+
+border-radius:12px;
+
+border:
+1px solid var(--border);
+
+font-size:15px;
+
+outline:none;
+
+background:white;
+
+transition:.2s;
+
 }
 
 input:focus,
 select:focus{
-    border-color:#25d3ff;
-    box-shadow:0 0 0 3px rgba(37,211,255,.12);
+
+border-color:var(--blue);
+
+box-shadow:
+0 0 0 4px #2563eb20;
+
 }
 
-.btn{
-    border:0;
-    border-radius:10px;
-    padding:12px 16px;
-    font-weight:bold;
-    cursor:pointer;
+/* BUTTON */
+
+button{
+
+border:0;
+
+padding:13px 17px;
+
+border-radius:12px;
+
+font-size:15px;
+
+font-weight:750;
+
+cursor:pointer;
+
+color:white;
+
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#7c3aed
+);
+
+box-shadow:
+0 5px 16px #2563eb35;
+
+transition:.2s;
+
 }
 
-.primary{
-    background:linear-gradient(90deg,#27d2ff,#785cff);
-    color:#03121d;
+button:hover{
+
+transform:
+translateY(-2px);
+
+box-shadow:
+0 9px 22px #2563eb40;
+
 }
 
-.secondary{
-    background:#17324b;
-    color:#e7f4ff;
+button:active{
+
+transform:
+scale(.97);
+
 }
 
-.danger{
-    background:#53283a;
-    color:#ffe2e8;
+button.secondary{
+
+background:#e8eef8;
+
+color:#172033;
+
+box-shadow:none;
+
 }
 
-.full{
-    width:100%;
+button.green{
+
+background:
+linear-gradient(
+135deg,
+#16a34a,
+#059669
+);
+
 }
 
-.message{
-    min-height:22px;
-    margin-top:12px;
-    font-size:13px;
+button.red{
+
+background:
+linear-gradient(
+135deg,
+#ef4444,
+#b91c1c
+);
+
 }
 
-.error{
-    color:#ff8fa2;
+/* AUTH TABS */
+
+.tabs{
+
+display:flex;
+
+gap:10px;
+
+margin-bottom:20px;
+
 }
 
-.success{
-    color:#6df0ac;
+.tabs button{
+
+flex:1;
+
 }
 
-/* ================= APP ================= */
+/* FORM */
 
-#app{
-    display:none;
-    padding-bottom:50px;
+.grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(
+auto-fit,
+minmax(210px,1fr)
+);
+
+gap:14px;
+
 }
 
-.top{
-    padding:25px 0 15px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-    flex-wrap:wrap;
+label{
+
+display:block;
+
+font-size:14px;
+
+font-weight:750;
+
+margin-bottom:6px;
+
 }
 
-.top h1{
-    margin:0;
-    font-size:clamp(26px,5vw,40px);
+.field{
+
+margin-bottom:15px;
+
 }
 
-.top p{
-    margin:6px 0 0;
-    color:#91a9bf;
+/* NAV */
+
+.nav{
+
+display:flex;
+
+gap:10px;
+
+margin:12px 0;
+
 }
 
-.user{
-    border:1px solid #28445d;
-    background:#0c2235;
-    padding:9px 14px;
-    border-radius:999px;
-    color:#8ee7ff;
-    font-size:12px;
+.nav button{
+
+flex:1;
+
 }
 
-.toolbar{
-    padding:14px;
-    display:flex;
-    gap:9px;
-    flex-wrap:wrap;
-    margin-bottom:18px;
+/* USER */
+
+.userBox{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
 }
 
-.spacer{
-    flex:1;
+.avatar{
+
+width:48px;
+
+height:48px;
+
+border-radius:50%;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#7c3aed
+);
+
+color:white;
+
+font-size:22px;
+
+font-weight:900;
+
 }
 
-/* ================= SHEET ================= */
-
-.sheet{
-    padding:18px;
-}
-
-.sheet-info{
-    display:grid;
-    grid-template-columns:1fr 180px 180px;
-    gap:12px;
-    margin-bottom:18px;
-}
-
-.sheet-name{
-    border:1px solid #28445d;
-    background:#091b2b;
-    border-radius:14px;
-    padding:15px;
-}
-
-.sheet-name h2{
-    margin:0 0 5px;
-    font-size:18px;
-}
-
-.sheet-name small{
-    color:#8fa7bc;
-}
-
-.label{
-    display:block;
-    color:#a9bfd2;
-    font-size:12px;
-    margin-bottom:6px;
-}
-
-/* ================= TABLE ================= */
-
-/*
-   IMPORTANT:
-   DATE / TIME COLUMN REMOVED
-
-   Sr | LH Check Point | Temp | RH Check Point | Temp
-*/
-
-.table-head,
-.table-row{
-    display:grid;
-    grid-template-columns:
-        55px
-        minmax(190px,1fr)
-        140px
-        minmax(190px,1fr)
-        140px;
-}
-
-.section{
-    border:1px solid #294862;
-    border-radius:14px;
-    overflow:hidden;
-    margin-bottom:18px;
-}
-
-.section-title{
-    padding:13px 15px;
-    background:#102b42;
-    font-weight:bold;
-    font-size:13px;
-}
-
-.table-head{
-    background:#081827;
-    color:#91a9bf;
-    font-size:11px;
-    font-weight:bold;
-}
-
-.table-head div,
-.table-row div{
-    padding:9px;
-    border-right:1px solid #294862;
-    border-bottom:1px solid #294862;
-}
-
-.table-head div:last-child,
-.table-row div:last-child{
-    border-right:0;
-}
-
-.table-row:last-child div{
-    border-bottom:0;
-}
-
-.number{
-    text-align:center;
-    color:#64dcff;
-    font-weight:bold;
-}
+/* CHECK POINT */
 
 .point{
-    font-size:12px;
-    display:flex;
-    align-items:center;
+
+padding:14px;
+
+margin:10px 0;
+
+border-radius:15px;
+
+border:1px solid var(--border);
+
+background:
+linear-gradient(
+90deg,
+#f8faff,
+white
+);
+
+border-left:
+5px solid var(--blue);
+
+transition:.2s;
+
+animation:
+pointIn .35s ease;
+
 }
 
-.temp{
-    display:flex;
-    align-items:center;
+@keyframes pointIn{
+
+from{
+
+opacity:0;
+
+transform:
+translateX(-15px);
+
 }
 
-.temp input{
-    padding:9px;
+to{
+
+opacity:1;
+
+transform:
+translateX(0);
+
 }
 
-.empty{
-    color:#526b82;
 }
 
-/* ================= BOTTOM ================= */
+.point:hover{
 
-.bottom-fields{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-    margin-top:18px;
+transform:
+translateX(3px);
+
+box-shadow:
+0 5px 20px #2563eb18;
+
 }
 
-.actions{
-    display:flex;
-    justify-content:flex-end;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-top:18px;
+.pointHeader{
+
+display:flex;
+
+justify-content:space-between;
+
+gap:10px;
+
+align-items:center;
+
 }
 
-#saveMessage{
-    min-height:20px;
-    margin-top:10px;
-    font-size:13px;
+.status{
+
+font-size:11px;
+
+padding:5px 9px;
+
+border-radius:20px;
+
+background:#eef2ff;
+
+color:#4338ca;
+
+font-weight:700;
+
 }
 
-/* ================= HISTORY ================= */
+.status.saved{
+
+background:#dcfce7;
+
+color:#166534;
+
+}
+
+/* HISTORY */
 
 .history{
-    margin-top:18px;
-    padding:18px;
-}
 
-.history-title{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-}
+display:grid;
 
-.history-title h2{
-    margin:0;
-}
-
-.history-card{
-    border:1px solid #294862;
-    background:#091b2b;
-    border-radius:13px;
-    padding:14px;
-    margin-top:12px;
-}
-
-.history-header{
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-bottom:10px;
-}
-
-.history-date{
-    color:#66ddff;
-    font-weight:bold;
-}
-
-.history-user{
-    color:#a8bacb;
-    font-size:12px;
-}
-
-.filled-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:8px;
-}
-
-.filled-item{
-    border:1px solid #223e56;
-    border-radius:9px;
-    padding:9px;
-    background:#071624;
-    font-size:12px;
-}
-
-.filled-item b{
-    color:#a9bfd2;
-}
-
-.filled-item span{
-    color:#6df0ac;
-    font-weight:bold;
-}
-
-/* ================= MOBILE ================= */
-
-@media(max-width:850px){
-
-    .sheet-info{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .sheet-name{
-        grid-column:1/-1;
-    }
-
-    .table-head,
-    .table-row{
-        grid-template-columns:
-            42px
-            minmax(140px,1fr)
-            105px
-            minmax(140px,1fr)
-            105px;
-    }
+gap:12px;
 
 }
+
+.historyItem{
+
+padding:16px;
+
+border-radius:16px;
+
+background:white;
+
+border:
+1px solid var(--border);
+
+box-shadow:
+0 4px 15px #33415510;
+
+transition:.2s;
+
+}
+
+.historyItem:hover{
+
+transform:
+translateY(-2px);
+
+box-shadow:
+0 8px 22px #33415518;
+
+}
+
+.badge{
+
+display:inline-block;
+
+padding:5px 9px;
+
+border-radius:20px;
+
+font-size:11px;
+
+font-weight:750;
+
+background:#eef2ff;
+
+color:#4338ca;
+
+margin:3px;
+
+}
+
+.badge.green{
+
+background:#dcfce7;
+
+color:#166534;
+
+}
+
+/* MESSAGE */
+
+.message{
+
+margin-top:12px;
+
+padding:10px;
+
+border-radius:10px;
+
+font-size:13px;
+
+display:none;
+
+}
+
+.message.show{
+
+display:block;
+
+}
+
+.message.ok{
+
+background:#dcfce7;
+
+color:#166534;
+
+}
+
+.message.error{
+
+background:#fee2e2;
+
+color:#991b1b;
+
+}
+
+/* LOADING */
+
+.loader{
+
+width:20px;
+
+height:20px;
+
+border:3px solid #ffffff55;
+
+border-top-color:white;
+
+border-radius:50%;
+
+animation:
+spin .7s linear infinite;
+
+display:inline-block;
+
+vertical-align:middle;
+
+}
+
+@keyframes spin{
+
+to{
+transform:rotate(360deg);
+}
+
+}
+
+/* HIDDEN */
+
+.hidden{
+
+display:none !important;
+
+}
+
+/* RESPONSIVE */
 
 @media(max-width:600px){
 
-    .sheet-info{
-        grid-template-columns:1fr;
-    }
+.container{
 
-    .sheet-name{
-        grid-column:auto;
-    }
-
-    .bottom-fields{
-        grid-template-columns:1fr;
-    }
-
-    .table-head{
-        display:none;
-    }
-
-    .table-row{
-        grid-template-columns:40px 1fr 100px;
-    }
-
-    .left-point{
-        grid-column:2/4;
-        background:#0a1e30;
-        font-weight:bold;
-    }
-
-    .left-temp{
-        grid-column:2;
-    }
-
-    .right-point{
-        grid-column:2/4;
-        background:#0a1e30;
-        font-weight:bold;
-    }
-
-    .right-temp{
-        grid-column:3;
-    }
+padding:10px;
 
 }
 
-/* ================= PRINT ================= */
+.card{
 
-@media print{
+padding:15px;
 
-    body{
-        background:#fff;
-        color:#000;
-    }
+border-radius:17px;
 
-    #auth,
-    .toolbar,
-    .history,
-    .actions,
-    .user{
-        display:none!important;
-    }
+}
 
-    #app{
-        display:block!important;
-    }
+header h1{
 
-    .sheet{
-        box-shadow:none;
-        border:0;
-    }
+font-size:20px;
 
-    .sheet-name,
-    .section-title{
-        background:#fff;
-        color:#000;
-    }
+}
 
-    input,
-    select{
-        color:#000;
-        background:#fff;
-        border:0;
-    }
+.nav{
 
-    .table-head,
-    .table-row{
-        color:#000;
-    }
+position:sticky;
+
+bottom:8px;
+
+z-index:20;
+
+background:#ffffffdd;
+
+backdrop-filter:blur(10px);
+
+padding:7px;
+
+border-radius:15px;
+
+}
+
+.nav button{
+
+font-size:12px;
+
+padding:11px 7px;
+
+}
 
 }
 
 </style>
+
 </head>
+
 
 <body>
 
+
+<header>
+
+<div class="headerInner">
+
+<h1>⚙️ MIXER-4 TSS Daily Check Sheet</h1>
+
+<p>
+Cloud Monitoring • Secure Login • Auto Save • Shared History
+</p>
+
+</div>
+
+</header>
+
+
 <div class="container">
 
-<!-- =====================================================
-     LOGIN / CREATE ID
-===================================================== -->
 
-<div id="auth" class="card">
+<!-- AUTH -->
 
-    <div class="logo">
-        ⚙️ MIXER-4 TSS
-    </div>
+<section
+id="auth"
+class="card auth"
+>
 
-    <div class="subtitle">
-        Daily Temperature Check Sheet
-        <br>
-        Cloud Monitoring System
-    </div>
+<div class="logo">
 
-    <div class="tabs">
+MIXER-4
 
-        <button
-            id="loginTab"
-            class="tab active">
-            Login
-        </button>
+</div>
 
-        <button
-            id="signupTab"
-            class="tab">
-            Create ID
-        </button>
+<h2
+style="text-align:center"
+>
 
-    </div>
+TSS Control System
+
+</h2>
 
 
-    <!-- LOGIN -->
+<div class="tabs">
 
-    <div id="loginBox">
+<button
+id="loginTab"
+type="button"
+>
 
-        <div class="field">
+🔐 Login
 
-            <label>Email</label>
+</button>
 
-            <input
-                id="loginEmail"
-                type="email"
-                placeholder="Enter your email"
-                autocomplete="username">
+<button
+id="signupTab"
+type="button"
+class="secondary"
+>
 
-        </div>
+➕ Create ID
 
-
-        <div class="field">
-
-            <label>Password</label>
-
-            <input
-                id="loginPassword"
-                type="password"
-                placeholder="Enter password"
-                autocomplete="current-password">
-
-        </div>
-
-
-        <button
-            id="loginBtn"
-            class="btn primary full">
-
-            🔐 Login
-
-        </button>
-
-    </div>
-
-
-    <!-- CREATE ID -->
-
-    <div
-        id="signupBox"
-        style="display:none">
-
-        <div class="field">
-
-            <label>Email</label>
-
-            <input
-                id="signupEmail"
-                type="email"
-                placeholder="Enter new email"
-                autocomplete="username">
-
-        </div>
-
-
-        <div class="field">
-
-            <label>Password</label>
-
-            <input
-                id="signupPassword"
-                type="password"
-                placeholder="Minimum 6 characters"
-                autocomplete="new-password">
-
-        </div>
-
-
-        <button
-            id="signupBtn"
-            class="btn primary full">
-
-            ➕ Create ID
-
-        </button>
-
-    </div>
-
-
-    <div
-        id="authMessage"
-        class="message">
-    </div>
+</button>
 
 </div>
 
 
-<!-- =====================================================
-     MAIN APP
-===================================================== -->
+<!-- LOGIN -->
 
-<div id="app">
+<div id="loginBox">
 
-    <div class="top">
+<div class="field">
 
-        <div>
+<label>Email</label>
 
-            <h1>MIXER-4 TSS</h1>
+<input
+id="loginEmail"
+type="email"
+autocomplete="email"
+placeholder="Enter your email"
+>
 
-            <p>
-                Gearbox & Bearing Temperature Monitoring
-            </p>
+</div>
 
-        </div>
 
-        <div class="user">
-            👤 <span id="userEmail"></span>
-        </div>
+<div class="field">
 
-    </div>
+<label>Password</label>
 
+<input
+id="loginPassword"
+type="password"
+autocomplete="current-password"
+placeholder="Enter password"
+>
 
-    <!-- TOOLBAR -->
+</div>
 
-    <div class="toolbar card">
 
-        <button
-            id="newBtn"
-            class="btn secondary">
+<button
+id="loginButton"
+type="button"
+style="width:100%"
+>
 
-            📝 New Check Sheet
+🔐 Login
 
-        </button>
+</button>
 
+</div>
 
-        <button
-            id="historyBtn"
-            class="btn secondary">
 
-            📚 Shared History
+<!-- SIGNUP -->
 
-        </button>
+<div
+id="signupBox"
+class="hidden"
+>
 
+<div class="field">
 
-        <button
-            id="refreshBtn"
-            class="btn secondary"
-            style="display:none">
+<label>Email</label>
 
-            🔄 Refresh
+<input
+id="signupEmail"
+type="email"
+autocomplete="email"
+placeholder="Enter email"
+>
 
-        </button>
+</div>
 
 
-        <div class="spacer"></div>
+<div class="field">
 
+<label>Password</label>
 
-        <button
-            id="logoutBtn"
-            class="btn danger">
+<input
+id="signupPassword"
+type="password"
+autocomplete="new-password"
+placeholder="Minimum 6 characters"
+>
 
-            🚪 Logout
+</div>
 
-        </button>
 
-    </div>
+<button
+id="signupButton"
+type="button"
+style="width:100%"
+>
 
+➕ Create Account
 
-    <!-- SHEET -->
+</button>
 
-    <div class="sheet card">
+</div>
 
-        <div class="sheet-info">
 
-            <div class="sheet-name">
+<div
+id="authMessage"
+class="message"
+></div>
 
-                <h2>
-                    MIXER-4 TSS GEARBOX & BEARING
-                    TEMPERATURE MONITORING
-                </h2>
 
-                <small>
-                    Daily Temperature Check Sheet
-                </small>
+</section>
 
-            </div>
 
+<!-- APP -->
 
-            <div>
+<section
+id="app"
+class="hidden"
+>
 
-                <label class="label">
-                    Date
-                </label>
 
-                <input
-                    id="sheetDate"
-                    type="date">
+<!-- USER -->
 
-            </div>
+<div class="card">
 
+<div class="userBox">
 
-            <div>
+<div class="avatar">
 
-                <label class="label">
-                    Shift
-                </label>
+👤
 
-                <select id="sheetShift">
+</div>
 
-                    <option value="A">
-                        Shift A
-                    </option>
+<div>
 
-                    <option value="B">
-                        Shift B
-                    </option>
+<b id="userEmail">
+User
+</b>
 
-                    <option value="C">
-                        Shift C
-                    </option>
+<div
+style="font-size:12px;color:#64748b"
+>
 
-                </select>
+Logged in successfully
 
-            </div>
+</div>
 
-        </div>
+</div>
 
+<button
+id="logoutButton"
+class="secondary"
+style="margin-left:auto"
+type="button"
+>
 
-        <div id="sheetBody"></div>
+Logout
 
-
-        <div class="bottom-fields">
-
-            <div>
-
-                <label class="label">
-                    Checked By
-                </label>
-
-                <input id="checkedBy">
-
-            </div>
-
-
-            <div>
-
-                <label class="label">
-                    Verified By
-                </label>
-
-                <input id="verifiedBy">
-
-            </div>
-
-        </div>
-
-
-        <div class="actions">
-
-            <button
-                id="saveBtn"
-                class="btn secondary">
-
-                ☁️ Save Now
-
-            </button>
-
-
-            <button
-                id="finishBtn"
-                class="btn primary">
-
-                ✓ Finish & Print
-
-            </button>
-
-        </div>
-
-
-        <div id="saveMessage"></div>
-
-    </div>
-
-
-    <!-- HISTORY -->
-
-    <div
-        id="historyPanel"
-        class="history card"
-        style="display:none">
-
-        <div class="history-title">
-
-            <h2>
-                📚 Shared History
-            </h2>
-
-            <button
-                id="closeHistory"
-                class="btn secondary">
-
-                Close
-
-            </button>
-
-        </div>
-
-
-        <div id="historyList">
-        </div>
-
-    </div>
+</button>
 
 </div>
 
 </div>
 
 
-<!-- =====================================================
-     FIREBASE
-===================================================== -->
+<!-- NAV -->
+
+<div class="nav">
+
+<button
+id="newSheetButton"
+type="button"
+>
+
+📝 New Sheet
+
+</button>
+
+<button
+id="historyButton"
+class="secondary"
+type="button"
+>
+
+📚 All History
+
+</button>
+
+</div>
+
+
+<!-- SHEET -->
+
+<section
+id="sheetView"
+class="card"
+>
+
+<h2>
+
+📝 Daily Check Sheet
+
+</h2>
+
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>Date</label>
+
+<input
+id="sheetDate"
+type="date"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Shift</label>
+
+<select id="sheetShift">
+
+<option>A</option>
+
+<option>B</option>
+
+<option>C</option>
+
+<option>General</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>Area / Machine</label>
+
+<input
+id="sheetMachine"
+value="MIXER-4 / TSS UNIT"
+>
+
+</div>
+
+
+</div>
+
+
+<p
+style="color:#64748b;font-size:13px"
+>
+
+💡 Values are automatically saved to Firebase Cloud.
+
+</p>
+
+
+<div id="points"></div>
+
+
+<div
+style="
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:15px;
+"
+>
+
+<button
+id="completeButton"
+class="green"
+type="button"
+>
+
+✅ Complete Sheet
+
+</button>
+
+<button
+id="downloadButton"
+class="secondary"
+type="button"
+>
+
+⬇️ Download Sheet
+
+</button>
+
+</div>
+
+
+<div
+id="saveMessage"
+class="message"
+></div>
+
+
+</section>
+
+
+<!-- HISTORY -->
+
+<section
+id="historyView"
+class="card hidden"
+>
+
+<div
+style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+"
+>
+
+<h2>
+
+📚 Check Sheet History
+
+</h2>
+
+<button
+id="refreshButton"
+class="secondary"
+type="button"
+>
+
+🔄 Refresh
+
+</button>
+
+</div>
+
+
+<p
+style="font-size:13px;color:#64748b"
+>
+
+All logged-in users can see previous check sheets and the values filled in them.
+
+</p>
+
+
+<div
+id="historyList"
+class="history"
+>
+
+Loading...
+
+</div>
+
+
+</section>
+
+
+</section>
+
+
+</div>
+
 
 <script type="module">
 
-import {
-    initializeApp
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 
+/* FIREBASE */
 
 import {
-    getAuth,
-    onAuthStateChanged,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signOut
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+initializeApp
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 
 
 import {
-    getFirestore,
-    collection,
-    doc,
-    setDoc,
-    getDoc,
-    getDocs,
-    query,
-    orderBy,
-    serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+getAuth,
+
+onAuthStateChanged,
+
+createUserWithEmailAndPassword,
+
+signInWithEmailAndPassword,
+
+signOut
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 
-/* =====================================================
-   FIREBASE CONFIG
-===================================================== */
+import {
 
-const firebaseConfig = {
+getFirestore,
 
-    apiKey:
-        "AIzaSyDztHV-dnH2De1UoxsworjfWqOcYzUw8tY",
+collection,
 
-    authDomain:
-        "mixer4-tss.firebaseapp.com",
+doc,
 
-    projectId:
-        "mixer4-tss",
+setDoc,
 
-    storageBucket:
-        "mixer4-tss.firebasestorage.app",
+getDocs,
 
-    messagingSenderId:
-        "281329772926",
+query,
 
-    appId:
-        "1:281329772926:web:c2321755e3ad4d54236b2f"
+orderBy,
+
+serverTimestamp
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+
+/* CONFIG */
+
+const firebaseConfig={
+
+apiKey:
+"AIzaSyDztHV-dnII1DeUoxsworjfWqOcYzUw8tY",
+
+authDomain:
+"mixer4-tss.firebaseapp.com",
+
+projectId:
+"mixer4-tss",
+
+storageBucket:
+"mixer4-tss.firebasestorage.app",
+
+messagingSenderId:
+"281329772926",
+
+appId:
+"1:281329772926:web:c2321755e3ad4d54236b2f"
 
 };
 
 
-const firebaseApp =
-    initializeApp(firebaseConfig);
+/* INIT */
+
+const firebaseApp=
+initializeApp(firebaseConfig);
+
+const auth=
+getAuth(firebaseApp);
+
+const db=
+getFirestore(firebaseApp);
 
 
-const auth =
-    getAuth(firebaseApp);
+/* SHORTCUT */
+
+const $=id=>
+document.getElementById(id);
 
 
-const db =
-    getFirestore(firebaseApp);
+/* VARIABLES */
+
+let currentUser=null;
+
+let currentRecordId=null;
+
+let currentValues=
+Array(42).fill("");
+
+let saveTimer=null;
 
 
-const recordsRef =
-    collection(
-        db,
-        "mixer4_tss_records"
-    );
+/* DATE */
+
+$("sheetDate").value=
+new Date()
+.toISOString()
+.slice(0,10);
 
 
-let currentUser = null;
+/* POINTS */
 
+for(let i=0;i<42;i++){
 
-/* =====================================================
-   CHECK SHEET DATA
-===================================================== */
+const div=
+document.createElement("div");
 
-const sections = [
+div.className="point";
 
-    {
-        title:
-            "MIXER-4 TSS GEARBOX & BEARING TEMPERATURE MONITORING",
+div.innerHTML=`
 
-        rows:[
-            ["1","Gear 1st stage Rotary side","Gear 1st stage Rotary side"],
-            ["2","Gear 2nd stage Rotary side","Gear 2nd stage Rotary side"],
-            ["3","Gear 3rd stage Rotary side","Gear 3rd stage Rotary side"],
-            ["4","Gear 1st stage Cal side","Gear 1st stage Cal side"],
-            ["5","Gear 2nd stage Cal side","Gear 2nd stage Cal side"],
-            ["6","Gear 3rd stage Cal side","Gear 3rd stage Cal side"]
-        ]
-    },
+<div class="pointHeader">
 
-    {
-        title:
-            "TSS SCREW BEARING TEMPERATURE",
+<b>
 
-        rows:[
-            ["7","Input Universal joint bearing","Output RH Universal joint bearing"],
-            ["8","Output LH Universal joint bearing","Screw RH 1st bearing"],
-            ["9","Screw LH 1st bearing","Screw RH 2nd bearing"],
-            ["10","Screw LH 2nd bearing","Screw RH 3rd bearing"],
-            ["11","Screw LH 3rd bearing",""]
-        ]
-    },
+${i+1}. Check Point ${i+1}
 
-    {
-        title:
-            "TSS CALENDAR TCU",
+</b>
 
-        rows:[
-            ["12","Top roll TCU temp",""],
-            ["13","Bottom roll TCU temp",""],
-            ["14","TSS Screw temp",""]
-        ]
-    },
+<span
+id="status-${i}"
+class="status"
+>
 
-    {
-        title:
-            "TSS CALENDAR ROLL BEARING HOUSING TEMPERATURE",
+Not filled
 
-        rows:[
-            ["15","Top roll Drive side housing","Top roll Water side housing"],
-            ["16","Bottom roll Drive side housing","Bottom roll Water side housing"]
-        ]
-    },
+</span>
 
-    {
-        title:
-            "TSS SCREW GEARBOX FLS",
+</div>
 
-        rows:[
-            ["17","FLS oil pressure","FLS oil temp"]
-        ]
-    },
+<input
+id="point-${i}"
+placeholder="Enter value / observation"
+autocomplete="off"
+>
 
-    {
-        title:
-            "TSS CALENDAR ROLL GEARBOX BEARING TEMPERATURE",
+`;
 
-        rows:[
-            ["18","Input shaft bearing motor side","Input shaft bearing outside"],
-            ["19","2nd stage bearing temp motor side","2nd stage bearing outside"],
-            ["20","3rd stage bearing temp motor side","3rd stage bearing outside"],
-            ["21","Top roll coupling bearing motor side","Top roll coupling bearing outside"],
-            ["22","Bottom roll coupling bearing motor side","Bottom roll coupling bearing outside"]
-        ]
-    },
-
-    {
-        title:
-            "TSS CALENDAR ROLL GEARBOX FLS",
-
-        rows:[
-            ["23","FLS oil pressure","FLS oil temp"]
-        ]
-    }
-
-];
-
-
-/* =====================================================
-   HELPERS
-===================================================== */
-
-function $(id){
-    return document.getElementById(id);
-}
-
-
-function escapeHTML(value){
-
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+$("points").appendChild(div);
 
 }
 
 
-function today(){
+/* AUTH MESSAGE */
 
-    const d =
-        new Date();
-
-    return (
-        d.getFullYear()
-        + "-"
-        + String(d.getMonth()+1).padStart(2,"0")
-        + "-"
-        + String(d.getDate()).padStart(2,"0")
-    );
-
-}
-
-
-function showAuthMessage(
-    text,
-    type=""
+function authMessage(
+text,
+type="error"
 ){
 
-    $("authMessage").textContent =
-        text;
+const box=
+$("authMessage");
 
-    $("authMessage").className =
-        "message " + type;
+box.textContent=text;
+
+box.className=
+"message show "+type;
 
 }
 
 
-function showSaveMessage(
-    text,
-    type=""
+/* SAVE MESSAGE */
+
+function saveMessage(
+text,
+type="ok"
 ){
 
-    $("saveMessage").textContent =
-        text;
+const box=
+$("saveMessage");
 
-    $("saveMessage").className =
-        type;
+box.textContent=text;
 
-}
-
-
-/* =====================================================
-   FIREBASE ERROR MESSAGE
-===================================================== */
-
-function firebaseError(error){
-
-    console.error(error);
-
-    const code =
-        error?.code || "";
-
-
-    const messages = {
-
-        "auth/invalid-email":
-            "❌ Email address galat hai.",
-
-        "auth/user-not-found":
-            "❌ Is email ka account nahi mila.",
-
-        "auth/wrong-password":
-            "❌ Password galat hai.",
-
-        "auth/invalid-credential":
-            "❌ Email ya password galat hai.",
-
-        "auth/invalid-login-credentials":
-            "❌ Email ya password galat hai.",
-
-        "auth/email-already-in-use":
-            "❌ Ye email pehle se registered hai. Login karein.",
-
-        "auth/weak-password":
-            "❌ Password minimum 6 characters ka hona chahiye.",
-
-        "auth/network-request-failed":
-            "❌ Internet connection problem.",
-
-        "auth/too-many-requests":
-            "❌ Bahut attempts ho gaye. Thodi der baad try karein.",
-
-        "auth/operation-not-allowed":
-            "❌ Firebase Console me Email/Password Login enable nahi hai.",
-
-        "permission-denied":
-            "❌ Firestore permission denied."
-
-    };
-
-
-    return (
-        messages[code]
-        || "❌ " + (error?.message || "Unknown Firebase error")
-    );
+box.className=
+"message show "+type;
 
 }
 
 
-/* =====================================================
-   BUILD SHEET
-===================================================== */
+/* LOGIN TAB */
 
-function buildSheet(){
+$("loginTab").onclick=()=>{
 
-    let valueIndex = 0;
+$("loginBox")
+.classList
+.remove("hidden");
 
-    let html = "";
+$("signupBox")
+.classList
+.add("hidden");
 
-
-    for(
-        const section
-        of sections
-    ){
-
-        html += `
-
-        <div class="section">
-
-            <div class="section-title">
-                ${escapeHTML(section.title)}
-            </div>
-
-            <div class="table-head">
-
-                <div>Sr.</div>
-
-                <div>
-                    SCREW LH GEARBOX TEMP
-                </div>
-
-                <div>
-                    TEMPERATURE (°C)
-                </div>
-
-                <div>
-                    SCREW RH GEARBOX TEMP
-                </div>
-
-                <div>
-                    TEMPERATURE (°C)
-                </div>
-
-            </div>
-        `;
+};
 
 
-        for(
-            const row
-            of section.rows
-        ){
+/* SIGNUP TAB */
 
-            const number =
-                row[0];
+$("signupTab").onclick=()=>{
 
-            const left =
-                row[1];
+$("signupBox")
+.classList
+.remove("hidden");
 
-            const right =
-                row[2];
+$("loginBox")
+.classList
+.add("hidden");
 
-
-            let leftIndex = -1;
-            let rightIndex = -1;
+};
 
 
-            /*
-               IMPORTANT:
-               Only real value cells get an index.
-               Blank cells do NOT consume an index.
-            */
+/* CREATE ACCOUNT */
 
-            if(left){
-                leftIndex =
-                    valueIndex++;
-            }
+$("signupButton").onclick=
+async()=>{
 
+const email=
+$("signupEmail")
+.value
+.trim();
 
-            if(right){
-                rightIndex =
-                    valueIndex++;
-            }
+const password=
+$("signupPassword")
+.value;
 
 
-            html += `
+if(!email){
 
-            <div class="table-row">
+authMessage(
+"Please enter your email."
+);
 
-                <div class="number">
-                    ${escapeHTML(number)}
-                </div>
-
-
-                <div class="point left-point">
-                    ${escapeHTML(left || "—")}
-                </div>
-
-
-                <div class="temp left-temp">
-
-                    ${
-                        left
-                        ?
-                        `
-                        <input
-                            type="text"
-                            inputmode="decimal"
-                            placeholder="Value"
-                            data-value="${leftIndex}">
-                        `
-                        :
-                        ""
-                    }
-
-                </div>
-
-
-                <div
-                    class="point right-point
-                    ${right ? "" : "empty"}">
-
-                    ${escapeHTML(right || "—")}
-
-                </div>
-
-
-                <div class="temp right-temp">
-
-                    ${
-                        right
-                        ?
-                        `
-                        <input
-                            type="text"
-                            inputmode="decimal"
-                            placeholder="Value"
-                            data-value="${rightIndex}">
-                        `
-                        :
-                        ""
-                    }
-
-                </div>
-
-            </div>
-
-            `;
-
-        }
-
-
-        html += `
-        </div>
-        `;
-
-    }
-
-
-    $("sheetBody").innerHTML =
-        html;
+return;
 
 }
 
 
-/* =====================================================
-   CLEAR SHEET
-===================================================== */
+if(password.length<6){
 
-function clearSheet(){
+authMessage(
+"Password must contain at least 6 characters."
+);
 
-    document
-        .querySelectorAll("[data-value]")
-        .forEach(
-            input =>
-                input.value = ""
-        );
-
-
-    $("checkedBy").value =
-        currentUser?.email
-        ?.split("@")[0]
-        || "";
-
-    $("verifiedBy").value =
-        "";
+return;
 
 }
 
 
-/* =====================================================
-   GET 42 VALUES
-===================================================== */
+const button=
+$("signupButton");
 
-function getValues(){
+button.disabled=true;
 
-    const values =
-        Array(42).fill("");
-
-
-    document
-        .querySelectorAll("[data-value]")
-        .forEach(
-            input => {
-
-                values[
-                    Number(input.dataset.value)
-                ] =
-                    input.value.trim();
-
-            }
-        );
+button.innerHTML=
+'<span class="loader"></span> Creating...';
 
 
-    return values;
+try{
+
+const result=
+await createUserWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+authMessage(
+"ACCOUNT CREATED! You are now logged in.",
+"ok"
+);
+
+console.log(
+"UID:",
+result.user.uid
+);
+
+}
+
+catch(error){
+
+console.error(error);
+
+authMessage(
+"CREATE ACCOUNT ERROR: "+
+error.code+
+" — "+
+error.message
+);
+
+}
+
+finally{
+
+button.disabled=false;
+
+button.textContent=
+"➕ Create Account";
+
+}
+
+};
+
+
+/* LOGIN */
+
+$("loginButton").onclick=
+async()=>{
+
+const email=
+$("loginEmail")
+.value
+.trim();
+
+const password=
+$("loginPassword")
+.value;
+
+
+if(!email){
+
+authMessage(
+"Please enter your email."
+);
+
+return;
 
 }
 
 
-/* =====================================================
-   RECORD ID
-===================================================== */
+if(!password){
 
-function getRecordId(){
+authMessage(
+"Please enter your password."
+);
 
-    return (
-        $("sheetDate").value
-        + "_"
-        + $("sheetShift").value
-    );
+return;
 
 }
 
 
-/* =====================================================
-   SAVE RECORD
-===================================================== */
+const button=
+$("loginButton");
 
-async function saveRecord(
-    silent=false
-){
+button.disabled=true;
 
-    if(!currentUser){
-
-        return;
-
-    }
+button.innerHTML=
+'<span class="loader"></span> Logging in...';
 
 
-    const date =
-        $("sheetDate").value;
+try{
+
+const result=
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+console.log(
+"LOGIN SUCCESS:",
+result.user.uid
+);
+
+authMessage(
+"Login successful!",
+"ok"
+);
+
+}
+
+catch(error){
+
+console.error(error);
+
+authMessage(
+"LOGIN ERROR: "+
+error.code+
+" — "+
+error.message
+);
+
+}
+
+finally{
+
+button.disabled=false;
+
+button.textContent=
+"🔐 Login";
+
+}
+
+};
 
 
-    const shift =
-        $("sheetShift").value;
+/* LOGOUT */
+
+$("logoutButton").onclick=
+async()=>{
+
+await signOut(auth);
+
+};
 
 
-    if(!date){
+/* NEW SHEET */
 
-        showSaveMessage(
-            "❌ Please select date.",
-            "error"
-        );
+$("newSheetButton").onclick=()=>{
 
-        return;
+currentRecordId=null;
 
-    }
+currentValues=
+Array(42).fill("");
 
+$("sheetDate").value=
+new Date()
+.toISOString()
+.slice(0,10);
 
-    const values =
-        getValues();
+$("sheetShift").value="A";
 
-
-    const filled =
-        values.filter(
-            value =>
-                value !== ""
-        ).length;
+$("sheetMachine").value=
+"MIXER-4 / TSS UNIT";
 
 
-    await setDoc(
+for(let i=0;i<42;i++){
 
-        doc(
-            db,
-            "mixer4_tss_records",
-            getRecordId()
-        ),
+$(`point-${i}`).value="";
 
-        {
+$(`status-${i}`)
+.textContent=
+"Not filled";
 
-            date:date,
+$(`status-${i}`)
+.className=
+"status";
 
-            shift:shift,
+}
 
-            values:values,
+$("historyView")
+.classList
+.add("hidden");
 
-            filled:filled,
+$("sheetView")
+.classList
+.remove("hidden");
 
-            total:42,
+saveMessage(
+"New blank check sheet ready.",
+"ok"
+);
 
-            checkedBy:
-                $("checkedBy")
-                .value
-                .trim(),
-
-            verifiedBy:
-                $("verifiedBy")
-                .value
-                .trim(),
-
-            updatedBy:
-                currentUser.uid,
-
-            checkedByEmail:
-                currentUser.email || "",
-
-            area:
-                "MIXER-4 TSS",
-
-            updatedAt:
-                serverTimestamp()
-
-        },
-
-        {
-            merge:true
-        }
-
-    );
+};
 
 
-    if(!silent){
+/* INPUT CHANGE */
 
-        showSaveMessage(
-            `☁️ Saved successfully — ${filled}/42 filled`,
-            "success"
-        );
+for(let i=0;i<42;i++){
 
-    }
+$(`point-${i}`)
+.addEventListener(
+"input",
+()=>{
+
+currentValues[i]=
+$(`point-${i}`)
+.value.trim();
+
+if(currentValues[i]){
+
+$(`status-${i}`)
+.textContent="Saved";
+
+$(`status-${i}`)
+.className=
+"status saved";
+
+}else{
+
+$(`status-${i}`)
+.textContent=
+"Not filled";
+
+$(`status-${i}`)
+.className="status";
+
+}
+
+scheduleSave();
+
+}
+);
 
 }
 
 
-/* =====================================================
-   LOAD SAVED RECORD
-===================================================== */
+/* AUTO SAVE */
 
-async function loadRecord(){
+function scheduleSave(){
 
-    if(!currentUser){
-        return;
-    }
+clearTimeout(saveTimer);
 
-
-    const date =
-        $("sheetDate").value;
-
-
-    const shift =
-        $("sheetShift").value;
-
-
-    clearSheet();
-
-
-    try{
-
-        const snapshot =
-            await getDoc(
-
-                doc(
-                    db,
-                    "mixer4_tss_records",
-                    date + "_" + shift
-                )
-
-            );
-
-
-        if(!snapshot.exists()){
-
-            showSaveMessage(
-                "New sheet — no saved data.",
-                "success"
-            );
-
-            return;
-
-        }
-
-
-        const data =
-            snapshot.data();
-
-
-        const values =
-            data.values || [];
-
-
-        values.forEach(
-            (value,index)=>{
-
-                const input =
-                    document.querySelector(
-                        `[data-value="${index}"]`
-                    );
-
-
-                if(input){
-
-                    input.value =
-                        value || "";
-
-                }
-
-            }
-        );
-
-
-        $("checkedBy").value =
-            data.checkedBy || "";
-
-
-        $("verifiedBy").value =
-            data.verifiedBy || "";
-
-
-        showSaveMessage(
-            `✓ Loaded — ${data.filled || 0}/42 filled`,
-            "success"
-        );
-
-
-    }catch(error){
-
-        showSaveMessage(
-            firebaseError(error),
-            "error"
-        );
-
-    }
+saveTimer=
+setTimeout(
+saveSheet,
+600
+);
 
 }
 
 
-/* =====================================================
-   POINT LABEL FOR HISTORY
-===================================================== */
+/* SAVE SHEET */
 
-function getPointLabel(index){
+async function saveSheet(){
 
-    let counter = 0;
-
-
-    for(
-        const section
-        of sections
-    ){
-
-        for(
-            const row
-            of section.rows
-        ){
-
-            if(row[1]){
-
-                if(counter === index){
-
-                    return (
-                        row[0]
-                        + ". LH — "
-                        + row[1]
-                    );
-
-                }
-
-                counter++;
-
-            }
+if(!currentUser)
+return;
 
 
-            if(row[2]){
-
-                if(counter === index){
-
-                    return (
-                        row[0]
-                        + ". RH — "
-                        + row[2]
-                    );
-
-                }
-
-                counter++;
-
-            }
-
-        }
-
-    }
+const filled=
+currentValues
+.filter(v=>v)
+.length;
 
 
-    return "Point " + (index+1);
+if(filled===0)
+return;
+
+
+try{
+
+if(!currentRecordId){
+
+currentRecordId=
+doc(
+collection(
+db,
+"mixer4_tss_records"
+)
+).id;
 
 }
 
 
-/* =====================================================
-   HISTORY
-===================================================== */
+await setDoc(
+
+doc(
+db,
+"mixer4_tss_records",
+currentRecordId
+),
+
+{
+
+date:
+$("sheetDate").value,
+
+shift:
+$("sheetShift").value,
+
+machine:
+$("sheetMachine").value,
+
+values:
+currentValues,
+
+filled:
+filled,
+
+total:
+42,
+
+status:
+"Draft",
+
+updatedBy:
+currentUser.email,
+
+userId:
+currentUser.uid,
+
+updatedAt:
+serverTimestamp()
+
+},
+
+{merge:true}
+
+);
+
+saveMessage(
+"☁️ Automatically saved to Firebase.",
+"ok"
+);
+
+}
+
+catch(error){
+
+console.error(error);
+
+saveMessage(
+"Firebase save error: "+
+error.code,
+"error"
+);
+
+}
+
+}
+
+
+/* COMPLETE */
+
+$("completeButton").onclick=
+async()=>{
+
+await saveSheet();
+
+
+if(!currentRecordId){
+
+saveMessage(
+"Please enter at least one value.",
+"error"
+);
+
+return;
+
+}
+
+
+try{
+
+await setDoc(
+
+doc(
+db,
+"mixer4_tss_records",
+currentRecordId
+),
+
+{
+
+status:
+"Completed",
+
+checkedBy:
+currentUser.email,
+
+completedAt:
+serverTimestamp(),
+
+updatedAt:
+serverTimestamp()
+
+},
+
+{merge:true}
+
+);
+
+
+saveMessage(
+"✅ CHECK SHEET COMPLETED & SAVED.",
+"ok"
+);
+
+}
+
+catch(error){
+
+saveMessage(
+"Complete error: "+
+error.code,
+"error"
+);
+
+}
+
+};
+
+
+/* HISTORY */
+
+$("historyButton").onclick=
+async()=>{
+
+$("sheetView")
+.classList
+.add("hidden");
+
+$("historyView")
+.classList
+.remove("hidden");
+
+await loadHistory();
+
+};
+
+
+$("refreshButton").onclick=
+loadHistory;
+
+
+/* LOAD HISTORY */
 
 async function loadHistory(){
 
-    $("historyList").innerHTML =
-        '<div style="color:#91a9bf;padding:15px">Loading...</div>';
+const list=
+$("historyList");
 
+list.innerHTML=
+"Loading history...";
 
-    try{
 
-        let snapshot;
+try{
 
+const q=
+query(
 
-        try{
+collection(
+db,
+"mixer4_tss_records"
+),
 
-            snapshot =
-                await getDocs(
+orderBy(
+"updatedAt",
+"desc"
+)
 
-                    query(
-                        recordsRef,
-                        orderBy(
-                            "updatedAt",
-                            "desc"
-                        )
-                    )
+);
 
-                );
 
-        }catch(error){
+const snapshot=
+await getDocs(q);
 
-            snapshot =
-                await getDocs(
-                    recordsRef
-                );
 
-        }
+if(snapshot.empty){
 
+list.innerHTML=
+"No check sheets found.";
 
-        const records = [];
-
-
-        snapshot.forEach(
-            item => {
-
-                const data =
-                    item.data();
-
-
-                const filled = [];
-
-
-                (
-                    data.values || []
-                ).forEach(
-                    (value,index)=>{
-
-                        if(
-                            String(
-                                value || ""
-                            ).trim() !== ""
-                        ){
-
-                            filled.push({
-
-                                index:index,
-
-                                value:
-                                    String(value).trim()
-
-                            });
-
-                        }
-
-                    }
-                );
-
-
-                /*
-                   Empty records are not shown.
-                */
-
-                if(filled.length > 0){
-
-                    records.push({
-
-                        data:data,
-
-                        filled:filled
-
-                    });
-
-                }
-
-            }
-        );
-
-
-        records.sort(
-            (a,b)=>
-                String(
-                    b.data.date || ""
-                ).localeCompare(
-                    String(
-                        a.data.date || ""
-                    )
-                )
-        );
-
-
-        if(records.length === 0){
-
-            $("historyList").innerHTML =
-                `
-                <div style="color:#91a9bf;padding:15px">
-                    No filled records found.
-                </div>
-                `;
-
-            return;
-
-        }
-
-
-        let html = "";
-
-
-        records.forEach(
-            record => {
-
-                const data =
-                    record.data;
-
-
-                html += `
-
-                <div class="history-card">
-
-                    <div class="history-header">
-
-                        <div class="history-date">
-
-                            📅
-                            ${escapeHTML(data.date || "")}
-
-                            —
-                            Shift
-                            ${escapeHTML(data.shift || "")}
-
-                        </div>
-
-
-                        <div class="history-user">
-
-                            👤
-                            ${escapeHTML(
-                                data.checkedBy
-                                || data.checkedByEmail
-                                || "Unknown"
-                            )}
-
-                            ·
-
-                            ${record.filled.length}/42
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="filled-grid">
-
-                        ${
-                            record.filled
-                            .map(
-                                item => `
-
-                                <div class="filled-item">
-
-                                    <b>
-                                        ${escapeHTML(
-                                            getPointLabel(
-                                                item.index
-                                            )
-                                        )}
-                                    </b>
-
-                                    <br>
-
-                                    <span>
-                                        ${escapeHTML(
-                                            item.value
-                                        )}
-                                    </span>
-
-                                </div>
-
-                                `
-                            )
-                            .join("")
-                        }
-
-                    </div>
-
-                </div>
-
-                `;
-
-            }
-        );
-
-
-        $("historyList").innerHTML =
-            html;
-
-
-    }catch(error){
-
-        $("historyList").innerHTML =
-            `
-            <div class="error" style="padding:15px">
-                ${escapeHTML(
-                    firebaseError(error)
-                )}
-            </div>
-            `;
-
-    }
+return;
 
 }
 
 
-/* =====================================================
-   LOGIN
-===================================================== */
-
-async function loginUser(){
-
-    const email =
-        $("loginEmail")
-        .value
-        .trim();
+list.innerHTML="";
 
 
-    const password =
-        $("loginPassword")
-        .value;
+snapshot.forEach(
+docSnap=>{
+
+const d=
+docSnap.data();
 
 
-    if(!email){
-
-        showAuthMessage(
-            "❌ Email enter karein.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(!password){
-
-        showAuthMessage(
-            "❌ Password enter karein.",
-            "error"
-        );
-
-        return;
-
-    }
+const values=
+Array.isArray(d.values)
+?
+d.values
+:
+Array.from(
+{length:42},
+(_,i)=>d[`p${i+1}`]||""
+);
 
 
-    $("loginBtn").disabled =
-        true;
+const filled=
+values.filter(v=>v).length;
 
 
-    $("loginBtn").textContent =
-        "Logging in...";
+const item=
+document.createElement("div");
+
+item.className=
+"historyItem";
 
 
-    showAuthMessage(
-        "Please wait...",
-        "success"
-    );
+item.innerHTML=`
+
+<div>
+
+<b>
+📅 ${d.date||"-"}
+</b>
+
+&nbsp;
+
+<b>
+Shift ${d.shift||"-"}
+</b>
+
+</div>
 
 
-    try{
+<div
+style="
+font-size:13px;
+color:#64748b;
+margin-top:5px;
+"
+>
 
-        await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
+🏭 ${d.machine||"MIXER-4 / TSS UNIT"}
 
+<br>
 
-    }catch(error){
+👤 ${d.checkedBy||d.updatedBy||"Unknown"}
 
-        showAuthMessage(
-            firebaseError(error),
-            "error"
-        );
-
-    }
+</div>
 
 
-    $("loginBtn").disabled =
-        false;
+<div style="margin-top:8px">
+
+<span class="badge">
+
+${d.status||"Draft"}
+
+</span>
+
+<span class="badge green">
+
+${filled}/42 Filled
+
+</span>
+
+</div>
 
 
-    $("loginBtn").textContent =
-        "🔐 Login";
+<button
+type="button"
+style="margin-top:10px"
+data-open
+>
+
+👁️ View Values
+
+</button>
+
+
+<div
+data-values
+class="hidden"
+style="
+margin-top:12px;
+"
+>
+
+${values.map(
+(v,i)=>`
+
+<div
+style="
+padding:8px;
+border-bottom:1px solid #eee;
+font-size:13px;
+"
+>
+
+<b>${i+1}.</b>
+
+${v||"<span style='color:#94a3b8'>Not filled</span>"}
+
+</div>
+
+`
+).join("")}
+
+</div>
+
+`;
+
+
+item
+.querySelector("[data-open]")
+.onclick=()=>{
+
+const box=
+item.querySelector("[data-values]");
+
+box.classList.toggle("hidden");
+
+};
+
+
+list.appendChild(item);
+
+});
+
+}
+
+catch(error){
+
+console.error(error);
+
+list.innerHTML=
+`
+<div
+style="
+color:#b91c1c;
+padding:12px;
+background:#fee2e2;
+border-radius:10px;
+"
+>
+
+History Error:
+
+${error.code}
+
+<br>
+
+${error.message}
+
+</div>
+`;
+
+}
 
 }
 
 
-/* =====================================================
-   CREATE ACCOUNT
-===================================================== */
+/* DOWNLOAD */
 
-async function signupUser(){
+$("downloadButton").onclick=()=>{
 
-    const email =
-        $("signupEmail")
-        .value
-        .trim();
+if(!currentUser){
 
+alert(
+"Please login first."
+);
 
-    const password =
-        $("signupPassword")
-        .value;
-
-
-    if(!email){
-
-        showAuthMessage(
-            "❌ Email enter karein.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(password.length < 6){
-
-        showAuthMessage(
-            "❌ Password minimum 6 characters ka hona chahiye.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    $("signupBtn").disabled =
-        true;
-
-
-    $("signupBtn").textContent =
-        "Creating...";
-
-
-    showAuthMessage(
-        "Account create ho raha hai...",
-        "success"
-    );
-
-
-    try{
-
-        await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
-
-
-    }catch(error){
-
-        showAuthMessage(
-            firebaseError(error),
-            "error"
-        );
-
-    }
-
-
-    $("signupBtn").disabled =
-        false;
-
-
-    $("signupBtn").textContent =
-        "➕ Create ID";
+return;
 
 }
 
 
-/* =====================================================
-   MAKE GLOBAL
-===================================================== */
-
-window.loginUser =
-    loginUser;
-
-window.signupUser =
-    signupUser;
-
-
-/* =====================================================
-   LOGIN TAB
-===================================================== */
-
-$("loginTab").addEventListener(
-    "click",
-    ()=>{
-
-        $("loginTab")
-            .classList
-            .add("active");
-
-
-        $("signupTab")
-            .classList
-            .remove("active");
-
-
-        $("loginBox")
-            .style
-            .display =
-            "block";
-
-
-        $("signupBox")
-            .style
-            .display =
-            "none";
-
-
-        showAuthMessage("");
-
-    }
+const values=
+Array.from(
+{length:42},
+(_,i)=>
+$(`point-${i}`).value.trim()
 );
 
 
-/* =====================================================
-   SIGNUP TAB
-===================================================== */
+let text=
+"MIXER-4 TSS DAILY CHECK SHEET\n";
 
-$("signupTab").addEventListener(
-    "click",
-    ()=>{
+text+=
+"================================\n\n";
 
-        $("signupTab")
-            .classList
-            .add("active");
+text+=
+"Date: "+
+$("sheetDate").value+
+"\n";
+
+text+=
+"Shift: "+
+$("sheetShift").value+
+"\n";
+
+text+=
+"Machine: "+
+$("sheetMachine").value+
+"\n";
+
+text+=
+"Checked By: "+
+currentUser.email+
+"\n\n";
+
+text+=
+"CHECK VALUES\n";
+
+text+=
+"--------------------------------\n";
 
 
-        $("loginTab")
-            .classList
-            .remove("active");
+values.forEach(
+(v,i)=>{
+
+text+=
+`${i+1}. ${v||"Not filled"}\n`;
+
+});
 
 
-        $("signupBox")
-            .style
-            .display =
-            "block";
+text+=
+"\n================================\n";
+
+text+=
+"Generated by MIXER-4 TSS Control System";
 
 
-        $("loginBox")
-            .style
-            .display =
-            "none";
-
-
-        showAuthMessage("");
-
-    }
+const blob=
+new Blob(
+[text],
+{
+type:"text/plain"
+}
 );
 
 
-/* =====================================================
-   LOGIN BUTTON
-===================================================== */
+const url=
+URL.createObjectURL(blob);
 
-$("loginBtn").addEventListener(
-    "click",
-    loginUser
-);
 
+const a=
+document.createElement("a");
 
-/* =====================================================
-   CREATE ID BUTTON
-===================================================== */
+a.href=url;
 
-$("signupBtn").addEventListener(
-    "click",
-    signupUser
-);
+a.download=
+`MIXER-4-${$("sheetDate").value}-Shift-${$("sheetShift").value}.txt`;
 
+a.click();
 
-/* =====================================================
-   ENTER KEY
-===================================================== */
+URL.revokeObjectURL(url);
 
-$("loginPassword").addEventListener(
-    "keydown",
-    event => {
+};
 
-        if(event.key === "Enter"){
-            loginUser();
-        }
 
-    }
-);
-
-
-$("signupPassword").addEventListener(
-    "keydown",
-    event => {
-
-        if(event.key === "Enter"){
-            signupUser();
-        }
-
-    }
-);
-
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-$("logoutBtn").addEventListener(
-    "click",
-    async ()=>{
-
-        await signOut(auth);
-
-    }
-);
-
-
-/* =====================================================
-   NEW SHEET
-===================================================== */
-
-$("newBtn").addEventListener(
-    "click",
-    ()=>{
-
-        $("sheetDate").value =
-            today();
-
-        $("sheetShift").value =
-            "A";
-
-        clearSheet();
-
-        showSaveMessage(
-            "New blank sheet ready.",
-            "success"
-        );
-
-    }
-);
-
-
-/* =====================================================
-   DATE CHANGE
-===================================================== */
-
-$("sheetDate").addEventListener(
-    "change",
-    loadRecord
-);
-
-
-/* =====================================================
-   SHIFT CHANGE
-===================================================== */
-
-$("sheetShift").addEventListener(
-    "change",
-    loadRecord
-);
-
-
-/* =====================================================
-   SAVE
-===================================================== */
-
-$("saveBtn").addEventListener(
-    "click",
-    async ()=>{
-
-        try{
-
-            await saveRecord();
-
-        }catch(error){
-
-            showSaveMessage(
-                firebaseError(error),
-                "error"
-            );
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   FINISH + PRINT
-===================================================== */
-
-$("finishBtn").addEventListener(
-    "click",
-    async ()=>{
-
-        try{
-
-            await saveRecord();
-
-            setTimeout(
-                ()=>{
-                    window.print();
-                },
-                400
-            );
-
-        }catch(error){
-
-            showSaveMessage(
-                firebaseError(error),
-                "error"
-            );
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   HISTORY OPEN
-===================================================== */
-
-$("historyBtn").addEventListener(
-    "click",
-    async ()=>{
-
-        $("historyPanel")
-            .style
-            .display =
-            "block";
-
-
-        $("refreshBtn")
-            .style
-            .display =
-            "inline-block";
-
-
-        await loadHistory();
-
-    }
-);
-
-
-/* =====================================================
-   HISTORY REFRESH
-===================================================== */
-
-$("refreshBtn").addEventListener(
-    "click",
-    loadHistory
-);
-
-
-/* =====================================================
-   HISTORY CLOSE
-===================================================== */
-
-$("closeHistory").addEventListener(
-    "click",
-    ()=>{
-
-        $("historyPanel")
-            .style
-            .display =
-            "none";
-
-
-        $("refreshBtn")
-            .style
-            .display =
-            "none";
-
-    }
-);
-
-
-/* =====================================================
-   AUTH STATE
-===================================================== */
+/* AUTH STATE */
 
 onAuthStateChanged(
-    auth,
-    async user => {
+auth,
+user=>{
 
-        currentUser =
-            user;
-
-
-        if(user){
-
-            $("auth")
-                .style
-                .display =
-                "none";
+currentUser=user;
 
 
-            $("app")
-                .style
-                .display =
-                "block";
+if(user){
 
+$("auth")
+.classList
+.add("hidden");
 
-            $("userEmail")
-                .textContent =
-                user.email
-                || "User";
+$("app")
+.classList
+.remove("hidden");
 
+$("userEmail")
+.textContent=
+user.email;
 
-            $("sheetDate").value =
-                today();
-
-
-            $("sheetShift").value =
-                "A";
-
-
-            await loadRecord();
-
-        }else{
-
-            $("auth")
-                .style
-                .display =
-                "block";
-
-
-            $("app")
-                .style
-                .display =
-                "none";
-
-
-            $("userEmail")
-                .textContent =
-                "";
-
-        }
-
-    }
+console.log(
+"AUTHENTICATED:",
+user.uid
 );
 
+loadHistory();
 
-/* =====================================================
-   AUTO SAVE
-===================================================== */
+}else{
 
-let autoSaveTimer = null;
+$("auth")
+.classList
+.remove("hidden");
 
+$("app")
+.classList
+.add("hidden");
 
-document.addEventListener(
-    "input",
-    event => {
+}
 
-        if(
-            event.target.matches(
-                "[data-value],#checkedBy,#verifiedBy"
-            )
-        ){
-
-            clearTimeout(
-                autoSaveTimer
-            );
-
-
-            autoSaveTimer =
-                setTimeout(
-                    async ()=>{
-
-                        if(!currentUser){
-                            return;
-                        }
-
-
-                        try{
-
-                            await saveRecord(true);
-
-
-                            showSaveMessage(
-                                "☁️ Auto-saved",
-                                "success"
-                            );
-
-                        }catch(error){
-
-                            showSaveMessage(
-                                firebaseError(error),
-                                "error"
-                            );
-
-                        }
-
-                    },
-                    1500
-                );
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   START
-===================================================== */
-
-buildSheet();
-
-$("sheetDate").value =
-    today();
+});
 
 </script>
 
 </body>
+
 </html>
