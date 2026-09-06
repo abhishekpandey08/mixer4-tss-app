@@ -962,6 +962,10 @@ input:focus,select:focus{
 
 <script type="module">
 
+/* =========================================================
+   FIREBASE IMPORTS
+========================================================= */
+
 import { initializeApp }
 from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 
@@ -971,23 +975,27 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+}
+from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 import {
   getFirestore,
   collection,
   doc,
   setDoc,
+  getDoc,
   getDocs,
   query,
   orderBy,
   serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+}
+from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 
-/* ================================
+/* =========================================================
    FIREBASE CONFIG
-================================ */
+   DO NOT CHANGE
+========================================================= */
 
 const firebaseConfig = {
   apiKey: "AIzaSyDztHV-dnII1DeUoxsworjfWqOcYzUw8tY",
@@ -998,85 +1006,1071 @@ const firebaseConfig = {
   appId: "1:281329772926:web:c2321755e3ad4d54236b2f"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
 
 
-/* ================================
-   EXACT ORIGINAL CHECK SHEET
-================================ */
+/* =========================================================
+   EXACT ORIGINAL EXCEL POINTS
+========================================================= */
 
 const sections = [
 
   {
-    title:"MIXER-4 TSS GEARBOX & BEARING TEMPERATURE MONITORING",
-    points:[
-      ["Gear 1st stage Rotary side","Gear 1st stage Rotary side","Gear 1st stage Rotary side"],
-      ["Gear 2nd stage Rotary side","Gear 2nd stage Rotary side","Gear 2nd stage Rotary side"],
-      ["Gear 3rd stage Rotary side","Gear 3rd stage Rotary side","Gear 3rd stage Rotary side"],
-      ["Gear 1st stage Cal side","Gear 1st stage Cal side","Gear 1st stage Cal side"],
-      ["Gear 2nd stage Cal side","Gear 2nd stage Cal side","Gear 2nd stage Cal side"],
-      ["Gear 3rd stage Cal side","Gear 3rd stage Cal side","Gear 3rd stage Cal side"]
+    title: "MIXER-4 TSS GEARBOX & BEARING TEMPERATURE MONITORING",
+    points: [
+      ["Gear 1st stage Rotary side", "Gear 1st stage Rotary side"],
+      ["Gear 2nd stage Rotary side", "Gear 2nd stage Rotary side"],
+      ["Gear 3rd stage Rotary side", "Gear 3rd stage Rotary side"],
+      ["Gear 1st stage Cal side", "Gear 1st stage Cal side"],
+      ["Gear 2nd stage Cal side", "Gear 2nd stage Cal side"],
+      ["Gear 3rd stage Cal side", "Gear 3rd stage Cal side"]
     ]
   },
 
   {
-    title:"TSS SCREW BEARING TEMPERATURE",
-    points:[
-      ["Input Universal joint bearing","Input Universal joint bearing","Output RH Universal joint bearing"],
-      ["Output LH Universal joint bearing","Output LH Universal joint bearing","Screw RH 1st bearing"],
-      ["Screw LH 1st bearing","Screw LH 1st bearing","Screw RH 2nd bearing"],
-      ["Screw LH 2nd bearing","Screw LH 2nd bearing","Screw RH 3rd bearing"],
-      ["Screw LH 3rd bearing","Screw LH 3rd bearing",""]
+    title: "TSS SCREW BEARING TEMPERATURE",
+    points: [
+      ["Input Universal joint bearing", "Output RH Universal joint bearing"],
+      ["Output LH Universal joint bearing", "Screw RH 1st bearing"],
+      ["Screw LH 1st bearing", "Screw RH 2nd bearing"],
+      ["Screw LH 2nd bearing", "Screw RH 3rd bearing"],
+      ["Screw LH 3rd bearing", ""]
     ]
   },
 
   {
-    title:"TSS CALENDAR TCU",
-    points:[
-      ["Top roll TCU temp","Top roll TCU temp",""],
-      ["Bottom roll TCU temp","Bottom roll TCU temp",""],
-      ["TSS Screw temp","TSS Screw temp",""]
+    title: "TSS CALENDAR TCU",
+    points: [
+      ["Top roll TCU temp", ""],
+      ["Bottom roll TCU temp", ""],
+      ["TSS Screw temp", ""]
     ]
   },
 
   {
-    title:"TSS CALENDAR ROLL BEARING HOUSING TEMPERATURE",
-    points:[
-      ["Top roll Drive side housing","Top roll Drive side housing","Top roll Water side housing"],
-      ["Bottom roll Drive side housing","Bottom roll Drive side housing","Bottom roll Water side housing"]
+    title: "TSS CALENDAR ROLL BEARING HOUSING TEMPERATURE",
+    points: [
+      ["Top roll Drive side housing", "Top roll Water side housing"],
+      ["Bottom roll Drive side housing", "Bottom roll Water side housing"]
     ]
   },
 
   {
-    title:"TSS SCREW GEARBOX FLS",
-    points:[
-      ["FLS oil pressure","FLS oil pressure","FLS oil temp"]
+    title: "TSS SCREW GEARBOX FLS",
+    points: [
+      ["FLS oil pressure", "FLS oil temp"]
     ]
   },
 
   {
-    title:"TSS CALENDAR ROLL GEARBOX BEARING TEMPERATURE",
-    points:[
-      ["Input shaft bearing motor side","Input shaft bearing motor side","Input shaft bearing outside"],
-      ["2nd stage bearing temp motor side","2nd stage bearing temp motor side","2nd stage bearing outside"],
-      ["3rd stage bearing temp motor side","3rd stage bearing temp motor side","3rd stage bearing outside"],
-      ["Top roll coupling bearing motor side","Top roll coupling bearing motor side","Top roll coupling bearing outside"],
-      ["Bottom roll coupling bearing motor side","Bottom roll coupling bearing motor side","Bottom roll coupling bearing outside"]
+    title: "TSS CALENDAR ROLL GEARBOX BEARING TEMPERATURE",
+    points: [
+      ["Input shaft bearing motor side", "Input shaft bearing outside"],
+      ["2nd stage bearing temp motor side", "2nd stage bearing outside"],
+      ["3rd stage bearing temp motor side", "3rd stage bearing outside"],
+      ["Top roll coupling bearing motor side", "Top roll coupling bearing outside"],
+      ["Bottom roll coupling bearing motor side", "Bottom roll coupling bearing outside"]
     ]
   },
 
   {
-    title:"TSS CALENDAR ROLL GEARBOX FLS",
-    points:[
-      ["FLS oil pressure","FLS oil pressure","FLS oil temp"]
+    title: "TSS CALENDAR ROLL GEARBOX FLS",
+    points: [
+      ["FLS oil pressure", "FLS oil temp"]
     ]
   }
 
 ];
 
 
-/*
-  IMPORTANT:
-  Original Excel has 42 val
+/* =========================================================
+   GLOBAL VARIABLES
+========================================================= */
+
+let pointData = [];
+let saveTimer = null;
+let currentRecordId = null;
+
+
+/* =========================================================
+   TODAY
+========================================================= */
+
+function today() {
+
+  const d = new Date();
+
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+
+/* =========================================================
+   BUILD CHECK SHEET
+========================================================= */
+
+function buildPoints() {
+
+  const container = document.getElementById("sections");
+
+  if (!container) return;
+
+  container.innerHTML = "";
+  pointData = [];
+
+  let index = 0;
+
+  sections.forEach(section => {
+
+    const sectionCard = document.createElement("div");
+    sectionCard.className = "card section";
+
+    sectionCard.innerHTML = `
+      <div class="section-title">
+        <h3>${escapeHTML(section.title)}</h3>
+        <span>Temperature monitoring parameters</span>
+      </div>
+    `;
+
+    const pointsBox = document.createElement("div");
+    pointsBox.className = "points";
+
+    section.points.forEach(row => {
+
+      const left = row[0];
+      const right = row[1];
+
+      let leftIndex = null;
+      let rightIndex = null;
+
+      if (left) {
+
+        index++;
+
+        leftIndex = index;
+
+        pointData.push({
+          index: index,
+          label: left,
+          side: "LH / Main"
+        });
+      }
+
+      if (right) {
+
+        index++;
+
+        rightIndex = index;
+
+        pointData.push({
+          index: index,
+          label: right,
+          side: "RH / Opposite"
+        });
+      }
+
+
+      /* ============================
+         SINGLE POINT
+      ============================ */
+
+      if (left && !right) {
+
+        const rowEl = document.createElement("div");
+
+        rowEl.className = "point";
+
+        rowEl.innerHTML = `
+
+          <div class="sr">${leftIndex}</div>
+
+          <div>
+            <div class="point-name">
+              ${escapeHTML(left)}
+            </div>
+
+            <div class="side">
+              Temperature (°C)
+            </div>
+          </div>
+
+          <div class="temp-wrap">
+
+            <input
+              class="temp-input value-input"
+              data-index="${leftIndex}"
+              type="number"
+              step="0.1"
+              placeholder="°C"
+            >
+
+          </div>
+
+          <div class="datetime-wrap">
+
+            <input
+              class="datetime"
+              data-datetime="${leftIndex}"
+              type="datetime-local"
+            >
+
+          </div>
+        `;
+
+        pointsBox.appendChild(rowEl);
+
+        return;
+      }
+
+
+      /* ============================
+         TWO POINTS
+      ============================ */
+
+      const rowEl = document.createElement("div");
+
+      rowEl.className = "point";
+
+      rowEl.style.gridTemplateColumns = "1fr";
+
+      rowEl.innerHTML = `
+
+        <div style="
+          display:grid;
+          grid-template-columns:42px minmax(160px,1fr) 130px 190px;
+          gap:10px;
+          align-items:center;
+        ">
+
+          <div class="sr">
+            ${leftIndex}
+          </div>
+
+          <div>
+
+            <div class="point-name">
+              ${escapeHTML(left)}
+            </div>
+
+            <div class="side">
+              Temperature (°C)
+            </div>
+
+          </div>
+
+          <input
+            class="temp-input value-input"
+            data-index="${leftIndex}"
+            type="number"
+            step="0.1"
+            placeholder="°C"
+          >
+
+          <input
+            class="datetime"
+            data-datetime="${leftIndex}"
+            type="datetime-local"
+          >
+
+        </div>
+
+
+        <div style="
+          display:grid;
+          grid-template-columns:42px minmax(160px,1fr) 130px 190px;
+          gap:10px;
+          align-items:center;
+          margin-top:9px;
+          padding-top:9px;
+          border-top:1px solid rgba(255,255,255,.06);
+        ">
+
+          <div class="sr">
+            ${rightIndex}
+          </div>
+
+          <div>
+
+            <div class="point-name">
+              ${escapeHTML(right)}
+            </div>
+
+            <div class="side">
+              Temperature (°C)
+            </div>
+
+          </div>
+
+          <input
+            class="temp-input value-input"
+            data-index="${rightIndex}"
+            type="number"
+            step="0.1"
+            placeholder="°C"
+          >
+
+          <input
+            class="datetime"
+            data-datetime="${rightIndex}"
+            type="datetime-local"
+          >
+
+        </div>
+      `;
+
+      pointsBox.appendChild(rowEl);
+
+    });
+
+    sectionCard.appendChild(pointsBox);
+
+    container.appendChild(sectionCard);
+
+  });
+
+
+  attachSheetListeners();
+
+  updateProgress();
+}
+
+
+/* =========================================================
+   ATTACH SHEET LISTENERS
+========================================================= */
+
+function attachSheetListeners() {
+
+  document.querySelectorAll(".value-input").forEach(input => {
+
+    input.addEventListener("input", () => {
+
+      updateProgress();
+      scheduleSave();
+
+    });
+
+  });
+
+
+  document.querySelectorAll(".datetime").forEach(input => {
+
+    input.addEventListener("input", scheduleSave);
+
+  });
+
+
+  const dateEl = document.getElementById("sheetDate");
+  const shiftEl = document.getElementById("shift");
+  const areaEl = document.getElementById("area");
+  const checkedEl = document.getElementById("checkedBy");
+  const verifiedEl = document.getElementById("verifiedBy");
+
+
+  if (dateEl) {
+
+    dateEl.addEventListener("change", async () => {
+
+      const selectedDate = dateEl.value;
+
+      clearValuesOnly();
+
+      if (selectedDate) {
+
+        await loadRecord(
+          selectedDate,
+          shiftEl.value || "A"
+        );
+
+      }
+
+    });
+
+  }
+
+
+  if (shiftEl) {
+
+    shiftEl.addEventListener("change", async () => {
+
+      const selectedDate =
+        dateEl.value || today();
+
+      const selectedShift =
+        shiftEl.value || "A";
+
+      clearValuesOnly();
+
+      await loadRecord(
+        selectedDate,
+        selectedShift
+      );
+
+    });
+
+  }
+
+
+  if (areaEl) {
+    areaEl.addEventListener("input", scheduleSave);
+  }
+
+  if (checkedEl) {
+    checkedEl.addEventListener("input", scheduleSave);
+  }
+
+  if (verifiedEl) {
+    verifiedEl.addEventListener("input", scheduleSave);
+  }
+
+}
+
+
+/* =========================================================
+   GET VALUES
+========================================================= */
+
+function getValues() {
+
+  const values = [];
+
+  for (let i = 1; i <= 42; i++) {
+
+    const el =
+      document.querySelector(
+        `.value-input[data-index="${i}"]`
+      );
+
+    values.push(
+      el ? el.value.trim() : ""
+    );
+
+  }
+
+  return values;
+}
+
+
+/* =========================================================
+   GET DATE/TIME
+========================================================= */
+
+function getDateTimes() {
+
+  const dateTimes = [];
+
+  for (let i = 1; i <= 42; i++) {
+
+    const el =
+      document.querySelector(
+        `.datetime[data-datetime="${i}"]`
+      );
+
+    dateTimes.push(
+      el ? el.value : ""
+    );
+
+  }
+
+  return dateTimes;
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+function updateProgress() {
+
+  const values = getValues();
+
+  const filled =
+    values.filter(
+      v => String(v).trim() !== ""
+    ).length;
+
+  const percent =
+    Math.round((filled / 42) * 100);
+
+  const progressText =
+    document.getElementById("progressText");
+
+  const progressBar =
+    document.getElementById("progressBar");
+
+  const status =
+    document.getElementById("sheetStatus");
+
+
+  if (progressText) {
+
+    progressText.textContent =
+      `${filled} / 42 filled`;
+
+  }
+
+
+  if (progressBar) {
+
+    progressBar.style.width =
+      `${percent}%`;
+
+  }
+
+
+  if (status) {
+
+    if (filled === 42) {
+
+      status.textContent =
+        "● COMPLETE";
+
+      status.classList.add("complete");
+
+    } else {
+
+      status.textContent =
+        "● IN PROGRESS";
+
+      status.classList.remove("complete");
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   CLEAR VALUES ONLY
+========================================================= */
+
+function clearValuesOnly() {
+
+  document
+    .querySelectorAll(".value-input")
+    .forEach(el => el.value = "");
+
+  document
+    .querySelectorAll(".datetime")
+    .forEach(el => el.value = "");
+
+  document.getElementById("checkedBy").value = "";
+  document.getElementById("verifiedBy").value = "";
+
+  currentRecordId = null;
+
+  updateProgress();
+
+  updateSaveStatus("ready");
+}
+
+
+/* =========================================================
+   BLANK SHEET
+========================================================= */
+
+function blankSheet() {
+
+  document.getElementById("sheetDate").value = today();
+
+  document.getElementById("shift").value = "A";
+
+  document.getElementById("area").value =
+    "MIXER-4 / TSS UNIT";
+
+  document.getElementById("checkedBy").value = "";
+
+  document.getElementById("verifiedBy").value = "";
+
+  document
+    .querySelectorAll(".value-input")
+    .forEach(el => el.value = "");
+
+  document
+    .querySelectorAll(".datetime")
+    .forEach(el => el.value = "");
+
+  currentRecordId = null;
+
+  updateProgress();
+
+  updateSaveStatus("ready");
+}
+
+
+/* =========================================================
+   RECORD ID
+========================================================= */
+
+function getRecordId(date, shift) {
+
+  return `${date}_${shift}`;
+
+}
+
+
+/* =========================================================
+   AUTO SAVE
+========================================================= */
+
+function scheduleSave() {
+
+  if (!auth.currentUser) return;
+
+  updateSaveStatus("saving");
+
+  clearTimeout(saveTimer);
+
+  saveTimer = setTimeout(() => {
+
+    saveSheet(false);
+
+  }, 700);
+
+}
+
+
+/* =========================================================
+   SAVE STATUS
+========================================================= */
+
+function updateSaveStatus(type) {
+
+  const el =
+    document.getElementById("saveDot");
+
+  if (!el) return;
+
+
+  if (type === "saving") {
+
+    el.textContent =
+      "☁️ Saving...";
+
+    el.className =
+      "save-dot saving";
+
+  }
+
+
+  if (type === "saved") {
+
+    el.textContent =
+      "☁️ Cloud Saved";
+
+    el.className =
+      "save-dot saved";
+
+  }
+
+
+  if (type === "ready") {
+
+    el.textContent =
+      "☁️ Ready";
+
+    el.className =
+      "save-dot";
+
+  }
+
+}
+
+
+/* =========================================================
+   SAVE TO FIRESTORE
+========================================================= */
+
+async function saveSheet(showToast = true) {
+
+  if (!auth.currentUser) {
+
+    return;
+
+  }
+
+
+  try {
+
+    const date =
+      document.getElementById("sheetDate").value ||
+      today();
+
+    const shift =
+      document.getElementById("shift").value ||
+      "A";
+
+    const values =
+      getValues();
+
+    const dateTimes =
+      getDateTimes();
+
+    const filled =
+      values.filter(
+        v => String(v).trim() !== ""
+      ).length;
+
+    const id =
+      getRecordId(date, shift);
+
+    currentRecordId = id;
+
+
+    await setDoc(
+      doc(
+        db,
+        "mixer4_tss_records",
+        id
+      ),
+      {
+
+        date: date,
+
+        shift: shift,
+
+        area:
+          document.getElementById("area").value ||
+          "MIXER-4 / TSS UNIT",
+
+        values: values,
+
+        dateTimes: dateTimes,
+
+        total: 42,
+
+        filled: filled,
+
+        checkedBy:
+          document.getElementById("checkedBy").value ||
+          "",
+
+        verifiedBy:
+          document.getElementById("verifiedBy").value ||
+          "",
+
+        updatedBy:
+          auth.currentUser.email ||
+          auth.currentUser.uid,
+
+        updatedAt:
+          serverTimestamp()
+
+      },
+      {
+        merge: true
+      }
+    );
+
+
+    updateSaveStatus("saved");
+
+
+    if (showToast) {
+
+      showToastMessage(
+        "☁️ Check sheet saved to cloud"
+      );
+
+    }
+
+  }
+  catch (error) {
+
+    console.error(
+      "Firestore save error:",
+      error
+    );
+
+    updateSaveStatus("ready");
+
+    showToastMessage(
+      "Save error: " +
+      friendlyError(error),
+      true
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   LOAD ONE RECORD
+   DIRECT DOCUMENT READ
+========================================================= */
+
+async function loadRecord(date, shift) {
+
+  if (!auth.currentUser) return;
+
+
+  try {
+
+    const id =
+      getRecordId(date, shift);
+
+    const recordRef =
+      doc(
+        db,
+        "mixer4_tss_records",
+        id
+      );
+
+    const snap =
+      await getDoc(recordRef);
+
+
+    if (snap.exists()) {
+
+      applyRecord({
+        id: snap.id,
+        ...snap.data()
+      });
+
+    } else {
+
+      currentRecordId = null;
+
+      updateProgress();
+
+      updateSaveStatus("ready");
+
+    }
+
+  }
+  catch (error) {
+
+    console.warn(
+      "Record load error:",
+      error
+    );
+
+    updateSaveStatus("ready");
+
+  }
+
+}
+
+
+/* =========================================================
+   APPLY RECORD
+========================================================= */
+
+function applyRecord(record) {
+
+  const values =
+    Array.isArray(record.values)
+      ? record.values
+      : [];
+
+  const dateTimes =
+    Array.isArray(record.dateTimes)
+      ? record.dateTimes
+      : [];
+
+
+  for (let i = 1; i <= 42; i++) {
+
+    const valueEl =
+      document.querySelector(
+        `.value-input[data-index="${i}"]`
+      );
+
+    if (valueEl) {
+
+      valueEl.value =
+        values[i - 1] ?? "";
+
+    }
+
+
+    const timeEl =
+      document.querySelector(
+        `.datetime[data-datetime="${i}"]`
+      );
+
+    if (timeEl) {
+
+      timeEl.value =
+        dateTimes[i - 1] ?? "";
+
+    }
+
+  }
+
+
+  if (record.area !== undefined) {
+
+    document.getElementById("area").value =
+      record.area;
+
+  }
+
+
+  if (record.checkedBy !== undefined) {
+
+    document.getElementById("checkedBy").value =
+      record.checkedBy;
+
+  }
+
+
+  if (record.verifiedBy !== undefined) {
+
+    document.getElementById("verifiedBy").value =
+      record.verifiedBy;
+
+  }
+
+
+  currentRecordId =
+    record.id;
+
+
+  updateProgress();
+
+  updateSaveStatus("saved");
+
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+async function loadHistory() {
+
+  const list =
+    document.getElementById("historyList");
+
+  list.innerHTML =
+    `<div class="loading">
+      ☁️ Loading shared history...
+    </div>`;
+
+
+  try {
+
+    let snapshots;
+
+
+    /* First try newest first */
+
+    try {
+
+      snapshots =
+        await getDocs(
+          query(
+            collection(
+              db,
+              "mixer4_tss_records"
+            ),
+            orderBy(
+              "updatedAt",
+              "desc"
+            )
+          )
+        );
+
+    }
+    catch (orderError) {
+
+      console.warn(
+        "History orderBy failed. Using fallback.",
+        orderError
+      );
+
+      snapshots =
+        await getDocs(
+          collection(
+            db,
+            "mixer4_tss_records"
+          )
+        );
+
+    }
+
+
+    if (snapshots.empty) {
+
+      list.innerHTML = `
+        <div class="card empty">
+          📭 No check sheet history found.
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    list.innerHTML = "";
+
+
+    snapshots.forEach(snap => {
+
+      const data =
+        snap.data();
+
+      const values =
+        Array.isArray(data.values)
+          ? data.values
+          : [];
+
+      const dateTimes =
+        Array.isArray(data.dateTimes)
+          ? data.dateTimes
+          : [];
+
+
+      const date =
+        data.date ||
+        snap.id.split("_")[0] ||
+        "-";
+
+
+      const shift =
+        data.shift ||
+        snap.id.split("_")[1] ||
+        "-";
+
+
+      const filled =
+        data.filled ??
+        values.filter(
+          v =>
+            v !== undefined &&
+            v !== null &&
+            String(v).trim() !== ""
+        ).length;
+
+
+      const user =
+        data.updatedBy ||
+        data.checkedBy ||
+        "Unknown";
+
+
+      /* ============================================
+         ONLY FILLED VALUES
+      ============================================ */
+
+      let valueHTML = "";
+
+
+      for (let i = 0; i < 42; i++) {
+
+        const value =
+          values[i];
+
+
+        if (
+          value === undefined ||
+          value ==
