@@ -1861,7 +1861,15 @@ auth,
 email,
 password
 );
-
+await setDoc(
+doc(db,"mixer4_users",result.user.uid),
+{
+name:name,
+email:email,
+createdAt:serverTimestamp()
+}
+);
+   
 authMessage(
 "ACCOUNT CREATED! You are now logged in.",
 "ok"
