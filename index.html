@@ -1816,7 +1816,21 @@ const email=
 $("signupEmail")
 .value
 .trim();
+const name=
+$("signupName")
+.value
+.trim();
 
+if(!name){
+
+authMessage(
+"Please enter your name."
+);
+
+return;
+
+}
+   
 const password=
 $("signupPassword")
 .value;
