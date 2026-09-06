@@ -297,6 +297,16 @@ scale(.97);
 
 }
 
+button:disabled{
+
+opacity:.65;
+
+cursor:not-allowed;
+
+transform:none;
+
+}
+
 button.secondary{
 
 background:#e8eef8;
@@ -440,6 +450,35 @@ font-weight:900;
 
 }
 
+/* SECTION TITLE */
+
+.sectionTitle{
+
+margin-top:25px;
+
+margin-bottom:12px;
+
+padding:12px 14px;
+
+border-radius:12px;
+
+background:
+linear-gradient(
+135deg,
+#eef2ff,
+#ecfeff
+);
+
+border-left:5px solid var(--purple);
+
+font-size:16px;
+
+font-weight:850;
+
+color:#312e81;
+
+}
+
 /* CHECK POINT */
 
 .point{
@@ -511,6 +550,24 @@ gap:10px;
 
 align-items:center;
 
+margin-bottom:10px;
+
+}
+
+.pointNumber{
+
+color:#2563eb;
+
+font-weight:900;
+
+}
+
+.pointLabel{
+
+font-weight:750;
+
+line-height:1.4;
+
 }
 
 .status{
@@ -527,6 +584,8 @@ color:#4338ca;
 
 font-weight:700;
 
+white-space:nowrap;
+
 }
 
 .status.saved{
@@ -534,6 +593,53 @@ font-weight:700;
 background:#dcfce7;
 
 color:#166534;
+
+}
+
+/* TWO SIDE POINT */
+
+.pointGrid{
+
+display:grid;
+
+grid-template-columns:
+1fr 1fr;
+
+gap:12px;
+
+}
+
+.sidePoint{
+
+padding:12px;
+
+border-radius:12px;
+
+background:#ffffff;
+
+border:1px solid #e2e8f0;
+
+}
+
+.sideTitle{
+
+font-size:12px;
+
+font-weight:800;
+
+color:#475569;
+
+margin-bottom:7px;
+
+}
+
+@media(max-width:650px){
+
+.pointGrid{
+
+grid-template-columns:1fr;
+
+}
 
 }
 
@@ -766,17 +872,11 @@ class="card auth"
 >
 
 <div class="logo">
-
 MIXER-4
-
 </div>
 
-<h2
-style="text-align:center"
->
-
+<h2 style="text-align:center">
 TSS Control System
-
 </h2>
 
 
@@ -786,9 +886,7 @@ TSS Control System
 id="loginTab"
 type="button"
 >
-
 🔐 Login
-
 </button>
 
 <button
@@ -796,9 +894,7 @@ id="signupTab"
 type="button"
 class="secondary"
 >
-
 ➕ Create ID
-
 </button>
 
 </div>
@@ -921,9 +1017,7 @@ class="hidden"
 <div class="userBox">
 
 <div class="avatar">
-
 👤
-
 </div>
 
 <div>
@@ -935,9 +1029,7 @@ User
 <div
 style="font-size:12px;color:#64748b"
 >
-
 Logged in successfully
-
 </div>
 
 </div>
@@ -948,9 +1040,7 @@ class="secondary"
 style="margin-left:auto"
 type="button"
 >
-
 Logout
-
 </button>
 
 </div>
@@ -966,9 +1056,7 @@ Logout
 id="newSheetButton"
 type="button"
 >
-
 📝 New Sheet
-
 </button>
 
 <button
@@ -976,9 +1064,7 @@ id="historyButton"
 class="secondary"
 type="button"
 >
-
 📚 All History
-
 </button>
 
 </div>
@@ -992,9 +1078,7 @@ class="card"
 >
 
 <h2>
-
 📝 Daily Check Sheet
-
 </h2>
 
 
@@ -1050,9 +1134,7 @@ value="MIXER-4 / TSS UNIT"
 <p
 style="color:#64748b;font-size:13px"
 >
-
-💡 Values are automatically saved to Firebase Cloud.
-
+💡 Enter temperature / pressure / observation values. Data is automatically saved to Firebase Cloud.
 </p>
 
 
@@ -1073,9 +1155,7 @@ id="completeButton"
 class="green"
 type="button"
 >
-
 ✅ Complete Sheet
-
 </button>
 
 <button
@@ -1083,9 +1163,7 @@ id="downloadButton"
 class="secondary"
 type="button"
 >
-
 ⬇️ Download Sheet
-
 </button>
 
 </div>
@@ -1117,9 +1195,7 @@ gap:10px;
 >
 
 <h2>
-
 📚 Check Sheet History
-
 </h2>
 
 <button
@@ -1127,9 +1203,7 @@ id="refreshButton"
 class="secondary"
 type="button"
 >
-
 🔄 Refresh
-
 </button>
 
 </div>
@@ -1138,9 +1212,7 @@ type="button"
 <p
 style="font-size:13px;color:#64748b"
 >
-
 All logged-in users can see previous check sheets and the values filled in them.
-
 </p>
 
 
@@ -1148,11 +1220,8 @@ All logged-in users can see previous check sheets and the values filled in them.
 id="historyList"
 class="history"
 >
-
 Loading...
-
 </div>
-
 
 </section>
 
@@ -1166,61 +1235,46 @@ Loading...
 <script type="module">
 
 
-/* FIREBASE */
+/* =========================================
+   FIREBASE IMPORT
+========================================= */
 
 import {
-
 initializeApp
-
 }
-
 from
 "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 
 
 import {
-
 getAuth,
-
 onAuthStateChanged,
-
 createUserWithEmailAndPassword,
-
 signInWithEmailAndPassword,
-
 signOut
-
 }
-
 from
 "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 
 import {
-
 getFirestore,
-
 collection,
-
 doc,
-
 setDoc,
-
 getDocs,
-
+getDoc,
 query,
-
 orderBy,
-
 serverTimestamp
-
 }
-
 from
 "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 
-/* CONFIG */
+/* =========================================
+   FIREBASE CONFIG
+========================================= */
 
 const firebaseConfig={
 
@@ -1245,7 +1299,9 @@ appId:
 };
 
 
-/* INIT */
+/* =========================================
+   INITIALIZE FIREBASE
+========================================= */
 
 const firebaseApp=
 initializeApp(firebaseConfig);
@@ -1257,13 +1313,18 @@ const db=
 getFirestore(firebaseApp);
 
 
-/* SHORTCUT */
+/* =========================================
+   SHORTCUT
+========================================= */
 
-const $=id=>
+const $=
+id=>
 document.getElementById(id);
 
 
-/* VARIABLES */
+/* =========================================
+   VARIABLES
+========================================= */
 
 let currentUser=null;
 
@@ -1275,7 +1336,190 @@ Array(42).fill("");
 let saveTimer=null;
 
 
-/* DATE */
+/* =========================================
+   EXACT 42 CHECK POINTS
+   DATE/TIME REMOVED
+========================================= */
+
+const sections=[
+
+{
+title:
+"MIXER-4 TSS GEARBOX & BEARING TEMPERATURE MONITORING",
+
+rows:[
+
+["1",
+"Gear 1st stage Rotary side",
+"Gear 1st stage Rotary side"],
+
+["2",
+"Gear 2nd stage Rotary side",
+"Gear 2nd stage Rotary side"],
+
+["3",
+"Gear 3rd stage Rotary side",
+"Gear 3rd stage Rotary side"],
+
+["4",
+"Gear 1st stage Cal side",
+"Gear 1st stage Cal side"],
+
+["5",
+"Gear 2nd stage Cal side",
+"Gear 2nd stage Cal side"],
+
+["6",
+"Gear 3rd stage Cal side",
+"Gear 3rd stage Cal side"]
+
+]
+
+},
+
+{
+
+title:
+"TSS SCREW BEARING TEMPERATURE",
+
+rows:[
+
+["7",
+"Input Universal joint bearing",
+"Output RH Universal joint bearing"],
+
+["8",
+"Output LH Universal joint bearing",
+"Screw RH 1st bearing"],
+
+["9",
+"Screw LH 1st bearing",
+"Screw RH 2nd bearing"],
+
+["10",
+"Screw LH 2nd bearing",
+"Screw RH 3rd bearing"],
+
+["11",
+"Screw LH 3rd bearing",
+""]
+
+]
+
+},
+
+{
+
+title:
+"TSS CALENDAR TCU",
+
+rows:[
+
+["12",
+"Top roll TCU temp",
+""
+],
+
+["13",
+"Bottom roll TCU temp",
+""
+],
+
+["14",
+"TSS Screw temp",
+""
+]
+
+]
+
+},
+
+{
+
+title:
+"TSS CALENDAR ROLL BEARING HOUSING TEMPERATURE",
+
+rows:[
+
+["15",
+"Top roll Drive side housing",
+"Top roll Water side housing"],
+
+["16",
+"Bottom roll Drive side housing",
+"Bottom roll Water side housing"]
+
+]
+
+},
+
+{
+
+title:
+"TSS SCREW GEARBOX FLS",
+
+rows:[
+
+["17",
+"FLS oil pressure",
+"FLS oil temp"]
+
+]
+
+},
+
+{
+
+title:
+"TSS CALENDAR ROLL GEARBOX BEARING TEMPERATURE",
+
+rows:[
+
+["18",
+"Input shaft bearing motor side",
+"Input shaft bearing outside"],
+
+["19",
+"2nd stage bearing temp motor side",
+"2nd stage bearing outside"],
+
+["20",
+"3rd stage bearing temp motor side",
+"3rd stage bearing outside"],
+
+["21",
+"Top roll coupling bearing motor side",
+"Top roll coupling bearing outside"],
+
+["22",
+"Bottom roll coupling bearing motor side",
+"Bottom roll coupling bearing outside"]
+
+]
+
+},
+
+{
+
+title:
+"TSS CALENDAR ROLL GEARBOX FLS",
+
+rows:[
+
+["23",
+"FLS oil pressure",
+"FLS oil temp"]
+
+]
+
+}
+
+];
+
+
+/* =========================================
+   DATE
+========================================= */
 
 $("sheetDate").value=
 new Date()
@@ -1283,50 +1527,194 @@ new Date()
 .slice(0,10);
 
 
-/* POINTS */
+/* =========================================
+   BUILD CHECK SHEET
+========================================= */
 
-for(let i=0;i<42;i++){
+function buildSheet(){
 
-const div=
+const container=
+$("points");
+
+container.innerHTML="";
+
+let valueIndex=0;
+
+sections.forEach(section=>{
+
+const title=
 document.createElement("div");
 
-div.className="point";
+title.className=
+"sectionTitle";
 
-div.innerHTML=`
+title.textContent=
+section.title;
 
-<div class="pointHeader">
+container.appendChild(title);
 
-<b>
 
-${i+1}. Check Point ${i+1}
+section.rows.forEach(row=>{
 
-</b>
+const sr=row[0];
 
-<span
-id="status-${i}"
-class="status"
->
+const left=row[1];
 
-Not filled
+const right=row[2];
 
-</span>
+const point=
+document.createElement("div");
 
-</div>
+point.className=
+"point";
 
-<input
-id="point-${i}"
-placeholder="Enter value / observation"
-autocomplete="off"
->
 
-`;
+let leftIndex=null;
+let rightIndex=null;
 
-$("points").appendChild(div);
+
+/* IMPORTANT:
+   Blank cells do NOT consume an index
+*/
+
+if(left){
+
+leftIndex=
+valueIndex++;
+
+}
+
+if(right){
+
+rightIndex=
+valueIndex++;
 
 }
 
 
-/* AUTH MESSAGE */
+let html=`
+
+<div class="pointHeader">
+
+<div>
+
+<span class="pointNumber">
+Point ${sr}
+</span>
+
+</div>
+
+</div>
+
+<div class="pointGrid">
+`;
+
+
+if(left){
+
+html+=`
+
+<div class="sidePoint">
+
+<div class="sideTitle">
+${left}
+</div>
+
+<div style="
+display:flex;
+gap:8px;
+align-items:center;
+">
+
+<input
+id="point-${leftIndex}"
+data-value="${leftIndex}"
+placeholder="Enter value"
+autocomplete="off"
+>
+
+<span
+id="status-${leftIndex}"
+class="status"
+>
+Not filled
+</span>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+if(right){
+
+html+=`
+
+<div class="sidePoint">
+
+<div class="sideTitle">
+${right}
+</div>
+
+<div style="
+display:flex;
+gap:8px;
+align-items:center;
+">
+
+<input
+id="point-${rightIndex}"
+data-value="${rightIndex}"
+placeholder="Enter value"
+autocomplete="off"
+>
+
+<span
+id="status-${rightIndex}"
+class="status"
+>
+Not filled
+</span>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+html+=`
+
+</div>
+
+`;
+
+
+point.innerHTML=
+html;
+
+container.appendChild(point);
+
+});
+
+});
+
+}
+
+
+/* BUILD */
+
+buildSheet();
+
+
+/* =========================================
+   AUTH MESSAGE
+========================================= */
 
 function authMessage(
 text,
@@ -1336,15 +1724,19 @@ type="error"
 const box=
 $("authMessage");
 
-box.textContent=text;
+box.textContent=
+text;
 
 box.className=
-"message show "+type;
+"message show "+
+type;
 
 }
 
 
-/* SAVE MESSAGE */
+/* =========================================
+   SAVE MESSAGE
+========================================= */
 
 function saveMessage(
 text,
@@ -1354,15 +1746,19 @@ type="ok"
 const box=
 $("saveMessage");
 
-box.textContent=text;
+box.textContent=
+text;
 
 box.className=
-"message show "+type;
+"message show "+
+type;
 
 }
 
 
-/* LOGIN TAB */
+/* =========================================
+   LOGIN TAB
+========================================= */
 
 $("loginTab").onclick=()=>{
 
@@ -1374,10 +1770,20 @@ $("signupBox")
 .classList
 .add("hidden");
 
+$("loginTab")
+.classList
+.remove("secondary");
+
+$("signupTab")
+.classList
+.add("secondary");
+
 };
 
 
-/* SIGNUP TAB */
+/* =========================================
+   SIGNUP TAB
+========================================= */
 
 $("signupTab").onclick=()=>{
 
@@ -1389,13 +1795,22 @@ $("loginBox")
 .classList
 .add("hidden");
 
+$("signupTab")
+.classList
+.remove("secondary");
+
+$("loginTab")
+.classList
+.add("secondary");
+
 };
 
 
-/* CREATE ACCOUNT */
+/* =========================================
+   CREATE ACCOUNT
+========================================= */
 
-$("signupButton").onclick=
-async()=>{
+async function signupUser(){
 
 const email=
 $("signupEmail")
@@ -1481,13 +1896,18 @@ button.textContent=
 
 }
 
-};
+}
 
 
-/* LOGIN */
+$("signupButton").onclick=
+signupUser;
 
-$("loginButton").onclick=
-async()=>{
+
+/* =========================================
+   LOGIN
+========================================= */
+
+async function loginUser(){
 
 const email=
 $("loginEmail")
@@ -1573,22 +1993,49 @@ button.textContent=
 
 }
 
-};
+}
 
 
-/* LOGOUT */
+$("loginButton").onclick=
+loginUser;
+
+
+/* GLOBAL */
+
+window.loginUser=
+loginUser;
+
+window.signupUser=
+signupUser;
+
+
+/* =========================================
+   LOGOUT
+========================================= */
 
 $("logoutButton").onclick=
 async()=>{
 
+try{
+
 await signOut(auth);
+
+}
+
+catch(error){
+
+console.error(error);
+
+}
 
 };
 
 
-/* NEW SHEET */
+/* =========================================
+   CLEAR SHEET
+========================================= */
 
-$("newSheetButton").onclick=()=>{
+function clearSheet(){
 
 currentRecordId=null;
 
@@ -1600,7 +2047,8 @@ new Date()
 .toISOString()
 .slice(0,10);
 
-$("sheetShift").value="A";
+$("sheetShift").value=
+"A";
 
 $("sheetMachine").value=
 "MIXER-4 / TSS UNIT";
@@ -1608,17 +2056,40 @@ $("sheetMachine").value=
 
 for(let i=0;i<42;i++){
 
-$(`point-${i}`).value="";
+const input=
+$(`point-${i}`);
 
-$(`status-${i}`)
-.textContent=
+const status=
+$(`status-${i}`);
+
+if(input){
+
+input.value="";
+
+}
+
+if(status){
+
+status.textContent=
 "Not filled";
 
-$(`status-${i}`)
-.className=
+status.className=
 "status";
 
 }
+
+}
+
+}
+
+
+/* =========================================
+   NEW SHEET
+========================================= */
+
+$("newSheetButton").onclick=()=>{
+
+clearSheet();
 
 $("historyView")
 .classList
@@ -1636,36 +2107,45 @@ saveMessage(
 };
 
 
-/* INPUT CHANGE */
+/* =========================================
+   INPUT CHANGE
+========================================= */
 
 for(let i=0;i<42;i++){
 
-$(`point-${i}`)
-.addEventListener(
+const input=
+$(`point-${i}`);
+
+if(!input)
+continue;
+
+input.addEventListener(
 "input",
 ()=>{
 
 currentValues[i]=
-$(`point-${i}`)
-.value.trim();
+input.value.trim();
+
+
+const status=
+$(`status-${i}`);
+
 
 if(currentValues[i]){
 
-$(`status-${i}`)
-.textContent="Saved";
+status.textContent=
+"Saved";
 
-$(`status-${i}`)
-.className=
+status.className=
 "status saved";
 
 }else{
 
-$(`status-${i}`)
-.textContent=
+status.textContent=
 "Not filled";
 
-$(`status-${i}`)
-.className="status";
+status.className=
+"status";
 
 }
 
@@ -1677,7 +2157,9 @@ scheduleSave();
 }
 
 
-/* AUTO SAVE */
+/* =========================================
+   AUTO SAVE
+========================================= */
 
 function scheduleSave(){
 
@@ -1692,7 +2174,9 @@ saveSheet,
 }
 
 
-/* SAVE SHEET */
+/* =========================================
+   SAVE SHEET
+========================================= */
 
 async function saveSheet(){
 
@@ -1714,13 +2198,13 @@ try{
 
 if(!currentRecordId){
 
+/*
+   Record ID:
+   Date + Shift
+*/
+
 currentRecordId=
-doc(
-collection(
-db,
-"mixer4_tss_records"
-)
-).id;
+`${$("sheetDate").value}_${$("sheetShift").value}`;
 
 }
 
@@ -1767,7 +2251,9 @@ serverTimestamp()
 
 },
 
-{merge:true}
+{
+merge:true
+}
 
 );
 
@@ -1784,7 +2270,9 @@ console.error(error);
 
 saveMessage(
 "Firebase save error: "+
-error.code,
+error.code+
+" — "+
+error.message,
 "error"
 );
 
@@ -1793,10 +2281,24 @@ error.code,
 }
 
 
-/* COMPLETE */
+/* =========================================
+   COMPLETE SHEET
+========================================= */
 
 $("completeButton").onclick=
 async()=>{
+
+if(!currentUser){
+
+saveMessage(
+"Please login first.",
+"error"
+);
+
+return;
+
+}
+
 
 await saveSheet();
 
@@ -1839,7 +2341,9 @@ serverTimestamp()
 
 },
 
-{merge:true}
+{
+merge:true
+}
 
 );
 
@@ -1853,9 +2357,13 @@ saveMessage(
 
 catch(error){
 
+console.error(error);
+
 saveMessage(
 "Complete error: "+
-error.code,
+error.code+
+" — "+
+error.message,
 "error"
 );
 
@@ -1864,7 +2372,9 @@ error.code,
 };
 
 
-/* HISTORY */
+/* =========================================
+   HISTORY BUTTON
+========================================= */
 
 $("historyButton").onclick=
 async()=>{
@@ -1882,11 +2392,54 @@ await loadHistory();
 };
 
 
+/* =========================================
+   REFRESH
+========================================= */
+
 $("refreshButton").onclick=
 loadHistory;
 
 
-/* LOAD HISTORY */
+/* =========================================
+   POINT LABEL MAP
+========================================= */
+
+function getPointLabels(){
+
+const labels=[];
+
+sections.forEach(section=>{
+
+section.rows.forEach(row=>{
+
+if(row[1]){
+
+labels.push(row[1]);
+
+}
+
+if(row[2]){
+
+labels.push(row[2]);
+
+}
+
+});
+
+});
+
+return labels;
+
+}
+
+
+const pointLabels=
+getPointLabels();
+
+
+/* =========================================
+   LOAD HISTORY
+========================================= */
 
 async function loadHistory(){
 
@@ -1946,12 +2499,9 @@ d.values
 :
 Array.from(
 {length:42},
-(_,i)=>d[`p${i+1}`]||""
+(_,i)=>
+d[`p${i+1}`]||""
 );
-
-
-const filled=
-values.filter(v=>v).length;
 
 
 const item=
@@ -1959,6 +2509,60 @@ document.createElement("div");
 
 item.className=
 "historyItem";
+
+
+/*
+   ONLY FILLED VALUES
+*/
+
+let valueHTML="";
+
+values.forEach(
+(v,i)=>{
+
+if(!v)
+return;
+
+valueHTML+=`
+
+<div
+style="
+padding:9px;
+border-bottom:1px solid #eee;
+font-size:13px;
+"
+>
+
+<b>
+${pointLabels[i]||`Point ${i+1}`}:
+</b>
+
+<span>
+${v}
+</span>
+
+</div>
+
+`;
+
+});
+
+
+if(!valueHTML){
+
+valueHTML=
+`
+<div
+style="
+padding:10px;
+color:#94a3b8;
+"
+>
+No values filled.
+</div>
+`;
+
+}
 
 
 item.innerHTML=`
@@ -2005,7 +2609,7 @@ ${d.status||"Draft"}
 
 <span class="badge green">
 
-${filled}/42 Filled
+${values.filter(v=>v).length}/42 Filled
 
 </span>
 
@@ -2018,7 +2622,7 @@ style="margin-top:10px"
 data-open
 >
 
-👁️ View Values
+👁️ View Filled Values
 
 </button>
 
@@ -2031,25 +2635,7 @@ margin-top:12px;
 "
 >
 
-${values.map(
-(v,i)=>`
-
-<div
-style="
-padding:8px;
-border-bottom:1px solid #eee;
-font-size:13px;
-"
->
-
-<b>${i+1}.</b>
-
-${v||"<span style='color:#94a3b8'>Not filled</span>"}
-
-</div>
-
-`
-).join("")}
+${valueHTML}
 
 </div>
 
@@ -2089,7 +2675,9 @@ border-radius:10px;
 "
 >
 
-History Error:
+<b>History Error:</b>
+
+<br>
 
 ${error.code}
 
@@ -2105,7 +2693,9 @@ ${error.message}
 }
 
 
-/* DOWNLOAD */
+/* =========================================
+   DOWNLOAD
+========================================= */
 
 $("downloadButton").onclick=()=>{
 
@@ -2123,8 +2713,18 @@ return;
 const values=
 Array.from(
 {length:42},
-(_,i)=>
-$(`point-${i}`).value.trim()
+(_,i)=>{
+
+const input=
+$(`point-${i}`);
+
+return input
+?
+input.value.trim()
+:
+"";
+
+}
 );
 
 
@@ -2132,7 +2732,8 @@ let text=
 "MIXER-4 TSS DAILY CHECK SHEET\n";
 
 text+=
-"================================\n\n";
+"============================================\n\n";
+
 
 text+=
 "Date: "+
@@ -2154,24 +2755,33 @@ text+=
 currentUser.email+
 "\n\n";
 
-text+=
-"CHECK VALUES\n";
 
 text+=
-"--------------------------------\n";
+"FILLED CHECK VALUES\n";
+
+text+=
+"--------------------------------------------\n";
 
 
 values.forEach(
 (v,i)=>{
 
+/*
+   ONLY FILLED VALUES
+*/
+
+if(!v)
+return;
+
+
 text+=
-`${i+1}. ${v||"Not filled"}\n`;
+`${i+1}. ${pointLabels[i]||"Check Point"} : ${v}\n`;
 
 });
 
 
 text+=
-"\n================================\n";
+"\n============================================\n";
 
 text+=
 "Generated by MIXER-4 TSS Control System";
@@ -2193,25 +2803,33 @@ URL.createObjectURL(blob);
 const a=
 document.createElement("a");
 
-a.href=url;
+a.href=
+url;
 
 a.download=
 `MIXER-4-${$("sheetDate").value}-Shift-${$("sheetShift").value}.txt`;
 
+document.body.appendChild(a);
+
 a.click();
+
+a.remove();
 
 URL.revokeObjectURL(url);
 
 };
 
 
-/* AUTH STATE */
+/* =========================================
+   AUTH STATE
+========================================= */
 
 onAuthStateChanged(
 auth,
 user=>{
 
-currentUser=user;
+currentUser=
+user;
 
 
 if(user){
@@ -2248,6 +2866,7 @@ $("app")
 }
 
 });
+
 
 </script>
 
