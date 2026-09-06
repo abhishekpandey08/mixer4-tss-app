@@ -29,9 +29,7 @@ box-sizing:border-box;
 }
 
 body{
-
 margin:0;
-
 font-family:
 system-ui,
 -apple-system,
@@ -51,13 +49,11 @@ linear-gradient(
 );
 
 color:var(--dark);
-
 }
 
 /* HEADER */
 
 header{
-
 background:
 linear-gradient(
 135deg,
@@ -67,7 +63,6 @@ linear-gradient(
 );
 
 color:white;
-
 padding:22px 16px;
 
 box-shadow:
@@ -75,7 +70,6 @@ box-shadow:
 
 animation:
 headerDrop .7s ease;
-
 }
 
 @keyframes headerDrop{
@@ -93,47 +87,32 @@ transform:translateY(0);
 }
 
 .headerInner{
-
 max-width:1000px;
-
 margin:auto;
-
 }
 
 header h1{
-
 margin:0;
-
 font-size:24px;
-
 }
 
 header p{
-
 margin:5px 0 0;
-
 opacity:.9;
-
 font-size:13px;
-
 }
 
 /* CONTAINER */
 
 .container{
-
 max-width:1000px;
-
 margin:auto;
-
 padding:18px;
-
 }
 
 /* CARD */
 
 .card{
-
 background:
 rgba(255,255,255,.92);
 
@@ -152,29 +131,22 @@ border:1px solid white;
 
 animation:
 cardIn .5s ease;
-
 }
 
 @keyframes cardIn{
 
 from{
-
 opacity:0;
-
 transform:
 translateY(20px)
 scale(.98);
-
 }
 
 to{
-
 opacity:1;
-
 transform:
 translateY(0)
 scale(1);
-
 }
 
 }
@@ -182,20 +154,13 @@ scale(1);
 /* AUTH */
 
 .auth{
-
 max-width:500px;
-
-margin:
-60px auto;
-
+margin:60px auto;
 }
 
 .logo{
-
 text-align:center;
-
 font-size:32px;
-
 font-weight:900;
 
 background:
@@ -207,11 +172,9 @@ linear-gradient(
 );
 
 -webkit-background-clip:text;
-
 color:transparent;
 
 margin-bottom:5px;
-
 }
 
 /* INPUT */
@@ -235,7 +198,6 @@ outline:none;
 background:white;
 
 transition:.2s;
-
 }
 
 input:focus,
@@ -245,7 +207,6 @@ border-color:var(--blue);
 
 box-shadow:
 0 0 0 4px #2563eb20;
-
 }
 
 /* BUTTON */
@@ -277,7 +238,6 @@ box-shadow:
 0 5px 16px #2563eb35;
 
 transition:.2s;
-
 }
 
 button:hover{
@@ -287,74 +247,52 @@ translateY(-2px);
 
 box-shadow:
 0 9px 22px #2563eb40;
-
 }
 
 button:active{
-
-transform:
-scale(.97);
-
+transform:scale(.97);
 }
 
 button:disabled{
-
 opacity:.65;
-
 cursor:not-allowed;
-
 transform:none;
-
 }
 
 button.secondary{
-
 background:#e8eef8;
-
 color:#172033;
-
 box-shadow:none;
-
 }
 
 button.green{
-
 background:
 linear-gradient(
 135deg,
 #16a34a,
 #059669
 );
-
 }
 
 button.red{
-
 background:
 linear-gradient(
 135deg,
 #ef4444,
 #b91c1c
 );
-
 }
 
 /* AUTH TABS */
 
 .tabs{
-
 display:flex;
-
 gap:10px;
-
 margin-bottom:20px;
-
 }
 
 .tabs button{
-
 flex:1;
-
 }
 
 /* FORM */
@@ -370,69 +308,48 @@ minmax(210px,1fr)
 );
 
 gap:14px;
-
 }
 
 label{
-
 display:block;
-
 font-size:14px;
-
 font-weight:750;
-
 margin-bottom:6px;
-
 }
 
 .field{
-
 margin-bottom:15px;
-
 }
 
 /* NAV */
 
 .nav{
-
 display:flex;
-
 gap:10px;
-
 margin:12px 0;
-
 }
 
 .nav button{
-
 flex:1;
-
 }
 
 /* USER */
 
 .userBox{
-
 display:flex;
-
 align-items:center;
-
 gap:12px;
-
 }
 
 .avatar{
 
 width:48px;
-
 height:48px;
 
 border-radius:50%;
 
 display:flex;
-
 align-items:center;
-
 justify-content:center;
 
 background:
@@ -445,9 +362,7 @@ linear-gradient(
 color:white;
 
 font-size:22px;
-
 font-weight:900;
-
 }
 
 /* SECTION TITLE */
@@ -455,7 +370,6 @@ font-weight:900;
 .sectionTitle{
 
 margin-top:25px;
-
 margin-bottom:12px;
 
 padding:12px 14px;
@@ -472,11 +386,9 @@ linear-gradient(
 border-left:5px solid var(--purple);
 
 font-size:16px;
-
 font-weight:850;
 
 color:#312e81;
-
 }
 
 /* CHECK POINT */
@@ -505,27 +417,20 @@ transition:.2s;
 
 animation:
 pointIn .35s ease;
-
 }
 
 @keyframes pointIn{
 
 from{
-
 opacity:0;
-
 transform:
 translateX(-15px);
-
 }
 
 to{
-
 opacity:1;
-
 transform:
 translateX(0);
-
 }
 
 }
@@ -537,37 +442,25 @@ translateX(3px);
 
 box-shadow:
 0 5px 20px #2563eb18;
-
 }
 
 .pointHeader{
 
 display:flex;
-
 justify-content:space-between;
-
 gap:10px;
-
 align-items:center;
-
 margin-bottom:10px;
-
 }
 
 .pointNumber{
-
 color:#2563eb;
-
 font-weight:900;
-
 }
 
 .pointLabel{
-
 font-weight:750;
-
 line-height:1.4;
-
 }
 
 .status{
@@ -585,15 +478,12 @@ color:#4338ca;
 font-weight:700;
 
 white-space:nowrap;
-
 }
 
 .status.saved{
 
 background:#dcfce7;
-
 color:#166534;
-
 }
 
 /* TWO SIDE POINT */
@@ -606,7 +496,6 @@ grid-template-columns:
 1fr 1fr;
 
 gap:12px;
-
 }
 
 .sidePoint{
@@ -618,7 +507,6 @@ border-radius:12px;
 background:#ffffff;
 
 border:1px solid #e2e8f0;
-
 }
 
 .sideTitle{
@@ -630,15 +518,12 @@ font-weight:800;
 color:#475569;
 
 margin-bottom:7px;
-
 }
 
 @media(max-width:650px){
 
 .pointGrid{
-
 grid-template-columns:1fr;
-
 }
 
 }
@@ -648,9 +533,7 @@ grid-template-columns:1fr;
 .history{
 
 display:grid;
-
 gap:12px;
-
 }
 
 .historyItem{
@@ -668,7 +551,6 @@ box-shadow:
 0 4px 15px #33415510;
 
 transition:.2s;
-
 }
 
 .historyItem:hover{
@@ -678,7 +560,6 @@ translateY(-2px);
 
 box-shadow:
 0 8px 22px #33415518;
-
 }
 
 .badge{
@@ -698,15 +579,12 @@ background:#eef2ff;
 color:#4338ca;
 
 margin:3px;
-
 }
 
 .badge.green{
 
 background:#dcfce7;
-
 color:#166534;
-
 }
 
 /* MESSAGE */
@@ -722,29 +600,22 @@ border-radius:10px;
 font-size:13px;
 
 display:none;
-
 }
 
 .message.show{
-
 display:block;
-
 }
 
 .message.ok{
 
 background:#dcfce7;
-
 color:#166534;
-
 }
 
 .message.error{
 
 background:#fee2e2;
-
 color:#991b1b;
-
 }
 
 /* LOADING */
@@ -752,7 +623,6 @@ color:#991b1b;
 .loader{
 
 width:20px;
-
 height:20px;
 
 border:3px solid #ffffff55;
@@ -767,7 +637,6 @@ spin .7s linear infinite;
 display:inline-block;
 
 vertical-align:middle;
-
 }
 
 @keyframes spin{
@@ -781,9 +650,7 @@ transform:rotate(360deg);
 /* HIDDEN */
 
 .hidden{
-
 display:none !important;
-
 }
 
 /* RESPONSIVE */
@@ -791,9 +658,7 @@ display:none !important;
 @media(max-width:600px){
 
 .container{
-
 padding:10px;
-
 }
 
 .card{
@@ -801,13 +666,10 @@ padding:10px;
 padding:15px;
 
 border-radius:17px;
-
 }
 
 header h1{
-
 font-size:20px;
-
 }
 
 .nav{
@@ -825,7 +687,6 @@ backdrop-filter:blur(10px);
 padding:7px;
 
 border-radius:15px;
-
 }
 
 .nav button{
@@ -833,7 +694,6 @@ border-radius:15px;
 font-size:12px;
 
 padding:11px 7px;
-
 }
 
 }
@@ -952,7 +812,9 @@ id="signupBox"
 class="hidden"
 >
 
-<div class="field">
+
+<!-- NAME ADDED -->
+
 <div class="field">
 
 <label>Name</label>
@@ -961,18 +823,21 @@ class="hidden"
 id="signupName"
 type="text"
 autocomplete="name"
-placeholder="Enter your name"
+placeholder="Enter your full name"
 >
 
 </div>
-   
+
+
+<div class="field">
+
 <label>Email</label>
 
 <input
 id="signupEmail"
 type="email"
 autocomplete="email"
-placeholder="Enter email"
+placeholder="Enter your email"
 >
 
 </div>
@@ -1034,11 +899,12 @@ class="hidden"
 
 <div>
 
-<b id="userEmail">
+<b id="userName">
 User
 </b>
 
 <div
+id="userEmail"
 style="font-size:12px;color:#64748b"
 >
 Logged in successfully
@@ -1138,7 +1004,6 @@ value="MIXER-4 / TSS UNIT"
 >
 
 </div>
-
 
 </div>
 
@@ -1340,6 +1205,8 @@ document.getElementById(id);
 
 let currentUser=null;
 
+let currentUserName="";
+
 let currentRecordId=null;
 
 let currentValues=
@@ -1350,7 +1217,6 @@ let saveTimer=null;
 
 /* =========================================
    EXACT 42 CHECK POINTS
-   DATE/TIME REMOVED
 ========================================= */
 
 const sections=[
@@ -1429,18 +1295,15 @@ rows:[
 
 ["12",
 "Top roll TCU temp",
-""
-],
+""],
 
 ["13",
 "Bottom roll TCU temp",
-""
-],
+""],
 
 ["14",
 "TSS Screw temp",
-""
-]
+""]
 
 ]
 
@@ -1585,10 +1448,6 @@ let leftIndex=null;
 let rightIndex=null;
 
 
-/* IMPORTANT:
-   Blank cells do NOT consume an index
-*/
-
 if(left){
 
 leftIndex=
@@ -1705,7 +1564,6 @@ html+=`
 </div>
 
 `;
-
 
 point.innerHTML=
 html;
@@ -1824,14 +1682,20 @@ $("loginTab")
 
 async function signupUser(){
 
-const email=
-$("signupEmail")
-.value
-.trim();
 const name=
 $("signupName")
 .value
 .trim();
+
+const email=
+$("signupEmail")
+.value
+.trim();
+
+const password=
+$("signupPassword")
+.value;
+
 
 if(!name){
 
@@ -1842,10 +1706,6 @@ authMessage(
 return;
 
 }
-   
-const password=
-$("signupPassword")
-.value;
 
 
 if(!email){
@@ -1887,15 +1747,40 @@ auth,
 email,
 password
 );
+
+
+/*
+   SAVE USER NAME IN FIRESTORE
+*/
+
 await setDoc(
-doc(db,"mixer4_users",result.user.uid),
+
+doc(
+db,
+"mixer4_users",
+result.user.uid
+),
+
 {
+
 name:name,
+
 email:email,
-createdAt:serverTimestamp()
+
+userId:result.user.uid,
+
+createdAt:
+serverTimestamp()
+
 }
+
 );
-   
+
+
+currentUserName=
+name;
+
+
 authMessage(
 "ACCOUNT CREATED! You are now logged in.",
 "ok"
@@ -2041,6 +1926,54 @@ loginUser;
 
 window.signupUser=
 signupUser;
+
+
+/* =========================================
+   GET USER NAME
+========================================= */
+
+async function getUserName(user){
+
+try{
+
+const userDoc=
+await getDoc(
+
+doc(
+db,
+"mixer4_users",
+user.uid
+)
+
+);
+
+
+if(userDoc.exists()){
+
+const data=
+userDoc.data();
+
+return data.name ||
+user.email;
+
+}
+
+return user.email;
+
+}
+
+catch(error){
+
+console.error(
+"User name fetch error:",
+error
+);
+
+return user.email;
+
+}
+
+}
 
 
 /* =========================================
@@ -2232,16 +2165,15 @@ try{
 
 if(!currentRecordId){
 
-/*
-   Record ID:
-   Date + Shift
-*/
-
 currentRecordId=
 `${$("sheetDate").value}_${$("sheetShift").value}`;
 
 }
 
+
+/*
+   SAVE NAME + EMAIL
+*/
 
 await setDoc(
 
@@ -2274,14 +2206,18 @@ total:
 status:
 "Draft",
 
+filledBy:
+currentUserName ||
+currentUser.email,
+
+filledByEmail:
+currentUser.email,
+
 updatedBy:
 currentUser.email,
 
 userId:
 currentUser.uid,
-
-filledBy:
-currentUser.displayName || currentUser.email,
 
 updatedAt:
 serverTimestamp()
@@ -2295,7 +2231,8 @@ merge:true
 );
 
 saveMessage(
-"☁️ Automatically saved to Firebase.",
+"☁️ Automatically saved by "+
+(currentUserName || currentUser.email),
 "ok"
 );
 
@@ -2368,6 +2305,17 @@ status:
 "Completed",
 
 checkedBy:
+currentUserName ||
+currentUser.email,
+
+checkedByEmail:
+currentUser.email,
+
+filledBy:
+currentUserName ||
+currentUser.email,
+
+filledByEmail:
 currentUser.email,
 
 completedAt:
@@ -2386,7 +2334,8 @@ merge:true
 
 
 saveMessage(
-"✅ CHECK SHEET COMPLETED & SAVED.",
+"✅ CHECK SHEET COMPLETED & SAVED BY "+
+(currentUserName || currentUser.email),
 "ok"
 );
 
@@ -2602,6 +2551,23 @@ No values filled.
 }
 
 
+/*
+   NAME LOGIC
+*/
+
+const filledBy=
+d.filledBy ||
+d.checkedBy ||
+d.updatedBy ||
+"Unknown";
+
+
+const filledByEmail=
+d.filledByEmail ||
+d.checkedByEmail ||
+"";
+
+
 item.innerHTML=`
 
 <div>
@@ -2623,7 +2589,8 @@ Shift ${d.shift||"-"}
 style="
 font-size:13px;
 color:#64748b;
-margin-top:5px;
+margin-top:8px;
+line-height:1.6;
 "
 >
 
@@ -2631,7 +2598,13 @@ margin-top:5px;
 
 <br>
 
-👤 ${d.checkedBy||d.updatedBy||"Unknown"}
+👤 <b>Filled By:</b> ${filledBy}
+
+${filledByEmail
+?
+`<br>📧 <b>Email:</b> ${filledByEmail}`
+:
+""}
 
 </div>
 
@@ -2788,7 +2761,13 @@ $("sheetMachine").value+
 "\n";
 
 text+=
-"Checked By: "+
+"Filled By: "+
+(currentUserName ||
+currentUser.email)+
+"\n";
+
+text+=
+"Email: "+
 currentUser.email+
 "\n\n";
 
@@ -2802,10 +2781,6 @@ text+=
 
 values.forEach(
 (v,i)=>{
-
-/*
-   ONLY FILLED VALUES
-*/
 
 if(!v)
 return;
@@ -2863,13 +2838,33 @@ URL.revokeObjectURL(url);
 
 onAuthStateChanged(
 auth,
-user=>{
+async user=>{
 
 currentUser=
 user;
 
 
 if(user){
+
+currentUserName=
+await getUserName(user);
+
+
+/*
+   DISPLAY NAME + EMAIL
+*/
+
+$("userName").textContent=
+currentUserName ||
+user.email;
+
+$("userEmail").textContent=
+user.email;
+
+
+/*
+   SHOW APP
+*/
 
 $("auth")
 .classList
@@ -2879,18 +2874,21 @@ $("app")
 .classList
 .remove("hidden");
 
-$("userEmail")
-.textContent=
-user.email;
-
 console.log(
 "AUTHENTICATED:",
 user.uid
 );
 
+console.log(
+"USER NAME:",
+currentUserName
+);
+
 loadHistory();
 
 }else{
+
+currentUserName="";
 
 $("auth")
 .classList
@@ -2903,7 +2901,6 @@ $("app")
 }
 
 });
-
 
 </script>
 
