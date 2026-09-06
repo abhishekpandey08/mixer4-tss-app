@@ -1,254 +1,1029 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Firebase Login Test</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIXER-4 TSS Daily Check Sheet</title>
 
 <style>
+*{box-sizing:border-box}
 body{
-  font-family:Arial;
-  background:#eef2ff;
-  padding:25px 15px;
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#081b33,#123d66,#0d6b6b);
+  color:#fff;
+  min-height:100vh;
+}
+.container{
+  width:100%;
+  max-width:900px;
+  margin:auto;
+  padding:15px;
 }
 .card{
-  max-width:450px;
-  margin:auto;
-  background:white;
-  padding:25px;
+  background:rgba(255,255,255,.96);
+  color:#17202a;
   border-radius:18px;
-  box-shadow:0 8px 25px #0002;
+  padding:18px;
+  margin:12px 0;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
 }
-input,button{
+h1{
+  text-align:center;
+  margin:8px 0 4px;
+  font-size:25px;
+}
+.subtitle{
+  text-align:center;
+  opacity:.85;
+  margin-bottom:15px;
+}
+.hidden{display:none!important}
+
+input,select,button{
   width:100%;
-  padding:14px;
-  margin:8px 0;
+  padding:13px;
   border-radius:10px;
-  border:1px solid #ddd;
+  border:1px solid #ccc;
   font-size:16px;
+  margin:6px 0;
 }
 button{
-  background:#2563eb;
-  color:white;
   border:0;
+  background:#087f8c;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+button:active{transform:scale(.98)}
+.btn-green{background:#159447}
+.btn-blue{background:#1769aa}
+.btn-red{background:#c62828}
+.btn-orange{background:#ef8b00}
+.btn-gray{background:#555}
+.small-btn{
+  width:auto;
+  padding:9px 12px;
+  font-size:14px;
+}
+.tabs{
+  display:flex;
+  gap:7px;
+}
+.tabs button{flex:1}
+.tab-active{background:#123d66}
+
+.status{
+  padding:10px;
+  border-radius:10px;
+  background:#e9f7f7;
+  color:#075c63;
+  margin:8px 0;
   font-weight:bold;
 }
-#result{
-  margin-top:15px;
-  padding:15px;
-  border-radius:10px;
-  background:#f1f5f9;
-  word-break:break-word;
+.error{
+  background:#ffe7e7;
+  color:#a00000;
+}
+.success{
+  background:#e4f8e9;
+  color:#116329;
+}
+
+.topbar{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+}
+.userinfo{
+  font-size:13px;
+  color:#555;
+}
+
+.meta-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+
+.progress{
+  height:13px;
+  background:#ddd;
+  border-radius:20px;
+  overflow:hidden;
+  margin:8px 0;
+}
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:#16a085;
+  transition:.3s;
+}
+
+.sheet-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+.sheet-table th,
+.sheet-table td{
+  border:1px solid #ccc;
+  padding:7px;
+  text-align:center;
+}
+.sheet-table th{
+  background:#123d66;
+  color:white;
+}
+.sheet-table input{
+  margin:0;
+  padding:9px;
+  text-align:center;
+  min-width:75px;
+}
+
+.history-item{
+  border:1px solid #ccc;
+  border-radius:13px;
+  padding:12px;
+  margin:10px 0;
+  background:#f8fafb;
+}
+.history-title{
+  font-weight:bold;
+  color:#123d66;
+}
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#159447;
+  color:white;
+  font-size:12px;
+  font-weight:bold;
+}
+.history-values{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:5px;
+  margin-top:10px;
+}
+.value-box{
+  background:white;
+  border:1px solid #ddd;
+  border-radius:8px;
+  padding:7px;
+  font-size:13px;
+}
+.value-box b{color:#123d66}
+
+.actions{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:7px;
+}
+
+@media(max-width:600px){
+  .container{padding:8px}
+  .card{padding:13px;border-radius:14px}
+  h1{font-size:21px}
+  .meta-grid{grid-template-columns:1fr}
+  .history-values{grid-template-columns:repeat(2,1fr)}
+  .actions{grid-template-columns:1fr}
+  .sheet-table{font-size:13px}
+  .sheet-table input{min-width:65px}
+}
+
+@media print{
+  body{background:white;color:black}
+  .no-print{display:none!important}
+  .card{box-shadow:none}
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<div class="container">
 
-<h2>🔐 Firebase Login Test</h2>
+<h1>🔧 MIXER-4 TSS DAILY CHECK SHEET</h1>
+<div class="subtitle">Cloud Based Daily Inspection System</div>
 
-<input
-  id="email"
-  type="email"
-  placeholder="Email">
+<!-- AUTH -->
+<div id="authSection" class="card">
 
-<input
-  id="password"
-  type="password"
-  placeholder="Password">
+  <div class="tabs">
+    <button id="loginTab" class="tab-active" onclick="showLogin()">🔐 Login</button>
+    <button id="signupTab" onclick="showSignup()">🆕 Create ID</button>
+  </div>
 
-<button id="create">
-Create Account
-</button>
+  <div id="authStatus" class="status hidden"></div>
 
-<button id="login">
-Login
-</button>
+  <div id="loginBox">
+    <h3>Login</h3>
+    <input id="loginEmail" type="email" placeholder="Email">
+    <input id="loginPassword" type="password" placeholder="Password">
+    <button onclick="loginUser()">🔐 Login</button>
+    <button class="btn-gray" onclick="forgotPassword()">🔑 Forgot Password</button>
+  </div>
 
-<div id="result">
-Waiting...
+  <div id="signupBox" class="hidden">
+    <h3>Create New ID</h3>
+    <input id="signupEmail" type="email" placeholder="Email">
+    <input id="signupPassword" type="password" placeholder="Password">
+    <input id="signupPassword2" type="password" placeholder="Confirm Password">
+    <button class="btn-green" onclick="createAccount()">🆕 Create Account</button>
+  </div>
+
+</div>
+
+<!-- APP -->
+<div id="appSection" class="hidden">
+
+  <div class="card">
+    <div class="topbar">
+      <div>
+        <b>👤 Logged in</b>
+        <div id="userEmail" class="userinfo"></div>
+      </div>
+      <button class="btn-red small-btn" onclick="logoutUser()">Logout</button>
+    </div>
+  </div>
+
+  <div id="appStatus" class="status hidden"></div>
+
+  <!-- SHEET -->
+  <div class="card">
+
+    <div class="topbar">
+      <h3>📋 Daily Check Sheet</h3>
+      <button class="btn-orange small-btn" onclick="newSheet()">➕ New Sheet</button>
+    </div>
+
+    <div class="meta-grid">
+      <div>
+        <label>Date</label>
+        <input id="sheetDate" type="date">
+      </div>
+
+      <div>
+        <label>Shift</label>
+        <select id="sheetShift">
+          <option value="A">A Shift</option>
+          <option value="B">B Shift</option>
+          <option value="C">C Shift</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Machine</label>
+        <input id="machine" value="MIXER-4">
+      </div>
+
+      <div>
+        <label>Checked By</label>
+        <input id="checkedBy" placeholder="Name">
+      </div>
+    </div>
+
+    <div>
+      <b>Progress: <span id="progressText">0 / 42</span></b>
+      <div class="progress">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+    </div>
+
+    <table class="sheet-table">
+      <thead>
+        <tr>
+          <th>Point</th>
+          <th>TSS Value</th>
+        </tr>
+      </thead>
+      <tbody id="pointsBody"></tbody>
+    </table>
+
+    <div class="actions no-print">
+      <button class="btn-blue" onclick="saveSheet()">☁️ Save to Cloud</button>
+      <button class="btn-green" onclick="completeSheet()">✅ Complete Sheet</button>
+    </div>
+
+  </div>
+
+  <!-- HISTORY -->
+  <div class="card">
+    <div class="topbar">
+      <h3>📚 All Completed History</h3>
+      <button class="btn-blue small-btn" onclick="loadHistory()">🔄 Refresh</button>
+    </div>
+
+    <p style="font-size:13px;color:#555">
+      Yahan sabhi logged-in users ki <b>completed</b> check sheets
+      aur unki 42 entered values dikhengi.
+    </p>
+
+    <div id="historyList">
+      Loading...
+    </div>
+  </div>
+
 </div>
 
 </div>
-
 
 <script type="module">
 
-import {
-  initializeApp
-}
+import { initializeApp }
 from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  onAuthStateChanged,
+  signOut
 }
 from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
+import {
+  getFirestore,
+  collection,
+  doc,
+  setDoc,
+  getDocs,
+  query,
+  where,
+  serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+
+/* =========================
+   FIREBASE CONFIG
+========================= */
 
 const firebaseConfig = {
-
-  apiKey:
-    "AIzaSyDztHV-dnII1DeUoxsworjfWqOcYzUw8tY",
-  authDomain:
-    "mixer4-tss.firebaseapp.com",
-
-  projectId:
-    "mixer4-tss",
-
-  storageBucket:
-    "mixer4-tss.firebasestorage.app",
-
-  messagingSenderId:
-    "281329772926",
-
-  appId:
-    "1:281329772926:web:c2321755e3ad4d54236b2f"
-
+  apiKey: "AIzaSyDztHV-dnII1DeUoxsworjfWqOcYzUw8tY",
+  authDomain: "mixer4-tss.firebaseapp.com",
+  projectId: "mixer4-tss",
+  storageBucket: "mixer4-tss.firebasestorage.app",
+  messagingSenderId: "281329772926",
+  appId: "1:281329772926:web:c2321755e3ad4d54236b2f"
 };
 
-
-const app =
-  initializeApp(firebaseConfig);
-
-const auth =
-  getAuth(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 
-const result =
-  document.getElementById("result");
+/* =========================
+   VARIABLES
+========================= */
+
+let currentUser = null;
+let recordId = null;
+let saveTimer = null;
+
+const TOTAL_POINTS = 42;
 
 
-function show(text,ok=false){
+/* =========================
+   UI HELPERS
+========================= */
 
-  result.innerHTML =
-    text;
+function showStatus(id,msg,type=""){
+  const el=document.getElementById(id);
+  el.textContent=msg;
+  el.className="status "+type;
+  el.classList.remove("hidden");
+}
 
-  result.style.background =
-    ok ? "#dcfce7" : "#fee2e2";
+function hideStatus(id){
+  document.getElementById(id).classList.add("hidden");
+}
 
-  result.style.color =
-    ok ? "#166534" : "#991b1b";
+function escapeHtml(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+
+/* =========================
+   AUTH TABS
+========================= */
+
+window.showLogin=function(){
+  document.getElementById("loginBox").classList.remove("hidden");
+  document.getElementById("signupBox").classList.add("hidden");
+  document.getElementById("loginTab").classList.add("tab-active");
+  document.getElementById("signupTab").classList.remove("tab-active");
+  hideStatus("authStatus");
+}
+
+window.showSignup=function(){
+  document.getElementById("loginBox").classList.add("hidden");
+  document.getElementById("signupBox").classList.remove("hidden");
+  document.getElementById("loginTab").classList.remove("tab-active");
+  document.getElementById("signupTab").classList.add("tab-active");
+  hideStatus("authStatus");
+}
+
+
+/* =========================
+   CREATE ACCOUNT
+========================= */
+
+window.createAccount=async function(){
+
+  const email=document.getElementById("signupEmail").value.trim();
+  const password=document.getElementById("signupPassword").value;
+  const password2=document.getElementById("signupPassword2").value;
+
+  if(!email || !password){
+    showStatus("authStatus","Email aur password enter karein.","error");
+    return;
+  }
+
+  if(password.length < 6){
+    showStatus("authStatus","Password minimum 6 characters ka hona chahiye.","error");
+    return;
+  }
+
+  if(password !== password2){
+    showStatus("authStatus","Passwords match nahi kar rahe.","error");
+    return;
+  }
+
+  try{
+
+    showStatus("authStatus","Account create ho raha hai...");
+
+    await createUserWithEmailAndPassword(auth,email,password);
+
+    showStatus(
+      "authStatus",
+      "✅ Account successfully created. Login ho gaya.",
+      "success"
+    );
+
+  }catch(error){
+
+    showStatus(
+      "authStatus",
+      "ERROR: "+error.code+" — "+error.message,
+      "error"
+    );
+
+  }
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+window.loginUser=async function(){
+
+  const email=document.getElementById("loginEmail").value.trim();
+  const password=document.getElementById("loginPassword").value;
+
+  if(!email || !password){
+    showStatus("authStatus","Email aur password enter karein.","error");
+    return;
+  }
+
+  try{
+
+    showStatus("authStatus","Login ho raha hai...");
+
+    await signInWithEmailAndPassword(auth,email,password);
+
+  }catch(error){
+
+    showStatus(
+      "authStatus",
+      "ERROR: "+error.code+" — "+error.message,
+      "error"
+    );
+
+  }
+}
+
+
+/* =========================
+   FORGOT PASSWORD
+========================= */
+
+window.forgotPassword=async function(){
+
+  const email=document.getElementById("loginEmail").value.trim();
+
+  if(!email){
+    showStatus(
+      "authStatus",
+      "Pehle Email enter karein.",
+      "error"
+    );
+    return;
+  }
+
+  try{
+
+    await sendPasswordResetEmail(auth,email);
+
+    showStatus(
+      "authStatus",
+      "✅ Password reset email bhej diya gaya.",
+      "success"
+    );
+
+  }catch(error){
+
+    showStatus(
+      "authStatus",
+      "ERROR: "+error.code+" — "+error.message,
+      "error"
+    );
+
+  }
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+window.logoutUser=async function(){
+
+  await signOut(auth);
+}
+
+
+/* =========================
+   AUTH STATE
+========================= */
+
+onAuthStateChanged(auth,(user)=>{
+
+  currentUser=user;
+
+  if(user){
+
+    document.getElementById("authSection").classList.add("hidden");
+    document.getElementById("appSection").classList.remove("hidden");
+
+    document.getElementById("userEmail").textContent=user.email;
+
+    createPoints();
+
+    if(!document.getElementById("sheetDate").value){
+      setToday();
+    }
+
+    loadHistory();
+
+  }else{
+
+    document.getElementById("authSection").classList.remove("hidden");
+    document.getElementById("appSection").classList.add("hidden");
+
+  }
+
+});
+
+
+/* =========================
+   DATE
+========================= */
+
+function setToday(){
+
+  const now=new Date();
+
+  const yyyy=now.getFullYear();
+  const mm=String(now.getMonth()+1).padStart(2,"0");
+  const dd=String(now.getDate()).padStart(2,"0");
+
+  document.getElementById("sheetDate").value =
+    `${yyyy}-${mm}-${dd}`;
+}
+
+
+/* =========================
+   CREATE 42 POINTS
+========================= */
+
+function createPoints(){
+
+  const body=document.getElementById("pointsBody");
+
+  if(body.children.length===TOTAL_POINTS) return;
+
+  body.innerHTML="";
+
+  for(let i=1;i<=TOTAL_POINTS;i++){
+
+    const tr=document.createElement("tr");
+
+    tr.innerHTML=`
+      <td><b>${i}</b></td>
+      <td>
+        <input
+          type="number"
+          step="any"
+          class="point-input"
+          data-point="${i}"
+          placeholder="Enter value"
+        >
+      </td>
+    `;
+
+    body.appendChild(tr);
+  }
+
+  document.querySelectorAll(".point-input")
+    .forEach(input=>{
+
+      input.addEventListener("input",()=>{
+
+        updateProgress();
+
+        if(recordId){
+          clearTimeout(saveTimer);
+
+          saveTimer=setTimeout(()=>{
+            saveSheet(true);
+          },1200);
+        }
+
+      });
+
+    });
+
+  updateProgress();
+}
+
+
+/* =========================
+   GET VALUES
+========================= */
+
+function getValues(){
+
+  return [...document.querySelectorAll(".point-input")]
+    .map(input=>input.value.trim());
 
 }
 
 
-/* CREATE */
+/* =========================
+   PROGRESS
+========================= */
 
-document
-.getElementById("create")
-.addEventListener(
-  "click",
-  async () => {
+function updateProgress(){
 
-    const email =
-      document
-      .getElementById("email")
-      .value
-      .trim();
+  const values=getValues();
 
-    const password =
-      document
-      .getElementById("password")
-      .value;
+  const filled=values.filter(v=>v!=="").length;
 
-    show("⏳ Creating account...");
+  document.getElementById("progressText").textContent =
+    `${filled} / ${TOTAL_POINTS}`;
 
-    try{
+  document.getElementById("progressBar").style.width =
+    `${(filled/TOTAL_POINTS)*100}%`;
+}
 
-      const user =
-        await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
 
-      show(
-        "🟢 ACCOUNT CREATED!<br><br>" +
-        "Email: " +
-        user.user.email +
-        "<br><br>" +
-        "UID: " +
-        user.user.uid,
-        true
+/* =========================
+   NEW SHEET
+========================= */
+
+window.newSheet=function(){
+
+  recordId=null;
+
+  document.getElementById("sheetDate").value="";
+  document.getElementById("checkedBy").value="";
+
+  setToday();
+
+  document.querySelectorAll(".point-input")
+    .forEach(input=>input.value="");
+
+  updateProgress();
+
+  showStatus(
+    "appStatus",
+    "🆕 New Check Sheet ready hai.",
+    "success"
+  );
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =========================
+   SAVE SHEET
+========================= */
+
+window.saveSheet=async function(auto=false){
+
+  if(!currentUser){
+    showStatus("appStatus","Please login karein.","error");
+    return;
+  }
+
+  const date=document.getElementById("sheetDate").value;
+  const shift=document.getElementById("sheetShift").value;
+  const machine=document.getElementById("machine").value.trim();
+  const checkedBy=document.getElementById("checkedBy").value.trim();
+
+  const values=getValues();
+  const filled=values.filter(v=>v!=="").length;
+
+  if(!date){
+    showStatus("appStatus","Date select karein.","error");
+    return;
+  }
+
+  if(!recordId){
+    recordId=doc(collection(db,"mixer4_tss_records")).id;
+  }
+
+  const data={
+    userId:currentUser.uid,
+    userEmail:currentUser.email,
+
+    recordId:recordId,
+
+    date:date,
+    shift:shift,
+    machine:machine || "MIXER-4",
+    checkedBy:checkedBy,
+
+    values:values,
+    filled:filled,
+    total:TOTAL_POINTS,
+
+    status:filled===TOTAL_POINTS ? "Completed" : "Draft",
+
+    updatedBy:currentUser.email,
+    updatedAt:serverTimestamp()
+  };
+
+  try{
+
+    await setDoc(
+      doc(db,"mixer4_tss_records",recordId),
+      data,
+      {merge:true}
+    );
+
+    if(!auto){
+
+      showStatus(
+        "appStatus",
+        `☁️ Saved successfully — ${filled}/${TOTAL_POINTS} values.`,
+        "success"
       );
 
+      loadHistory();
     }
-    catch(error){
 
-      show(
-        "🔴 CREATE ACCOUNT ERROR<br><br>" +
-        "Code: " +
-        error.code +
-        "<br><br>" +
-        error.message
-      );
+  }catch(error){
 
-    }
+    showStatus(
+      "appStatus",
+      "SAVE ERROR: "+error.code+" — "+error.message,
+      "error"
+    );
 
   }
-);
+}
 
 
-/* LOGIN */
+/* =========================
+   COMPLETE SHEET
+========================= */
 
-document
-.getElementById("login")
-.addEventListener(
-  "click",
-  async () => {
+window.completeSheet=async function(){
 
-    const email =
-      document
-      .getElementById("email")
-      .value
-      .trim();
+  const values=getValues();
 
-    const password =
-      document
-      .getElementById("password")
-      .value;
+  const filled=values.filter(v=>v!=="").length;
 
-    show("⏳ Logging in...");
+  if(filled!==TOTAL_POINTS){
 
-    try{
+    showStatus(
+      "appStatus",
+      `⚠️ Sheet complete karne ke liye 42/42 values bharna zaroori hai. Abhi ${filled}/42 hai.`,
+      "error"
+    );
 
-      const user =
-        await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
+    return;
+  }
 
-      show(
-        "🟢 LOGIN SUCCESSFUL!<br><br>" +
-        "Email: " +
-        user.user.email +
-        "<br><br>" +
-        "UID: " +
-        user.user.uid,
-        true
-      );
+  await saveSheet(false);
 
-    }
-    catch(error){
+  try{
 
-      show(
-        "🔴 LOGIN ERROR<br><br>" +
-        "Code: " +
-        error.code +
-        "<br><br>" +
-        error.message
-      );
+    await setDoc(
+      doc(db,"mixer4_tss_records",recordId),
+      {
+        status:"Completed",
+        completedAt:serverTimestamp()
+      },
+      {merge:true}
+    );
 
-    }
+    showStatus(
+      "appStatus",
+      "✅ CHECK SHEET COMPLETED & CLOUD ME SAVE HO GAYI.",
+      "success"
+    );
+
+    loadHistory();
+
+  }catch(error){
+
+    showStatus(
+      "appStatus",
+      "COMPLETE ERROR: "+error.code+" — "+error.message,
+      "error"
+    );
 
   }
-);
+}
 
-</script>
 
-</body>
-</html>
+/* =========================
+   HISTORY
+========================= */
+
+async function loadHistory(){
+
+  if(!currentUser) return;
+
+  const list=document.getElementById("historyList");
+
+  list.innerHTML="Loading...";
+
+  try{
+
+    /*
+      IMPORTANT:
+      Ab sirf current user's history nahi.
+      Sabhi logged-in users ki completed sheets read hongi.
+    */
+
+    const q=query(
+      collection(db,"mixer4_tss_records"),
+      where("status","==","Completed")
+    );
+
+    const snapshot=await getDocs(q);
+
+    const records=[];
+
+    snapshot.forEach(item=>{
+
+      records.push({
+        id:item.id,
+        ...item.data()
+      });
+
+    });
+
+    records.sort((a,b)=>{
+
+      const da=a.date || "";
+      const db=b.date || "";
+
+      return db.localeCompare(da);
+
+    });
+
+    if(records.length===0){
+
+      list.innerHTML=
+        "<p>No completed check sheets found.</p>";
+
+      return;
+    }
+
+    list.innerHTML="";
+
+    records.forEach(record=>{
+
+      const values=Array.isArray(record.values)
+        ? record.values
+        : [];
+
+      const item=document.createElement("div");
+
+      item.className="history-item";
+
+      const valuesHtml=values
+        .map((value,index)=>`
+          <div class="value-box">
+            <b>P${index+1}</b><br>
+            ${escapeHtml(value)}
+          </div>
+        `)
+        .join("");
+
+      item.innerHTML=`
+
+        <div class="history-title">
+          📋 MIXER-4 — ${escapeHtml(record.date || "")}
+        </div>
+
+        <div style="margin:7px 0">
+          <span class="badge">✅ Completed</span>
+        </div>
+
+        <div style="font-size:13px;color:#555">
+          <b>Shift:</b> ${escapeHtml(record.shift || "-")}
+          &nbsp; | &nbsp;
+          <b>Checked By:</b> ${escapeHtml(record.checkedBy || "-")}
+          <br>
+          <b>User:</b> ${escapeHtml(record.userEmail || "-")}
+          <br>
+          <b>Values:</b> ${values.length}/42
+        </div>
+
+        <div class="history-values">
+          ${valuesHtml}
+        </div>
+
+        <div class="actions no-print" style="margin-top:10px">
+          <button class="btn-blue"
+            onclick='downloadPDF(${JSON.stringify(record)})'>
+            📥 Download PDF
+          </button>
+
+          <button class="btn-gray"
+            onclick='printRecord(${JSON.stringify(record)})'>
+            🖨️ Print
+          </button>
+        </div>
+      `;
+
+      list.appendChild(item);
+
+    });
+
+  }catch(error){
+
+    list.innerHTML=`
+      <div class="status error">
+        HISTORY ERROR:<br>
+        ${escapeHtml(error.code)}<br>
+        ${escapeHtml(error.message)}
+      </div>
+    `;
+
+  }
+}
+
+window.loadHistory=loadHistory;
+
+
+/* =========================
+   PDF DOWNLOAD
+========================= */
+
+window.downloadPDF=function(record){
+
+  const values=Array.isArray(record.values)
+    ? record.values
+    : [];
+
+  let rows="";
+
+  for(let i=0;i<TOTAL_POINTS;i++){
+
+    rows+=`
+      <tr>
+        <td>${i+1}</td>
+        <td>${escapeHtml(values[i] || "")}</td>
+      </tr>
+    `;
+
+  }
+
+  const pdfWindow=window.open("","_blank");
+
+  if(!pdfWindow){
+    alert("Popup blocked hai. Browser me popup allow karein."
