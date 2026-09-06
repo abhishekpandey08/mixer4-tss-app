@@ -1,765 +1,410 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MIXER-4 TSS Daily Check Sheet</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+:root{
+  --bg:#07111f;
+  --card:#0d1b2d;
+  --line:#28445f;
+  --text:#edf6ff;
+  --muted:#9eb3c9;
+  --a:#25d0ff;
+  --b:#7c5cff;
+  --good:#36e58d;
+  --bad:#ff667d;
 }
 
-:root{
-  --bg1:#07111f;
-  --bg2:#0d1b2e;
-  --card:rgba(255,255,255,.075);
-  --border:rgba(255,255,255,.14);
-  --text:#f4f8ff;
-  --muted:#9fb0c7;
-  --blue:#35a7ff;
-  --cyan:#23e5ff;
-  --green:#29e58a;
-  --orange:#ffb84d;
-  --red:#ff6174;
-}
+*{box-sizing:border-box}
 
 body{
-  font-family:Inter,Segoe UI,Arial,sans-serif;
+  margin:0;
+  font-family:Arial,sans-serif;
   color:var(--text);
-  min-height:100vh;
   background:
-    radial-gradient(circle at 10% 10%,rgba(35,229,255,.15),transparent 28%),
-    radial-gradient(circle at 90% 15%,rgba(53,167,255,.15),transparent 30%),
-    radial-gradient(circle at 50% 100%,rgba(41,229,138,.10),transparent 35%),
-    linear-gradient(135deg,var(--bg1),var(--bg2));
-  overflow-x:hidden;
-}
-
-body::before,
-body::after{
-  content:"";
-  position:fixed;
-  width:280px;
-  height:280px;
-  border-radius:50%;
-  filter:blur(70px);
-  opacity:.18;
-  pointer-events:none;
-  animation:float 9s ease-in-out infinite alternate;
-}
-
-body::before{
-  background:#00c8ff;
-  top:10%;
-  left:-100px;
-}
-
-body::after{
-  background:#24e68b;
-  right:-100px;
-  bottom:5%;
-  animation-delay:2s;
-}
-
-@keyframes float{
-  from{transform:translateY(-25px) scale(.95)}
-  to{transform:translateY(30px) scale(1.08)}
-}
-
-.hidden{
-  display:none!important;
+    radial-gradient(circle at 10% 0%,#153455,transparent 35%),
+    radial-gradient(circle at 90% 10%,#241d52,transparent 35%),
+    var(--bg);
+  min-height:100vh;
 }
 
 .container{
-  width:min(1180px,94%);
+  width:min(1250px,94%);
   margin:auto;
 }
 
-header{
-  padding:25px 0 15px;
-}
-
-.header-card{
-  background:rgba(8,19,34,.68);
-  backdrop-filter:blur(18px);
-  border:1px solid var(--border);
-  border-radius:24px;
-  padding:25px;
-  box-shadow:0 25px 70px rgba(0,0,0,.3);
-  position:relative;
-  overflow:hidden;
-}
-
-.header-card::after{
-  content:"";
-  position:absolute;
-  left:-20%;
-  top:0;
-  width:40%;
-  height:2px;
-  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
-  animation:scan 5s linear infinite;
-}
-
-@keyframes scan{
-  from{left:-30%}
-  to{left:110%}
-}
-
-.logo-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-}
-
-.logo{
-  display:flex;
-  align-items:center;
-  gap:15px;
-}
-
-.logo-icon{
-  width:58px;
-  height:58px;
-  border-radius:17px;
-  display:grid;
-  place-items:center;
-  font-size:28px;
-  background:linear-gradient(135deg,#0e8cff,#20dfff);
-  box-shadow:0 0 30px rgba(35,229,255,.28);
-  animation:pulse 2.8s infinite;
-}
-
-@keyframes pulse{
-  0%,100%{box-shadow:0 0 20px rgba(35,229,255,.22)}
-  50%{box-shadow:0 0 38px rgba(35,229,255,.55)}
-}
-
-h1{
-  font-size:clamp(22px,4vw,36px);
-  letter-spacing:-1px;
-}
-
-.subtitle{
-  color:var(--muted);
-  margin-top:5px;
-  font-size:14px;
-}
-
-.user-pill{
-  background:rgba(41,229,138,.10);
-  border:1px solid rgba(41,229,138,.25);
-  color:#9affc9;
-  border-radius:30px;
-  padding:9px 14px;
-  font-size:13px;
-}
-
 .card{
-  background:var(--card);
-  backdrop-filter:blur(18px);
-  border:1px solid var(--border);
-  border-radius:22px;
-  box-shadow:0 18px 55px rgba(0,0,0,.25);
+  background:rgba(13,27,45,.95);
+  border:1px solid var(--line);
+  border-radius:20px;
+  box-shadow:0 20px 60px #0006;
 }
 
-.auth-wrap{
-  min-height:calc(100vh - 160px);
-  display:grid;
-  place-items:center;
-  padding:25px 0 50px;
-}
+/* LOGIN */
 
-.auth-card{
-  width:min(470px,100%);
+.auth{
+  max-width:520px;
+  margin:8vh auto;
   padding:30px;
-  animation:appear .6s ease;
 }
 
-@keyframes appear{
-  from{opacity:0;transform:translateY(20px) scale(.98)}
-  to{opacity:1;transform:none}
-}
-
-.auth-title{
-  text-align:center;
-  margin-bottom:22px;
-}
-
-.auth-title .big{
-  font-size:42px;
-  margin-bottom:8px;
-}
-
-.auth-title h2{
-  font-size:25px;
-}
-
-.auth-title p{
-  color:var(--muted);
-  font-size:14px;
-  margin-top:5px;
+.auth h2{
+  margin-top:0;
 }
 
 .tabs{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:8px;
-  margin-bottom:20px;
-  padding:5px;
-  border-radius:14px;
-  background:rgba(0,0,0,.2);
+  margin:20px 0;
+}
+
+button{
+  border:0;
+  border-radius:11px;
+  padding:12px 16px;
+  font-weight:700;
+  cursor:pointer;
 }
 
 .tab{
-  border:0;
-  padding:12px;
-  border-radius:10px;
-  background:transparent;
-  color:var(--muted);
-  cursor:pointer;
-  font-weight:700;
+  background:#142a42;
+  color:#abc;
 }
 
-.tab.active{
-  color:white;
-  background:linear-gradient(135deg,#087de8,#15c7ec);
+.tab.active,
+.primary{
+  background:linear-gradient(90deg,var(--a),var(--b));
+  color:#03121e;
 }
 
-.field{
-  margin-bottom:15px;
+.secondary{
+  background:#19324d;
+  color:#dceeff;
 }
 
-.field label{
-  display:block;
-  color:#cbd8e9;
-  font-size:13px;
-  margin-bottom:7px;
+.danger{
+  background:#522336;
+  color:#ffdce2;
 }
 
 input,
 select{
   width:100%;
-  padding:13px 14px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,.13);
-  background:rgba(0,0,0,.22);
-  color:white;
-  outline:none;
-  transition:.25s;
-}
-
-select option{
-  background:#102238;
-  color:white;
+  padding:11px;
+  border-radius:10px;
+  border:1px solid #31506e;
+  background:#091827;
+  color:#fff;
+  outline:0;
 }
 
 input:focus,
 select:focus{
-  border-color:var(--cyan);
-  box-shadow:0 0 0 3px rgba(35,229,255,.08);
+  border-color:var(--a);
+  box-shadow:0 0 0 3px rgba(37,208,255,.1);
 }
 
-.btn{
-  border:0;
-  border-radius:12px;
-  padding:12px 17px;
-  cursor:pointer;
-  color:white;
-  font-weight:800;
-  transition:.25s;
-  display:inline-flex;
-  justify-content:center;
-  align-items:center;
-  gap:8px;
-}
-
-.btn:hover{
-  transform:translateY(-2px);
-  filter:brightness(1.08);
-}
-
-.btn-primary{
-  width:100%;
-  background:linear-gradient(135deg,#087de8,#17cfe9);
-  box-shadow:0 10px 28px rgba(13,155,235,.22);
-}
-
-.btn-green{
-  background:linear-gradient(135deg,#0ca96a,#27e491);
-}
-
-.btn-red{
-  background:linear-gradient(135deg,#d83d56,#ff6575);
-}
-
-.btn-dark{
-  background:rgba(255,255,255,.08);
-  border:1px solid var(--border);
-}
-
-.message{
-  margin-top:13px;
-  padding:11px;
-  border-radius:11px;
-  font-size:13px;
-  display:none;
-  line-height:1.45;
-}
-
-.message.show{
+label{
   display:block;
+  font-size:13px;
+  color:#b9cde0;
+  margin-bottom:6px;
 }
 
-.message.error{
-  background:rgba(255,70,90,.10);
-  border:1px solid rgba(255,70,90,.22);
-  color:#ff9aa7;
+.field{
+  margin:12px 0;
 }
 
-.message.success{
-  background:rgba(41,229,138,.10);
-  border:1px solid rgba(41,229,138,.22);
-  color:#91ffc4;
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.msg{
+  min-height:22px;
+  margin-top:10px;
+  font-size:13px;
+}
+
+.error{
+  color:#ff9cac;
+}
+
+.success{
+  color:#6ff0ae;
 }
 
 /* APP */
 
-.app{
+#app{
+  display:none;
   padding-bottom:50px;
 }
 
-.nav{
-  margin:10px 0 20px;
-  padding:10px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-}
-
-.nav-left{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-.nav button{
-  background:transparent;
-  color:#aabbd0;
-  border:1px solid transparent;
-  padding:10px 15px;
-  border-radius:11px;
-  cursor:pointer;
-  font-weight:700;
-}
-
-.nav button.active{
-  color:white;
-  background:rgba(35,167,255,.12);
-  border-color:rgba(35,167,255,.22);
-}
-
-.sheet-head{
-  padding:24px;
-  margin-bottom:18px;
-}
-
-.sheet-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
-}
-
-.sheet-title h2{
-  font-size:25px;
-}
-
-.status{
-  padding:8px 13px;
-  border-radius:30px;
-  font-size:12px;
-  font-weight:800;
-  background:rgba(255,184,77,.10);
-  color:#ffd28c;
-  border:1px solid rgba(255,184,77,.20);
-  white-space:nowrap;
-}
-
-.status.complete{
-  background:rgba(41,229,138,.10);
-  color:#9bffd0;
-  border-color:rgba(41,229,138,.20);
-}
-
-.meta-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  margin-top:20px;
-}
-
-.progress-area{
-  margin-top:20px;
-}
-
-.progress-top{
-  display:flex;
-  justify-content:space-between;
-  color:#aabbd0;
-  font-size:13px;
-  margin-bottom:8px;
-}
-
-.progress{
-  height:8px;
-  background:rgba(255,255,255,.07);
-  border-radius:20px;
-  overflow:hidden;
-}
-
-.progress-bar{
-  height:100%;
-  width:0;
-  border-radius:20px;
-  background:linear-gradient(90deg,#13a9ff,#23e5ff,#29e58a);
-  transition:.4s;
-}
-
-.section{
-  margin-bottom:18px;
-  overflow:hidden;
-}
-
-.section-title{
-  padding:18px 20px;
-  background:linear-gradient(90deg,rgba(35,167,255,.11),rgba(35,229,255,.03));
-  border-bottom:1px solid var(--border);
-}
-
-.section-title h3{
-  font-size:16px;
-}
-
-.section-title span{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.points{
-  padding:15px;
-  display:grid;
-  gap:10px;
-}
-
-.point{
-  display:grid;
-  grid-template-columns:48px minmax(200px,1fr) 150px 210px;
-  gap:12px;
-  align-items:center;
-  padding:13px;
-  border:1px solid rgba(255,255,255,.07);
-  background:rgba(255,255,255,.025);
-  border-radius:15px;
-  transition:.25s;
-}
-
-.point:hover{
-  transform:translateX(3px);
-  border-color:rgba(35,229,255,.25);
-  background:rgba(35,229,255,.035);
-}
-
-.sr{
-  width:38px;
-  height:38px;
-  border-radius:12px;
-  display:grid;
-  place-items:center;
-  background:rgba(35,167,255,.12);
-  color:#83d4ff;
-  font-size:13px;
-  font-weight:900;
-}
-
-.point-name{
-  font-size:14px;
-  line-height:1.35;
-}
-
-.side{
-  color:#8092a8;
-  font-size:11px;
-  margin-top:3px;
-}
-
-.temp-input{
-  text-align:center;
-  font-weight:800;
-  font-size:15px;
-}
-
-.datetime{
-  font-size:12px;
-}
-
-.save-dot{
-  position:fixed;
-  right:18px;
-  bottom:18px;
-  padding:10px 14px;
-  border-radius:30px;
-  background:rgba(8,20,35,.88);
-  border:1px solid var(--border);
-  color:#aabbd0;
-  font-size:12px;
-  z-index:20;
-  backdrop-filter:blur(15px);
-}
-
-.save-dot.saving{
-  color:#ffd28c;
-}
-
-.save-dot.saved{
-  color:#8dffc2;
-}
-
-.actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:20px;
-}
-
-.actions .btn{
-  min-width:145px;
-}
-
-.checker-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-  padding:18px;
-}
-
-.signature{
-  padding:0;
-  overflow:hidden;
-}
-
-.signature label{
-  color:#9fb0c7;
-  display:block;
-  margin-bottom:7px;
-  font-size:12px;
-}
-
-/* HISTORY */
-
-.history-wrap{
-  padding-bottom:40px;
-}
-
-.history-head{
-  padding:22px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  margin-bottom:16px;
-}
-
-.history-list{
-  display:grid;
-  gap:12px;
-}
-
-.history-item{
-  padding:18px;
-  animation:appear .4s ease;
-}
-
-.history-main{
+header{
+  padding:28px 0 18px;
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:15px;
-}
-
-.history-date{
-  font-size:17px;
-  font-weight:900;
-}
-
-.badge{
-  padding:6px 10px;
-  border-radius:20px;
-  background:rgba(35,167,255,.11);
-  color:#8bd6ff;
-  font-size:11px;
-  font-weight:900;
-  white-space:nowrap;
-}
-
-.history-meta{
-  display:flex;
   flex-wrap:wrap;
-  gap:7px;
-  margin-top:8px;
-  color:#91a4ba;
-  font-size:12px;
 }
 
-.history-values{
-  margin-top:15px;
+header h1{
+  margin:0;
+  font-size:clamp(25px,4vw,42px);
+}
+
+header p{
+  color:var(--muted);
+  margin:7px 0;
+}
+
+.pill{
+  padding:9px 14px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  color:#bfeaff;
+}
+
+.toolbar{
+  padding:15px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.spacer{
+  flex:1;
+}
+
+/* SHEET */
+
+.sheet{
+  padding:18px;
+}
+
+.sheet-top{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:7px;
+  grid-template-columns:1fr 180px 180px;
+  gap:12px;
+  margin-bottom:18px;
 }
 
-.value-row{
-  padding:10px;
-  border-radius:10px;
-  background:rgba(0,0,0,.17);
-  border:1px solid rgba(255,255,255,.05);
+.sheet-title{
+  padding:16px;
+  border-radius:14px;
+  background:#0a1929;
+  border:1px solid var(--line);
 }
 
-.value-label{
-  color:#899bb1;
-  font-size:11px;
-  margin-bottom:3px;
+.sheet-title h2{
+  margin:0 0 5px;
+  font-size:19px;
 }
 
-.value-value{
-  color:white;
+.sheet-title small{
+  color:var(--muted);
+}
+
+.section{
+  margin:18px 0;
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+}
+
+.section-title{
+  padding:12px 14px;
+  background:#10283d;
   font-weight:800;
 }
 
-.empty{
-  padding:45px 20px;
+.grid-head,
+.row{
+  display:grid;
+
+  /*
+    DATE / TIME COLUMN REMOVED
+    New columns:
+    Sr | LH Point | LH Temp | RH Point | RH Temp
+  */
+
+  grid-template-columns:
+    55px
+    minmax(200px,1fr)
+    145px
+    minmax(200px,1fr)
+    145px;
+}
+
+.grid-head{
+  background:#081726;
+  color:#9eb3c9;
+  font-size:12px;
+  font-weight:700;
+}
+
+.grid-head>div,
+.row>div{
+  padding:9px;
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+
+.grid-head>div:last-child,
+.row>div:last-child{
+  border-right:0;
+}
+
+.row:last-child>div{
+  border-bottom:0;
+}
+
+.row{
+  font-size:13px;
+}
+
+.num{
   text-align:center;
-  color:#8294a9;
+  font-weight:bold;
+  color:#6bdcff;
+}
+
+.blank{
+  color:#61778e;
+}
+
+.row input{
+  padding:8px;
+  border-radius:8px;
+}
+
+.actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+
+/* HISTORY */
+
+.history{
+  margin-top:20px;
+  padding:18px;
+}
+
+.history h2{
+  margin:0 0 14px;
+}
+
+.history-card{
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px;
+  margin:10px 0;
+}
+
+.history-head{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.history-head strong{
+  color:#75e4ff;
+}
+
+.filled-list{
+  display:grid;
+  grid-template-columns:
+    repeat(auto-fit,minmax(280px,1fr));
+  gap:8px;
+  margin-top:10px;
+}
+
+.item{
+  padding:9px;
+  background:#091827;
+  border:1px solid #203a53;
+  border-radius:9px;
+}
+
+.item b{
+  color:#b7c9da;
+}
+
+.item span{
+  color:#6ff0ae;
+  font-weight:bold;
 }
 
 .loading{
   text-align:center;
-  padding:30px;
-  color:#8da2ba;
+  color:var(--muted);
+  padding:15px;
 }
 
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:25px;
-  transform:translate(-50%,20px);
-  opacity:0;
-  pointer-events:none;
-  padding:12px 17px;
-  border-radius:12px;
-  background:#0b1b2e;
-  border:1px solid var(--border);
-  box-shadow:0 15px 40px rgba(0,0,0,.35);
-  z-index:100;
-  transition:.3s;
-  max-width:90%;
-  text-align:center;
+.hidden{
+  display:none!important;
 }
 
-.toast.show{
-  opacity:1;
-  transform:translate(-50%,0);
-}
+/* MOBILE */
 
-.print-only{
-  display:none;
-}
+@media(max-width:900px){
 
-@media(max-width:850px){
-
-  .point{
-    grid-template-columns:40px 1fr 125px;
-  }
-
-  .point .datetime-wrap{
-    grid-column:2 / -1;
-  }
-
-  .meta-grid{
-    grid-template-columns:1fr;
-  }
-
-  .logo-row{
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
-  .checker-grid{
-    grid-template-columns:1fr;
-  }
-
-}
-
-@media(max-width:580px){
-
-  .container{
-    width:94%;
-  }
-
-  .header-card{
-    padding:18px;
-  }
-
-  .sheet-head{
-    padding:17px;
-  }
-
-  .sheet-title{
-    flex-direction:column;
-    align-items:flex-start;
-  }
-
-  .point{
-    grid-template-columns:38px 1fr;
-  }
-
-  .point .temp-wrap,
-  .point .datetime-wrap{
-    grid-column:1 / -1;
-  }
-
-  .history-values{
-    grid-template-columns:1fr;
-  }
-
-  .nav{
-    flex-direction:column;
-    align-items:stretch;
-  }
-
-  .nav-left{
-    display:grid;
+  .sheet-top{
     grid-template-columns:1fr 1fr;
   }
 
-  .nav button{
-    width:100%;
+  .sheet-title{
+    grid-column:1/-1;
   }
 
-  .actions{
-    display:grid;
+  .grid-head,
+  .row{
+    grid-template-columns:
+      42px
+      minmax(140px,1fr)
+      105px
+      minmax(140px,1fr)
+      105px;
+  }
+}
+
+@media(max-width:650px){
+
+  .form-row,
+  .sheet-top{
     grid-template-columns:1fr;
   }
 
-  .actions .btn{
-    width:100%;
+  .grid-head{
+    display:none;
   }
 
+  .row{
+    grid-template-columns:40px 1fr 1fr;
+  }
+
+  .row .left-label,
+  .row .right-label{
+    grid-column:2/4;
+    font-weight:bold;
+    background:#0a1929;
+  }
+
+  .row .left-temp,
+  .row .right-temp{
+    grid-column:auto;
+  }
 }
 
 /* PRINT */
@@ -767,72 +412,50 @@ select:focus{
 @media print{
 
   body{
-    background:white!important;
-    color:#111!important;
+    background:#fff;
+    color:#000;
   }
 
-  body::before,
-  body::after,
-  header,
-  .nav,
+  .auth,
+  .toolbar,
+  .history,
   .actions,
-  .save-dot,
-  .toast,
-  #historyView,
-  .status,
-  .progress-area{
+  .pill{
     display:none!important;
   }
 
-  #appView{
+  #app{
     display:block!important;
   }
 
-  .card{
-    box-shadow:none!important;
-    background:white!important;
-    border:1px solid #ccc!important;
-    color:#111!important;
+  .sheet{
+    box-shadow:none;
+    border:0;
+    padding:0;
   }
 
-  .section{
-    break-inside:avoid;
-  }
-
+  .sheet-title,
   .section-title{
-    background:#eee!important;
-    color:#111!important;
+    background:#fff;
+    color:#000;
   }
 
-  .section-title h3,
-  .section-title span{
-    color:#111!important;
+  .grid-head,
+  .row{
+    color:#000;
   }
 
-  .point{
-    background:white!important;
-    border:1px solid #ddd!important;
-    color:#111!important;
+  .grid-head>div,
+  .row>div{
+    border-color:#777;
   }
 
-  .point-name,
-  .side{
-    color:#111!important;
+  .row input{
+    border:0;
+    background:#fff;
+    color:#000;
   }
-
-  input,
-  select{
-    color:#111!important;
-    background:white!important;
-    border:1px solid #bbb!important;
-  }
-
-  .print-only{
-    display:block;
-  }
-
 }
-
 </style>
 </head>
 
@@ -840,490 +463,282 @@ select:focus{
 
 <div class="container">
 
-<header>
-  <div class="header-card">
+<!-- ================= LOGIN ================= -->
 
-    <div class="logo-row">
+<section id="auth" class="card auth">
 
-      <div class="logo">
+  <h2>🔐 MIXER-4 TSS Login</h2>
 
-        <div class="logo-icon">
-          ⚙️
-        </div>
+  <p style="color:var(--muted)">
+    Create your own ID or login to access the shared daily check sheet.
+  </p>
 
-        <div>
-          <h1>MIXER-4 TSS</h1>
+  <div class="tabs">
 
-          <div class="subtitle">
-            Daily Temperature Check Sheet • Cloud Monitoring System
-          </div>
-        </div>
+    <button id="loginTab" class="tab active">
+      Login
+    </button>
 
-      </div>
-
-      <div
-        id="userPill"
-        class="user-pill hidden">
-      </div>
-
-    </div>
+    <button id="signupTab" class="tab">
+      Create ID
+    </button>
 
   </div>
-</header>
 
+  <!-- LOGIN -->
 
-<!-- =====================================================
-     LOGIN / CREATE ID
-===================================================== -->
-
-<section
-  id="authView"
-  class="auth-wrap">
-
-  <div class="card auth-card">
-
-    <div class="auth-title">
-
-      <div class="big">
-        🛠️
-      </div>
-
-      <h2>
-        MIXER-4 TSS Portal
-      </h2>
-
-      <p>
-        Login or create your own ID
-      </p>
-
-    </div>
-
-
-    <div class="tabs">
-
-      <button
-        id="loginTab"
-        class="tab active"
-        type="button">
-
-        🔐 Login
-
-      </button>
-
-
-      <button
-        id="signupTab"
-        class="tab"
-        type="button">
-
-        ✨ Create ID
-
-      </button>
-
-    </div>
-
+  <div id="loginBox">
 
     <div class="field">
-
-      <label>
-        Email / User ID
-      </label>
-
+      <label>Email / ID</label>
       <input
-        id="email"
+        id="loginEmail"
         type="email"
-        autocomplete="email"
-        placeholder="Enter your email">
-
+        autocomplete="username"
+        placeholder="your@email.com">
     </div>
 
+    <div class="field">
+      <label>Password</label>
+      <input
+        id="loginPassword"
+        type="password"
+        autocomplete="current-password">
+    </div>
+
+    <button
+      id="loginBtn"
+      class="primary"
+      style="width:100%">
+      Login
+    </button>
+
+  </div>
+
+  <!-- CREATE ID -->
+
+  <div id="signupBox" class="hidden">
+
+    <div class="field">
+      <label>Email / ID</label>
+
+      <input
+        id="signupEmail"
+        type="email"
+        autocomplete="username"
+        placeholder="your@email.com">
+    </div>
 
     <div class="field">
 
-      <label>
-        Password
-      </label>
+      <label>Password</label>
 
       <input
-        id="password"
+        id="signupPassword"
         type="password"
-        autocomplete="current-password"
+        autocomplete="new-password"
         placeholder="Minimum 6 characters">
 
     </div>
 
-
-    <button
-      id="loginBtn"
-      class="btn btn-primary"
-      type="button">
-
-      🔐 Login
-
-    </button>
-
-
     <button
       id="signupBtn"
-      class="btn btn-primary hidden"
-      type="button">
-
-      ✨ Create Account
-
+      class="primary"
+      style="width:100%">
+      Create ID
     </button>
 
-
-    <div
-      id="authMessage"
-      class="message">
-    </div>
-
   </div>
+
+  <div id="authMsg" class="msg"></div>
 
 </section>
 
 
-<!-- =====================================================
-     APPLICATION
-===================================================== -->
+<!-- ================= APP ================= -->
 
-<section
-  id="appView"
-  class="app hidden">
+<section id="app">
 
+<header>
 
-  <!-- NAVIGATION -->
+  <div>
 
-  <div class="card nav">
+    <h1>MIXER-4 TSS</h1>
 
-    <div class="nav-left">
-
-      <button
-        id="newBtn"
-        class="active"
-        type="button">
-
-        📝 New Check Sheet
-
-      </button>
-
-
-      <button
-        id="historyBtn"
-        type="button">
-
-        📜 Shared History
-
-      </button>
-
-    </div>
-
-
-    <button
-      id="logoutBtn"
-      class="btn btn-red"
-      type="button">
-
-      🚪 Logout
-
-    </button>
+    <p>
+      Gearbox & Bearing Temperature Monitoring
+    </p>
 
   </div>
 
+  <div class="pill">
+    ● <span id="userLabel">Logged in</span>
+  </div>
 
-  <!-- ===================================================
-       SHEET VIEW
-  =================================================== -->
-
-  <div id="sheetView">
-
-
-    <div class="card sheet-head">
-
-      <div class="sheet-title">
-
-        <div>
-
-          <h2>
-            🌡️ Daily Temperature Monitoring
-          </h2>
-
-          <p class="subtitle">
-            MIXER-4 TSS GEARBOX & BEARING TEMPERATURE MONITORING
-          </p>
-
-        </div>
+</header>
 
 
-        <div
-          id="sheetStatus"
-          class="status">
+<!-- TOOLBAR -->
 
-          ● IN PROGRESS
+<div class="toolbar card">
 
-        </div>
+  <button id="newBtn" class="secondary">
+    ➕ New Sheet
+  </button>
 
-      </div>
+  <button id="historyBtn" class="secondary">
+    📚 Shared History
+  </button>
 
+  <button id="refreshHistory" class="secondary hidden">
+    ↻ Refresh
+  </button>
 
-      <div class="meta-grid">
+  <div class="spacer"></div>
 
+  <button id="logoutBtn" class="danger">
+    Logout
+  </button>
 
-        <div class="field">
-
-          <label>
-            Date
-          </label>
-
-          <input
-            id="sheetDate"
-            type="date">
-
-        </div>
+</div>
 
 
-        <div class="field">
+<!-- SHEET -->
 
-          <label>
-            Shift
-          </label>
+<div class="card sheet">
 
-          <select id="shift">
+  <div class="sheet-top">
 
-            <option value="A">
-              Shift A
-            </option>
+    <div class="sheet-title">
 
-            <option value="B">
-              Shift B
-            </option>
+      <h2>
+        MIXER-4 TSS GEARBOX & BEARING TEMPERATURE MONITORING
+      </h2>
 
-            <option value="C">
-              Shift C
-            </option>
-
-            <option value="General">
-              General
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Area / Machine
-          </label>
-
-          <input
-            id="area"
-            value="MIXER-4 / TSS UNIT">
-
-        </div>
-
-
-      </div>
-
-
-      <div class="progress-area">
-
-        <div class="progress-top">
-
-          <span>
-            Completion Progress
-          </span>
-
-          <span id="progressText">
-            0 / 42 filled
-          </span>
-
-        </div>
-
-
-        <div class="progress">
-
-          <div
-            id="progressBar"
-            class="progress-bar">
-          </div>
-
-        </div>
-
-      </div>
+      <small>
+        Daily Check Sheet — cloud saved
+      </small>
 
     </div>
 
 
-    <!-- DYNAMIC ORIGINAL 42 POINTS -->
+    <div>
 
-    <div id="sections"></div>
+      <label>Date</label>
 
-
-    <!-- CHECKER -->
-
-    <div class="card signature">
-
-      <div class="checker-grid">
-
-        <div>
-
-          <label>
-            Checked By
-          </label>
-
-          <input
-            id="checkedBy"
-            placeholder="Name / Employee ID">
-
-        </div>
-
-
-        <div>
-
-          <label>
-            Verified By
-          </label>
-
-          <input
-            id="verifiedBy"
-            placeholder="Name / Employee ID">
-
-        </div>
-
-      </div>
+      <input
+        id="sheetDate"
+        type="date">
 
     </div>
 
 
-    <!-- ACTIONS -->
+    <div>
 
-    <div class="actions">
+      <label>Shift</label>
 
-      <button
-        id="finishBtn"
-        class="btn btn-green"
-        type="button">
+      <select id="sheetShift">
 
-        ✅ Complete Check Sheet
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
 
-      </button>
-
-
-      <button
-        id="printBtn"
-        class="btn btn-dark"
-        type="button">
-
-        🖨️ Print / Download PDF
-
-      </button>
-
-
-      <button
-        id="clearBtn"
-        class="btn btn-dark"
-        type="button">
-
-        ↻ New Blank Sheet
-
-      </button>
-
-    </div>
-
-
-    <div class="print-only">
-
-      <br>
-
-      Generated from MIXER-4 TSS Cloud Check Sheet
+      </select>
 
     </div>
 
   </div>
 
 
-  <!-- ===================================================
-       HISTORY
-  =================================================== -->
+  <div id="sheetBody"></div>
+
+
+  <!-- CHECKED / VERIFIED -->
 
   <div
-    id="historyView"
-    class="history-wrap hidden">
+    class="form-row"
+    style="margin-top:16px">
 
+    <div>
 
-    <div class="card history-head">
+      <label>Checked By</label>
 
-      <div>
-
-        <h2>
-          📜 Shared Check Sheet History
-        </h2>
-
-        <p class="subtitle">
-          All logged-in users can read previously filled values.
-        </p>
-
-      </div>
-
-
-      <button
-        id="refreshHistory"
-        class="btn btn-dark"
-        type="button">
-
-        🔄 Refresh
-
-      </button>
+      <input id="checkedBy">
 
     </div>
 
+    <div>
 
-    <div
-      id="historyList"
-      class="history-list">
+      <label>Verified By</label>
 
-      <div class="loading">
-        Loading history...
-      </div>
+      <input id="verifiedBy">
 
     </div>
 
   </div>
+
+
+  <div class="actions">
+
+    <button
+      id="saveBtn"
+      class="secondary">
+      ☁ Save Now
+    </button>
+
+    <button
+      id="finishBtn"
+      class="primary">
+      ✓ Finish & Print
+    </button>
+
+  </div>
+
+  <div id="saveMsg" class="msg"></div>
+
+</div>
+
+
+<!-- HISTORY -->
+
+<div
+  id="historyPanel"
+  class="card history hidden">
+
+  <div
+    style="
+    display:flex;
+    justify-content:space-between;
+    align-items:center">
+
+    <h2>📚 Shared History</h2>
+
+    <button
+      id="closeHistory"
+      class="secondary">
+      Close
+    </button>
+
+  </div>
+
+  <div id="historyList"></div>
+
+</div>
 
 </section>
 
 </div>
 
 
-<div
-  id="saveDot"
-  class="save-dot">
-
-  ☁️ Ready
-
-</div>
-
-
-<div
-  id="toast"
-  class="toast">
-</div>
-
-
-<!-- =====================================================
-     FIREBASE + APPLICATION JAVASCRIPT
-===================================================== -->
+<!-- ================= FIREBASE ================= -->
 
 <script type="module">
 
-/* =========================================================
-   FIREBASE
-========================================================= */
-
-import { initializeApp }
+import {
+  initializeApp
+}
 from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+
 
 import {
   getAuth,
@@ -1333,6 +748,7 @@ import {
   signOut
 }
 from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
 
 import {
   getFirestore,
@@ -1348,14 +764,12 @@ import {
 from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 
-/* =========================================================
-   FIREBASE CONFIG
-========================================================= */
+/* ================= FIREBASE CONFIG ================= */
 
 const firebaseConfig = {
 
   apiKey:
-    "AIzaSyDztHV-dnII1DeUoxsworjfWqOcYzUw8tY",
+    "AIzaSyDztHV-dnH2De1UoxsworjfWqOcYzUw8tY",
 
   authDomain:
     "mixer4-tss.firebaseapp.com",
@@ -1375,1040 +789,550 @@ const firebaseConfig = {
 };
 
 
-const firebaseApp =
+const fb =
   initializeApp(firebaseConfig);
 
-
 const auth =
-  getAuth(firebaseApp);
-
+  getAuth(fb);
 
 const db =
-  getFirestore(firebaseApp);
+  getFirestore(fb);
+
+const records =
+  collection(db,"mixer4_tss_records");
 
 
-/* =========================================================
-   ORIGINAL EXCEL DATA
-========================================================= */
+const $ =
+  id => document.getElementById(id);
+
+
+let user = null;
+let timer;
+
+
+/* ================= ORIGINAL CHECK POINTS ================= */
 
 const sections = [
 
-  {
-    title:
-      "MIXER-4 TSS GEARBOX & BEARING TEMPERATURE MONITORING",
+[
+"",
+[
 
-    points: [
+["1",
+"Gear 1st stage Rotary side",
+"Gear 1st stage Rotary side"],
 
-      [
-        "Gear 1st stage Rotary side",
-        "Gear 1st stage Rotary side"
-      ],
+["2",
+"Gear 2nd stage Rotary side",
+"Gear 2nd stage Rotary side"],
 
-      [
-        "Gear 2nd stage Rotary side",
-        "Gear 2nd stage Rotary side"
-      ],
+["3",
+"Gear 3rd stage Rotary side",
+"Gear 3rd stage Rotary side"],
 
-      [
-        "Gear 3rd stage Rotary side",
-        "Gear 3rd stage Rotary side"
-      ],
+["4",
+"Gear 1st stage Cal side",
+"Gear 1st stage Cal side"],
 
-      [
-        "Gear 1st stage Cal side",
-        "Gear 1st stage Cal side"
-      ],
+["5",
+"Gear 2nd stage Cal side",
+"Gear 2nd stage Cal side"],
 
-      [
-        "Gear 2nd stage Cal side",
-        "Gear 2nd stage Cal side"
-      ],
+["6",
+"Gear 3rd stage Cal side",
+"Gear 3rd stage Cal side"]
 
-      [
-        "Gear 3rd stage Cal side",
-        "Gear 3rd stage Cal side"
-      ]
-
-    ]
-  },
+]
+],
 
 
-  {
-    title:
-      "TSS SCREW BEARING TEMPERATURE",
+[
+"TSS SCREW BEARING TEMPERATURE",
+[
 
-    points: [
+["7",
+"Input Universal joint bearing",
+"Output RH Universal joint bearing"],
 
-      [
-        "Input Universal joint bearing",
-        "Output RH Universal joint bearing"
-      ],
+["8",
+"Output LH Universal joint bearing",
+"Screw RH 1st bearing"],
 
-      [
-        "Output LH Universal joint bearing",
-        "Screw RH 1st bearing"
-      ],
+["9",
+"Screw LH 1st bearing",
+"Screw RH 2nd bearing"],
 
-      [
-        "Screw LH 1st bearing",
-        "Screw RH 2nd bearing"
-      ],
+["10",
+"Screw LH 2nd bearing",
+"Screw RH 3rd bearing"],
 
-      [
-        "Screw LH 2nd bearing",
-        "Screw RH 3rd bearing"
-      ],
+["11",
+"Screw LH 3rd bearing",
+""]
 
-      [
-        "Screw LH 3rd bearing",
-        ""
-      ]
-
-    ]
-  },
+]
+],
 
 
-  {
-    title:
-      "TSS CALENDAR TCU",
+[
+"TSS CALENDAR TCU",
+[
 
-    points: [
+["12",
+"Top roll TCU temp",
+""],
 
-      [
-        "Top roll TCU temp",
-        ""
-      ],
+["13",
+"Bottom roll TCU temp",
+""],
 
-      [
-        "Bottom roll TCU temp",
-        ""
-      ],
+["14",
+"TSS Screw temp",
+""]
 
-      [
-        "TSS Screw temp",
-        ""
-      ]
-
-    ]
-  },
+]
+],
 
 
-  {
-    title:
-      "TSS CALENDAR ROLL BEARING HOUSING TEMPERATURE",
+[
+"TSS CALENDAR ROLL BEARING HOUSING TEMPERATURE",
+[
 
-    points: [
+["15",
+"Top roll Drive side housing",
+"Top roll Water side housing"],
 
-      [
-        "Top roll Drive side housing",
-        "Top roll Water side housing"
-      ],
+["16",
+"Bottom roll Drive side housing",
+"Bottom roll Water side housing"]
 
-      [
-        "Bottom roll Drive side housing",
-        "Bottom roll Water side housing"
-      ]
-
-    ]
-  },
+]
+],
 
 
-  {
-    title:
-      "TSS SCREW GEARBOX FLS",
+[
+"TSS SCREW GEARBOX FLS",
+[
 
-    points: [
+["17",
+"FLS oil pressure",
+"FLS oil temp"]
 
-      [
-        "FLS oil pressure",
-        "FLS oil temp"
-      ]
-
-    ]
-  },
+]
+],
 
 
-  {
-    title:
-      "TSS CALENDAR ROLL GEARBOX BEARING TEMPERATURE",
+[
+"TSS CALENDAR ROLL GEARBOX BEARING TEMPERATURE",
+[
 
-    points: [
+["18",
+"Input shaft bearing motor side",
+"Input shaft bearing outside"],
 
-      [
-        "Input shaft bearing motor side",
-        "Input shaft bearing outside"
-      ],
+["19",
+"2nd stage bearing temp motor side",
+"2nd stage bearing outside"],
 
-      [
-        "2nd stage bearing temp motor side",
-        "2nd stage bearing outside"
-      ],
+["20",
+"3rd stage bearing temp motor side",
+"3rd stage bearing outside"],
 
-      [
-        "3rd stage bearing temp motor side",
-        "3rd stage bearing outside"
-      ],
+["21",
+"Top roll coupling bearing motor side",
+"Top roll coupling bearing outside"],
 
-      [
-        "Top roll coupling bearing motor side",
-        "Top roll coupling bearing outside"
-      ],
+["22",
+"Bottom roll coupling bearing motor side",
+"Bottom roll coupling bearing outside"]
 
-      [
-        "Bottom roll coupling bearing motor side",
-        "Bottom roll coupling bearing outside"
-      ]
-
-    ]
-  },
+]
+],
 
 
-  {
-    title:
-      "TSS CALENDAR ROLL GEARBOX FLS",
+[
+"TSS CALENDAR ROLL GEARBOX FLS",
+[
 
-    points: [
+["23",
+"FLS oil pressure",
+"FLS oil temp"]
 
-      [
-        "FLS oil pressure",
-        "FLS oil temp"
-      ]
-
-    ]
-  }
+]
+]
 
 ];
 
 
-/* =========================================================
-   VARIABLES
-========================================================= */
+/* ================= HELPERS ================= */
 
-let pointData = [];
+const esc =
+  s =>
+    String(s ?? "")
+    .replace(
+      /[&<>"']/g,
+      c => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+      }[c])
+    );
 
-let saveTimer = null;
-
-let currentRecordId = null;
-
-
-/* =========================================================
-   TODAY
-========================================================= */
 
 function today(){
 
   const d =
     new Date();
 
-  const yyyy =
-    d.getFullYear();
-
-  const mm =
-    String(
-      d.getMonth()+1
-    ).padStart(2,"0");
-
-  const dd =
-    String(
-      d.getDate()
-    ).padStart(2,"0");
-
-  return `${yyyy}-${mm}-${dd}`;
+  return (
+    d.getFullYear()
+    + "-"
+    + String(d.getMonth()+1).padStart(2,"0")
+    + "-"
+    + String(d.getDate()).padStart(2,"0")
+  );
 
 }
 
 
-/* =========================================================
-   BUILD POINTS
-========================================================= */
+function msg(id,text,type=""){
 
-function buildPoints(){
+  $(id).textContent =
+    text;
 
-  const container =
-    document.getElementById(
-      "sections"
-    );
+  $(id).className =
+    "msg " + type;
 
-  container.innerHTML = "";
+}
 
-  pointData = [];
+
+function firebaseError(e){
+
+  const errors = {
+
+    "auth/invalid-credential":
+      "Email/ID ya password galat hai.",
+
+    "auth/invalid-login-credentials":
+      "Email/ID ya password galat hai.",
+
+    "auth/email-already-in-use":
+      "Ye ID pehle se registered hai. Login tab use karein.",
+
+    "auth/invalid-email":
+      "Valid email address enter karein.",
+
+    "auth/weak-password":
+      "Password kam se kam 6 characters ka hona chahiye.",
+
+    "auth/network-request-failed":
+      "Internet/network problem.",
+
+    "auth/too-many-requests":
+      "Bahut attempts ho gaye. Thodi der baad try karein.",
+
+    "auth/operation-not-allowed":
+      "Firebase Console me Email/Password sign-in enable karein.",
+
+    "permission-denied":
+      "Firestore permission denied. Firestore Rules check karein."
+
+  };
+
+  return errors[e?.code]
+    || e?.message
+    || "Unknown error";
+
+}
+
+
+/* ================= BUILD SHEET ================= */
+
+function buildSheet(){
 
   let index = 0;
 
+  let html = "";
 
-  sections.forEach(
-    section => {
+  for(
+    const [title,rows]
+    of sections
+  ){
 
-      const sectionCard =
-        document.createElement(
-          "div"
-        );
+    html += `
+      <div class="section">
 
-      sectionCard.className =
-        "card section";
+      ${
+        title
+        ?
+        `<div class="section-title">
+          ${esc(title)}
+        </div>`
+        :
+        ""
+      }
+
+      <div class="grid-head">
+
+        <div>Sr.</div>
+
+        <div>
+          SCREW LH GEARBOX TEMP
+        </div>
+
+        <div>
+          TEMPERATURE (°C)
+        </div>
+
+        <div>
+          SCREW RH GEARBOX TEMP
+        </div>
+
+        <div>
+          TEMPERATURE (°C)
+        </div>
+
+      </div>
+    `;
 
 
-      const title =
-        document.createElement(
-          "div"
-        );
+    for(const r of rows){
 
-      title.className =
-        "section-title";
+      const leftIndex =
+        index++;
+
+      const rightIndex =
+        index++;
 
 
-      title.innerHTML = `
+      html += `
 
-        <h3>
-          ${escapeHTML(section.title)}
-        </h3>
+        <div class="row">
 
-        <span>
-          Temperature monitoring parameters
-        </span>
+          <div class="num">
+            ${r[0]}
+          </div>
+
+
+          <div class="left-label">
+            ${esc(r[1])}
+          </div>
+
+
+          <div class="left-temp">
+
+            ${
+              r[1]
+              ?
+              `
+              <input
+                data-v="${leftIndex}"
+                type="text"
+                inputmode="decimal"
+                placeholder="Value">
+              `
+              :
+              ""
+            }
+
+          </div>
+
+
+          <div
+            class="right-label
+            ${r[2] ? "" : "blank"}">
+
+            ${esc(r[2] || "—")}
+
+          </div>
+
+
+          <div class="right-temp">
+
+            ${
+              r[2]
+              ?
+              `
+              <input
+                data-v="${rightIndex}"
+                type="text"
+                inputmode="decimal"
+                placeholder="Value">
+              `
+              :
+              ""
+            }
+
+          </div>
+
+        </div>
 
       `;
 
-
-      sectionCard.appendChild(
-        title
-      );
-
-
-      const pointsBox =
-        document.createElement(
-          "div"
-        );
-
-      pointsBox.className =
-        "points";
-
-
-      section.points.forEach(
-        row => {
-
-          const left =
-            row[0];
-
-          const right =
-            row[1];
-
-
-          let leftIndex =
-            null;
-
-          let rightIndex =
-            null;
-
-
-          if(left){
-
-            index++;
-
-            leftIndex =
-              index;
-
-
-            pointData.push({
-
-              index:
-                index,
-
-              label:
-                left
-
-            });
-
-          }
-
-
-          if(right){
-
-            index++;
-
-            rightIndex =
-              index;
-
-
-            pointData.push({
-
-              index:
-                index,
-
-              label:
-                right
-
-            });
-
-          }
-
-
-          /* SINGLE */
-
-          if(
-            left &&
-            !right
-          ){
-
-            const rowEl =
-              document.createElement(
-                "div"
-              );
-
-            rowEl.className =
-              "point";
-
-
-            rowEl.innerHTML = `
-
-              <div class="sr">
-                ${leftIndex}
-              </div>
-
-              <div>
-
-                <div class="point-name">
-                  ${escapeHTML(left)}
-                </div>
-
-                <div class="side">
-                  Temperature (°C)
-                </div>
-
-              </div>
-
-              <div class="temp-wrap">
-
-                <input
-                  class="temp-input value-input"
-                  data-index="${leftIndex}"
-                  type="number"
-                  step="0.1"
-                  placeholder="°C">
-
-              </div>
-
-              <div class="datetime-wrap">
-
-                <input
-                  class="datetime"
-                  data-datetime="${leftIndex}"
-                  type="datetime-local">
-
-              </div>
-
-            `;
-
-
-            pointsBox.appendChild(
-              rowEl
-            );
-
-            return;
-
-          }
-
-
-          /* TWO SIDED */
-
-          const rowEl =
-            document.createElement(
-              "div"
-            );
-
-          rowEl.className =
-            "point";
-
-          rowEl.style.gridTemplateColumns =
-            "1fr";
-
-
-          rowEl.innerHTML = `
-
-            <div style="
-              display:grid;
-              grid-template-columns:42px minmax(160px,1fr) 130px 190px;
-              gap:10px;
-              align-items:center;
-            ">
-
-              <div class="sr">
-                ${leftIndex}
-              </div>
-
-              <div>
-
-                <div class="point-name">
-                  ${escapeHTML(left)}
-                </div>
-
-                <div class="side">
-                  Temperature (°C)
-                </div>
-
-              </div>
-
-              <input
-                class="temp-input value-input"
-                data-index="${leftIndex}"
-                type="number"
-                step="0.1"
-                placeholder="°C">
-
-              <input
-                class="datetime"
-                data-datetime="${leftIndex}"
-                type="datetime-local">
-
-            </div>
-
-
-            <div style="
-              display:grid;
-              grid-template-columns:42px minmax(160px,1fr) 130px 190px;
-              gap:10px;
-              align-items:center;
-              margin-top:9px;
-              padding-top:9px;
-              border-top:1px solid rgba(255,255,255,.06);
-            ">
-
-              <div class="sr">
-                ${rightIndex}
-              </div>
-
-              <div>
-
-                <div class="point-name">
-                  ${escapeHTML(right)}
-                </div>
-
-                <div class="side">
-                  Temperature (°C)
-                </div>
-
-              </div>
-
-              <input
-                class="temp-input value-input"
-                data-index="${rightIndex}"
-                type="number"
-                step="0.1"
-                placeholder="°C">
-
-              <input
-                class="datetime"
-                data-datetime="${rightIndex}"
-                type="datetime-local">
-
-            </div>
-
-          `;
-
-
-          pointsBox.appendChild(
-            rowEl
-          );
-
-        }
-      );
-
-
-      sectionCard.appendChild(
-        pointsBox
-      );
-
-
-      container.appendChild(
-        sectionCard
-      );
-
     }
-  );
 
-
-  attachInputListeners();
-
-  updateProgress();
-
-}
-
-
-/* =========================================================
-   INPUT LISTENERS
-========================================================= */
-
-function attachInputListeners(){
-
-  document
-    .querySelectorAll(
-      ".value-input"
-    )
-    .forEach(
-      input => {
-
-        input.addEventListener(
-          "input",
-          () => {
-
-            updateProgress();
-
-            scheduleSave();
-
-          }
-        );
-
-      }
-    );
-
-
-  document
-    .querySelectorAll(
-      ".datetime"
-    )
-    .forEach(
-      input => {
-
-        input.addEventListener(
-          "input",
-          scheduleSave
-        );
-
-      }
-    );
-
-
-  document
-    .getElementById(
-      "area"
-    )
-    .addEventListener(
-      "input",
-      scheduleSave
-    );
-
-
-  document
-    .getElementById(
-      "checkedBy"
-    )
-    .addEventListener(
-      "input",
-      scheduleSave
-    );
-
-
-  document
-    .getElementById(
-      "verifiedBy"
-    )
-    .addEventListener(
-      "input",
-      scheduleSave
-    );
-
-}
-
-
-/* =========================================================
-   GET VALUES
-========================================================= */
-
-function getValues(){
-
-  const values = [];
-
-  for(
-    let i=1;
-    i<=42;
-    i++
-  ){
-
-    const el =
-      document.querySelector(
-        `.value-input[data-index="${i}"]`
-      );
-
-    values.push(
-      el
-        ? el.value.trim()
-        : ""
-    );
+    html += `
+      </div>
+    `;
 
   }
+
+
+  $("sheetBody").innerHTML =
+    html;
+
+}
+
+
+/* ================= CLEAR SHEET ================= */
+
+function clearSheet(){
+
+  document
+    .querySelectorAll("[data-v]")
+    .forEach(
+      x => x.value = ""
+    );
+
+
+  $("checkedBy").value =
+    user?.email?.split("@")[0] || "";
+
+
+  $("verifiedBy").value =
+    "";
+
+}
+
+
+/* ================= COLLECT VALUES ================= */
+
+function collectValues(){
+
+  const values =
+    Array(42).fill("");
+
+
+  document
+    .querySelectorAll("[data-v]")
+    .forEach(
+      x =>
+        values[
+          +x.dataset.v
+        ] =
+        x.value.trim()
+    );
+
 
   return values;
 
 }
 
 
-/* =========================================================
-   GET DATETIMES
-========================================================= */
+/* ================= RECORD ID ================= */
 
-function getDateTimes(){
+function recordId(){
 
-  const result = [];
-
-  for(
-    let i=1;
-    i<=42;
-    i++
-  ){
-
-    const el =
-      document.querySelector(
-        `.datetime[data-datetime="${i}"]`
-      );
-
-    result.push(
-      el
-        ? el.value
-        : ""
-    );
-
-  }
-
-  return result;
+  return (
+    $("sheetDate").value
+    + "_"
+    + $("sheetShift").value
+  );
 
 }
 
 
-/* =========================================================
-   PROGRESS
-========================================================= */
+/* ================= SAVE ================= */
 
-function updateProgress(){
+async function saveRecord(
+  silent=false
+){
+
+  if(!user)
+    return;
+
+
+  const date =
+    $("sheetDate").value;
+
+
+  if(!date){
+
+    msg(
+      "saveMsg",
+      "Please select date.",
+      "error"
+    );
+
+    return;
+
+  }
+
 
   const values =
-    getValues();
+    collectValues();
 
 
   const filled =
-    values.filter(
-      value =>
-        value !== ""
-    ).length;
+    values.filter(Boolean).length;
 
 
-  const percent =
-    Math.round(
-      (filled / 42) * 100
-    );
+  await setDoc(
 
+    doc(
+      db,
+      "mixer4_tss_records",
+      recordId()
+    ),
 
-  document
-    .getElementById(
-      "progressText"
-    )
-    .textContent =
-      `${filled} / 42 filled`;
+    {
 
+      date,
 
-  document
-    .getElementById(
-      "progressBar"
-    )
-    .style.width =
-      `${percent}%`;
+      shift:
+        $("sheetShift").value,
 
+      values,
 
-  const status =
-    document.getElementById(
-      "sheetStatus"
-    );
+      filled,
 
+      total:42,
 
-  if(
-    filled === 42
-  ){
+      checkedBy:
+        $("checkedBy").value.trim(),
 
-    status.textContent =
-      "● COMPLETE";
+      verifiedBy:
+        $("verifiedBy").value.trim(),
 
-    status.classList.add(
-      "complete"
-    );
+      checkedByEmail:
+        user.email || "",
 
-  }
-  else{
+      updatedBy:
+        user.uid,
 
-    status.textContent =
-      "● IN PROGRESS";
+      updatedAt:
+        serverTimestamp(),
 
-    status.classList.remove(
-      "complete"
-    );
+      area:
+        "MIXER-4 TSS"
 
-  }
+    },
 
-}
-
-
-/* =========================================================
-   RECORD ID
-========================================================= */
-
-function getRecordId(){
-
-  const date =
-    document.getElementById(
-      "sheetDate"
-    ).value ||
-    today();
-
-
-  const shift =
-    document.getElementById(
-      "shift"
-    ).value ||
-    "A";
-
-
-  return `${date}_${shift}`;
-
-}
-
-
-/* =========================================================
-   SAVE STATUS
-========================================================= */
-
-function updateSaveStatus(type){
-
-  const el =
-    document.getElementById(
-      "saveDot"
-    );
-
-
-  if(
-    type === "saving"
-  ){
-
-    el.textContent =
-      "☁️ Saving...";
-
-    el.className =
-      "save-dot saving";
-
-  }
-
-
-  if(
-    type === "saved"
-  ){
-
-    el.textContent =
-      "☁️ Cloud Saved";
-
-    el.className =
-      "save-dot saved";
-
-  }
-
-
-  if(
-    type === "ready"
-  ){
-
-    el.textContent =
-      "☁️ Ready";
-
-    el.className =
-      "save-dot";
-
-  }
-
-}
-
-
-/* =========================================================
-   AUTO SAVE
-========================================================= */
-
-function scheduleSave(){
-
-  if(
-    !auth.currentUser
-  ){
-
-    return;
-
-  }
-
-
-  updateSaveStatus(
-    "saving"
-  );
-
-
-  clearTimeout(
-    saveTimer
-  );
-
-
-  saveTimer =
-    setTimeout(
-      () => {
-
-        saveSheet(false);
-
-      },
-      800
-    );
-
-}
-
-
-/* =========================================================
-   SAVE FIRESTORE
-========================================================= */
-
-async function saveSheet(
-  showToast = true
-){
-
-  if(
-    !auth.currentUser
-  ){
-
-    return;
-
-  }
-
-
-  try{
-
-    const date =
-      document.getElementById(
-        "sheetDate"
-      ).value ||
-      today();
-
-
-    const shift =
-      document.getElementById(
-        "shift"
-      ).value ||
-      "A";
-
-
-    const values =
-      getValues();
-
-
-    const dateTimes =
-      getDateTimes();
-
-
-    const filled =
-      values.filter(
-        v =>
-          v !== ""
-      ).length;
-
-
-    const id =
-      `${date}_${shift}`;
-
-
-    currentRecordId =
-      id;
-
-
-    await setDoc(
-
-      doc(
-        db,
-        "mixer4_tss_records",
-        id
-      ),
-
-      {
-
-        date:
-          date,
-
-        shift:
-          shift,
-
-        area:
-          document.getElementById(
-            "area"
-          ).value ||
-          "MIXER-4 / TSS UNIT",
-
-        values:
-          values,
-
-        dateTimes:
-          dateTimes,
-
-        total:
-          42,
-
-        filled:
-          filled,
-
-        checkedBy:
-          document.getElementById(
-            "checkedBy"
-          ).value ||
-          "",
-
-        verifiedBy:
-          document.getElementById(
-            "verifiedBy"
-          ).value ||
-          "",
-
-        updatedBy:
-          auth.currentUser.email ||
-          auth.currentUser.uid,
-
-        updatedAt:
-          serverTimestamp()
-
-      },
-
-      {
-        merge:true
-      }
-
-    );
-
-
-    updateSaveStatus(
-      "saved"
-    );
-
-
-    if(showToast){
-
-      showToastMessage(
-        "☁️ Check sheet saved to cloud"
-      );
-
+    {
+      merge:true
     }
 
-  }
-  catch(error){
-
-    console.error(
-      "Firestore save error:",
-      error
-    );
+  );
 
 
-    updateSaveStatus(
-      "ready"
-    );
+  if(!silent){
 
-
-    showToastMessage(
-      friendlyError(error),
-      true
+    msg(
+      "saveMsg",
+      `Saved to cloud ✓ ${filled}/42 points filled`,
+      "success"
     );
 
   }
@@ -2416,828 +1340,346 @@ async function saveSheet(
 }
 
 
-/* =========================================================
-   LOAD RECORD
-========================================================= */
+/* ================= LOAD RECORD ================= */
 
 async function loadRecord(
   date,
   shift
 ){
 
-  if(
-    !auth.currentUser
-  ){
+  clearSheet();
 
-    return;
 
-  }
+  $("sheetDate").value =
+    date;
+
+  $("sheetShift").value =
+    shift;
 
 
   try{
 
-    const id =
-      `${date}_${shift}`;
-
-
-    const recordRef =
-      doc(
-        db,
-        "mixer4_tss_records",
-        id
-      );
-
-
-    const snapshot =
+    const snap =
       await getDoc(
-        recordRef
+        doc(
+          db,
+          "mixer4_tss_records",
+          date + "_" + shift
+        )
       );
 
 
-    if(
-      snapshot.exists()
-    ){
+    if(!snap.exists()){
 
-      applyRecord({
-
-        id:
-          snapshot.id,
-
-        ...snapshot.data()
-
-      });
-
-    }
-    else{
-
-      currentRecordId =
-        null;
-
-      updateProgress();
-
-      updateSaveStatus(
-        "ready"
+      msg(
+        "saveMsg",
+        "New sheet — no saved record.",
+        "success"
       );
-
-    }
-
-  }
-  catch(error){
-
-    console.error(
-      "Load record error:",
-      error
-    );
-
-    showToastMessage(
-      friendlyError(error),
-      true
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   APPLY RECORD
-========================================================= */
-
-function applyRecord(
-  record
-){
-
-  const values =
-    Array.isArray(
-      record.values
-    )
-      ? record.values
-      : [];
-
-
-  const dateTimes =
-    Array.isArray(
-      record.dateTimes
-    )
-      ? record.dateTimes
-      : [];
-
-
-  for(
-    let i=1;
-    i<=42;
-    i++
-  ){
-
-    const valueEl =
-      document.querySelector(
-        `.value-input[data-index="${i}"]`
-      );
-
-
-    if(valueEl){
-
-      valueEl.value =
-        values[i-1] ?? "";
-
-    }
-
-
-    const timeEl =
-      document.querySelector(
-        `.datetime[data-datetime="${i}"]`
-      );
-
-
-    if(timeEl){
-
-      timeEl.value =
-        dateTimes[i-1] ?? "";
-
-    }
-
-  }
-
-
-  if(
-    record.area !== undefined
-  ){
-
-    document.getElementById(
-      "area"
-    ).value =
-      record.area;
-
-  }
-
-
-  if(
-    record.checkedBy !== undefined
-  ){
-
-    document.getElementById(
-      "checkedBy"
-    ).value =
-      record.checkedBy;
-
-  }
-
-
-  if(
-    record.verifiedBy !== undefined
-  ){
-
-    document.getElementById(
-      "verifiedBy"
-    ).value =
-      record.verifiedBy;
-
-  }
-
-
-  currentRecordId =
-    record.id;
-
-
-  updateProgress();
-
-  updateSaveStatus(
-    "saved"
-  );
-
-}
-
-
-/* =========================================================
-   CLEAR SHEET VALUES
-========================================================= */
-
-function clearValues(){
-
-  document
-    .querySelectorAll(
-      ".value-input"
-    )
-    .forEach(
-      el => {
-        el.value = "";
-      }
-    );
-
-
-  document
-    .querySelectorAll(
-      ".datetime"
-    )
-    .forEach(
-      el => {
-        el.value = "";
-      }
-    );
-
-
-  document.getElementById(
-    "checkedBy"
-  ).value = "";
-
-
-  document.getElementById(
-    "verifiedBy"
-  ).value = "";
-
-
-  currentRecordId =
-    null;
-
-
-  updateProgress();
-
-  updateSaveStatus(
-    "ready"
-  );
-
-}
-
-
-/* =========================================================
-   NEW BLANK SHEET
-========================================================= */
-
-function blankSheet(){
-
-  document.getElementById(
-    "sheetDate"
-  ).value =
-    today();
-
-
-  document.getElementById(
-    "shift"
-  ).value =
-    "A";
-
-
-  document.getElementById(
-    "area"
-  ).value =
-    "MIXER-4 / TSS UNIT";
-
-
-  clearValues();
-
-}
-
-
-/* =========================================================
-   HISTORY
-========================================================= */
-
-async function loadHistory(){
-
-  const list =
-    document.getElementById(
-      "historyList"
-    );
-
-
-  list.innerHTML =
-    `<div class="loading">
-      ☁️ Loading shared history...
-    </div>`;
-
-
-  try{
-
-    let snapshots;
-
-
-    try{
-
-      snapshots =
-        await getDocs(
-
-          query(
-
-            collection(
-              db,
-              "mixer4_tss_records"
-            ),
-
-            orderBy(
-              "updatedAt",
-              "desc"
-            )
-
-          )
-
-        );
-
-    }
-    catch(error){
-
-      console.warn(
-        "Using history fallback:",
-        error
-      );
-
-
-      snapshots =
-        await getDocs(
-
-          collection(
-            db,
-            "mixer4_tss_records"
-          )
-
-        );
-
-    }
-
-
-    if(
-      snapshots.empty
-    ){
-
-      list.innerHTML = `
-
-        <div class="card empty">
-
-          📭 No check sheet history found.
-
-        </div>
-
-      `;
 
       return;
 
     }
 
 
-    list.innerHTML = "";
+    const data =
+      snap.data();
 
 
-    snapshots.forEach(
-      snapshot => {
+    (
+      data.values || []
+    ).forEach(
+      (value,index)=>{
+
+        const el =
+          document.querySelector(
+            `[data-v="${index}"]`
+          );
+
+        if(el)
+          el.value =
+            value || "";
+
+      }
+    );
+
+
+    $("checkedBy").value =
+      data.checkedBy || "";
+
+
+    $("verifiedBy").value =
+      data.verifiedBy || "";
+
+
+    msg(
+      "saveMsg",
+      `Loaded ✓ ${data.filled || 0}/42 points filled`,
+      "success"
+    );
+
+
+  }catch(e){
+
+    console.error(e);
+
+    msg(
+      "saveMsg",
+      firebaseError(e),
+      "error"
+    );
+
+  }
+
+}
+
+
+/* ================= HISTORY LABEL ================= */
+
+function pointLabel(index){
+
+  let count = 0;
+
+
+  for(
+    const [,rows]
+    of sections
+  ){
+
+    for(
+      const row
+      of rows
+    ){
+
+      if(count++ === index){
+
+        return (
+          row[0]
+          + ". LH: "
+          + row[1]
+        );
+
+      }
+
+
+      if(count++ === index){
+
+        return (
+          row[0]
+          + ". RH: "
+          + row[2]
+        );
+
+      }
+
+    }
+
+  }
+
+
+  return "Point " + (index+1);
+
+}
+
+
+/* ================= HISTORY ================= */
+
+async function loadHistory(){
+
+  $("historyList").innerHTML =
+    '<div class="loading">Loading shared history...</div>';
+
+
+  try{
+
+    let snap;
+
+
+    try{
+
+      snap =
+        await getDocs(
+          query(
+            records,
+            orderBy(
+              "updatedAt",
+              "desc"
+            )
+          )
+        );
+
+    }catch(e){
+
+      snap =
+        await getDocs(records);
+
+    }
+
+
+    const history =
+      [];
+
+
+    snap.forEach(
+      item => {
 
         const data =
-          snapshot.data();
-
-
-        const values =
-          Array.isArray(
-            data.values
-          )
-            ? data.values
-            : [];
-
-
-        const dateTimes =
-          Array.isArray(
-            data.dateTimes
-          )
-            ? data.dateTimes
-            : [];
-
-
-        const date =
-          data.date ||
-          snapshot.id.split("_")[0] ||
-          "-";
-
-
-        const shift =
-          data.shift ||
-          snapshot.id.split("_")[1] ||
-          "-";
+          item.data();
 
 
         const filled =
-          data.filled ??
-          values.filter(
-            value =>
-              value !== undefined &&
-              value !== null &&
-              String(value).trim() !== ""
-          ).length;
+          [];
 
 
-        const user =
-          data.updatedBy ||
-          data.checkedBy ||
-          "Unknown";
+        (
+          data.values || []
+        ).forEach(
+          (value,index)=>{
 
+            if(
+              String(
+                value || ""
+              ).trim()
+            ){
 
-        let valueHTML =
-          "";
+              filled.push([
+                index,
+                String(value).trim()
+              ]);
 
-
-        /* ONLY FILLED VALUES */
-
-        for(
-          let i=0;
-          i<42;
-          i++
-        ){
-
-          const value =
-            values[i];
-
-
-          if(
-            value === undefined ||
-            value === null ||
-            String(value).trim() === ""
-          ){
-
-            continue;
+            }
 
           }
+        );
 
 
-          const label =
-            pointData[i]
-              ? pointData[i].label
-              : `Parameter ${i+1}`;
+        if(filled.length){
 
-
-          const timeHTML =
-            dateTimes[i]
-              ? `
-                <div style="
-                  color:#647890;
-                  font-size:10px;
-                  margin-top:3px;
-                ">
-                  ${escapeHTML(
-                    formatDateTime(
-                      dateTimes[i]
-                    )
-                  )}
-                </div>
-              `
-              : "";
-
-
-          valueHTML += `
-
-            <div class="value-row">
-
-              <div class="value-label">
-
-                ${i+1}.
-                ${escapeHTML(label)}
-
-              </div>
-
-              <div class="value-value">
-
-                ${escapeHTML(
-                  String(value)
-                )} °C
-
-              </div>
-
-              ${timeHTML}
-
-            </div>
-
-          `;
+          history.push({
+            data,
+            filled
+          });
 
         }
 
-
-        if(
-          !valueHTML
-        ){
-
-          valueHTML = `
-
-            <div class="value-row">
-
-              <div class="value-label">
-                Values
-              </div>
-
-              <div class="value-value">
-                No values filled
-              </div>
-
-            </div>
-
-          `;
-
-        }
+      }
+    );
 
 
-        const item =
-          document.createElement(
-            "div"
-          );
+    history.sort(
+      (a,b)=>
+        String(
+          b.data.date
+        ).localeCompare(
+          String(a.data.date)
+        )
+    );
 
 
-        item.className =
-          "card history-item";
+    if(!history.length){
+
+      $("historyList").innerHTML =
+        '<div class="loading">No filled records yet.</div>';
+
+      return;
+
+    }
 
 
-        item.innerHTML = `
+    $("historyList").innerHTML =
+      history.map(
+        item => `
 
-          <div class="history-main">
+          <div class="history-card">
 
-            <div>
+            <div class="history-head">
 
-              <div class="history-date">
+              <strong>
+                ${esc(item.data.date)}
+                —
+                Shift
+                ${esc(item.data.shift)}
+              </strong>
 
-                📅
-                ${escapeHTML(
-                  date
-                )}
-
-              </div>
-
-
-              <div class="history-meta">
-
-                <span>
-                  Shift
-                  ${escapeHTML(
-                    String(shift)
-                  )}
-                </span>
-
-                <span>•</span>
-
-                <span>
-                  ${filled}/42 filled
-                </span>
-
-                <span>•</span>
-
-                <span>
-                  ${escapeHTML(
-                    String(user)
-                  )}
-                </span>
-
-              </div>
+              <span>
+                ${esc(item.data.checkedBy || "Unknown")}
+                ·
+                ${item.filled.length}/42 filled
+              </span>
 
             </div>
 
 
-            <div class="badge">
+            <div class="filled-list">
 
               ${
-                filled === 42
-                  ? "COMPLETE"
-                  : "PARTIAL"
+                item.filled.map(
+                  point => `
+
+                    <div class="item">
+
+                      <b>
+                        ${esc(
+                          pointLabel(point[0])
+                        )}
+                      </b>
+
+                      <br>
+
+                      <span>
+                        ${esc(point[1])}
+                      </span>
+
+                    </div>
+
+                  `
+                ).join("")
               }
 
             </div>
 
           </div>
 
-
-          ${
-            data.checkedBy ||
-            data.verifiedBy
-              ? `
-
-                <div
-                  class="history-meta"
-                  style="margin-top:12px"
-                >
-
-                  ${
-                    data.checkedBy
-                      ? `
-                        Checked:
-                        ${escapeHTML(
-                          data.checkedBy
-                        )}
-                      `
-                      : ""
-                  }
-
-                  ${
-                    data.verifiedBy
-                      ? `
-                        • Verified:
-                        ${escapeHTML(
-                          data.verifiedBy
-                        )}
-                      `
-                      : ""
-                  }
-
-                </div>
-
-              `
-              : ""
-          }
+        `
+      ).join("");
 
 
-          <div class="history-values">
+  }catch(e){
 
-            ${valueHTML}
+    console.error(e);
 
-          </div>
-
-        `;
-
-
-        list.appendChild(
-          item
-        );
-
-      }
-    );
-
-  }
-  catch(error){
-
-    console.error(
-      "History error:",
-      error
-    );
-
-
-    list.innerHTML = `
-
-      <div class="card empty">
-
-        ❌ Unable to load history.
-
-        <br><br>
-
-        <small>
-          ${escapeHTML(
-            friendlyError(error)
-          )}
-        </small>
-
+    $("historyList").innerHTML =
+      `
+      <div class="msg error">
+        ${esc(firebaseError(e))}
       </div>
-
-    `;
-
-  }
-
-}
-
-
-/* =========================================================
-   AUTH MESSAGE
-========================================================= */
-
-function showAuthMessage(
-  message,
-  isError = false
-){
-
-  const el =
-    document.getElementById(
-      "authMessage"
-    );
-
-
-  el.textContent =
-    message;
-
-
-  el.className =
-    "message show " +
-    (
-      isError
-        ? "error"
-        : "success"
-    );
-
-}
-
-
-function clearAuthMessage(){
-
-  const el =
-    document.getElementById(
-      "authMessage"
-    );
-
-
-  el.textContent =
-    "";
-
-
-  el.className =
-    "message";
-
-}
-
-
-/* =========================================================
-   AUTH MODE
-========================================================= */
-
-function setAuthMode(
-  mode
-){
-
-  const loginTab =
-    document.getElementById(
-      "loginTab"
-    );
-
-
-  const signupTab =
-    document.getElementById(
-      "signupTab"
-    );
-
-
-  const loginBtn =
-    document.getElementById(
-      "loginBtn"
-    );
-
-
-  const signupBtn =
-    document.getElementById(
-      "signupBtn"
-    );
-
-
-  if(
-    mode === "login"
-  ){
-
-    loginTab.classList.add(
-      "active"
-    );
-
-    signupTab.classList.remove(
-      "active"
-    );
-
-
-    loginBtn.classList.remove(
-      "hidden"
-    );
-
-    signupBtn.classList.add(
-      "hidden"
-    );
-
-  }
-  else{
-
-    signupTab.classList.add(
-      "active"
-    );
-
-    loginTab.classList.remove(
-      "active"
-    );
-
-
-    signupBtn.classList.remove(
-      "hidden"
-    );
-
-    loginBtn.classList.add(
-      "hidden"
-    );
+      `;
 
   }
 
-
-  clearAuthMessage();
-
 }
 
 
-/* =========================================================
-   LOGIN
-========================================================= */
+/* ================= LOGIN ================= */
 
 async function loginUser(){
 
   const email =
-    document.getElementById(
-      "email"
-    ).value.trim();
+    $("loginEmail")
+    .value
+    .trim();
 
 
   const password =
-    document.getElementById(
-      "password"
-    ).value;
+    $("loginPassword")
+    .value;
 
 
-  if(
-    !email ||
-    !password
-  ){
+  if(!email || !password){
 
-    showAuthMessage(
-      "Please enter email and password.",
-      true
+    msg(
+      "authMsg",
+      "Email aur password enter karein."
     );
 
     return;
@@ -3245,12 +1687,14 @@ async function loginUser(){
   }
 
 
+  msg(
+    "authMsg",
+    "Logging in...",
+    "success"
+  );
+
+
   try{
-
-    showAuthMessage(
-      "🔄 Logging in..."
-    );
-
 
     await signInWithEmailAndPassword(
       auth,
@@ -3258,23 +1702,14 @@ async function loginUser(){
       password
     );
 
+  }catch(e){
 
-    showAuthMessage(
-      "✅ Login successful."
-    );
+    console.error(e);
 
-  }
-  catch(error){
-
-    console.error(
-      "LOGIN ERROR:",
-      error
-    );
-
-
-    showAuthMessage(
-      friendlyError(error),
-      true
+    msg(
+      "authMsg",
+      firebaseError(e),
+      "error"
     );
 
   }
@@ -3282,32 +1717,26 @@ async function loginUser(){
 }
 
 
-/* =========================================================
-   CREATE ID
-========================================================= */
+/* ================= CREATE ID ================= */
 
 async function signupUser(){
 
   const email =
-    document.getElementById(
-      "email"
-    ).value.trim();
+    $("signupEmail")
+    .value
+    .trim();
 
 
   const password =
-    document.getElementById(
-      "password"
-    ).value;
+    $("signupPassword")
+    .value;
 
 
-  if(
-    !email ||
-    !password
-  ){
+  if(!email || !password){
 
-    showAuthMessage(
-      "Please enter email and password.",
-      true
+    msg(
+      "authMsg",
+      "Email aur password enter karein."
     );
 
     return;
@@ -3315,26 +1744,26 @@ async function signupUser(){
   }
 
 
-  if(
-    password.length < 6
-  ){
+  if(password.length < 6){
 
-    showAuthMessage(
-      "Password must be at least 6 characters.",
-      true
+    msg(
+      "authMsg",
+      "Password kam se kam 6 characters ka hona chahiye."
     );
 
     return;
 
   }
+
+
+  msg(
+    "authMsg",
+    "Creating ID...",
+    "success"
+  );
 
 
   try{
-
-    showAuthMessage(
-      "🔄 Creating your ID..."
-    );
-
 
     await createUserWithEmailAndPassword(
       auth,
@@ -3342,23 +1771,14 @@ async function signupUser(){
       password
     );
 
+  }catch(e){
 
-    showAuthMessage(
-      "✅ Account created successfully."
-    );
+    console.error(e);
 
-  }
-  catch(error){
-
-    console.error(
-      "SIGNUP ERROR:",
-      error
-    );
-
-
-    showAuthMessage(
-      friendlyError(error),
-      true
+    msg(
+      "authMsg",
+      firebaseError(e),
+      "error"
     );
 
   }
@@ -3366,9 +1786,7 @@ async function signupUser(){
 }
 
 
-/* =========================================================
-   EXPOSE AUTH FUNCTIONS
-========================================================= */
+/* Inline compatibility */
 
 window.loginUser =
   loginUser;
@@ -3377,796 +1795,323 @@ window.signupUser =
   signupUser;
 
 
-/* =========================================================
-   AUTH STATE
-========================================================= */
+/* ================= LOGIN TABS ================= */
 
-onAuthStateChanged(
-  auth,
-  async user => {
+$("loginTab").onclick =
+  () => {
 
-    console.log(
-      "AUTH STATE:",
-      user
-        ? user.email
-        : "SIGNED OUT"
-    );
+    $("loginTab")
+      .classList
+      .add("active");
 
+    $("signupTab")
+      .classList
+      .remove("active");
 
-    if(user){
 
-      document
-        .getElementById(
-          "authView"
-        )
-        .classList.add(
-          "hidden"
-        );
+    $("loginBox")
+      .classList
+      .remove("hidden");
 
+    $("signupBox")
+      .classList
+      .add("hidden");
 
-      document
-        .getElementById(
-          "appView"
-        )
-        .classList.remove(
-          "hidden"
-        );
 
-
-      const pill =
-        document.getElementById(
-          "userPill"
-        );
-
-
-      pill.textContent =
-        "👤 " +
-        (
-          user.email ||
-          user.uid
-        );
-
-
-      pill.classList.remove(
-        "hidden"
-      );
-
-
-      buildPoints();
-
-      blankSheet();
-
-
-      await loadRecord(
-        today(),
-        "A"
-      );
-
-    }
-    else{
-
-      document
-        .getElementById(
-          "authView"
-        )
-        .classList.remove(
-          "hidden"
-        );
-
-
-      document
-        .getElementById(
-          "appView"
-        )
-        .classList.add(
-          "hidden"
-        );
-
-
-      document
-        .getElementById(
-          "userPill"
-        )
-        .classList.add(
-          "hidden"
-        );
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   LOGIN TAB
-========================================================= */
-
-document
-  .getElementById(
-    "loginTab"
-  )
-  .addEventListener(
-    "click",
-    () => {
-
-      setAuthMode(
-        "login"
-      );
-
-    }
-  );
-
-
-/* =========================================================
-   SIGNUP TAB
-========================================================= */
-
-document
-  .getElementById(
-    "signupTab"
-  )
-  .addEventListener(
-    "click",
-    () => {
-
-      setAuthMode(
-        "signup"
-      );
-
-    }
-  );
-
-
-/* =========================================================
-   LOGIN BUTTON
-========================================================= */
-
-document
-  .getElementById(
-    "loginBtn"
-  )
-  .addEventListener(
-    "click",
-    loginUser
-  );
-
-
-/* =========================================================
-   SIGNUP BUTTON
-========================================================= */
-
-document
-  .getElementById(
-    "signupBtn"
-  )
-  .addEventListener(
-    "click",
-    signupUser
-  );
-
-
-/* =========================================================
-   ENTER KEY
-========================================================= */
-
-document
-  .getElementById(
-    "password"
-  )
-  .addEventListener(
-    "keydown",
-    event => {
-
-      if(
-        event.key === "Enter"
-      ){
-
-        const signupBtn =
-          document.getElementById(
-            "signupBtn"
-          );
-
-
-        if(
-          signupBtn.classList.contains(
-            "hidden"
-          )
-        ){
-
-          loginUser();
-
-        }
-        else{
-
-          signupUser();
-
-        }
-
-      }
-
-    }
-  );
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-document
-  .getElementById(
-    "logoutBtn"
-  )
-  .addEventListener(
-    "click",
-    async () => {
-
-      try{
-
-        await signOut(
-          auth
-        );
-
-      }
-      catch(error){
-
-        showToastMessage(
-          friendlyError(error),
-          true
-        );
-
-      }
-
-    }
-  );
-
-
-/* =========================================================
-   NEW SHEET BUTTON
-========================================================= */
-
-document
-  .getElementById(
-    "newBtn"
-  )
-  .addEventListener(
-    "click",
-    () => {
-
-      document
-        .getElementById(
-          "sheetView"
-        )
-        .classList.remove(
-          "hidden"
-        );
-
-
-      document
-        .getElementById(
-          "historyView"
-        )
-        .classList.add(
-          "hidden"
-        );
-
-
-      document
-        .getElementById(
-          "newBtn"
-        )
-        .classList.add(
-          "active"
-        );
-
-
-      document
-        .getElementById(
-          "historyBtn"
-        )
-        .classList.remove(
-          "active"
-        );
-
-    }
-  );
-
-
-/* =========================================================
-   HISTORY BUTTON
-========================================================= */
-
-document
-  .getElementById(
-    "historyBtn"
-  )
-  .addEventListener(
-    "click",
-    async () => {
-
-      document
-        .getElementById(
-          "sheetView"
-        )
-        .classList.add(
-          "hidden"
-        );
-
-
-      document
-        .getElementById(
-          "historyView"
-        )
-        .classList.remove(
-          "hidden"
-        );
-
-
-      document
-        .getElementById(
-          "newBtn"
-        )
-        .classList.remove(
-          "active"
-        );
-
-
-      document
-        .getElementById(
-          "historyBtn"
-        )
-        .classList.add(
-          "active"
-        );
-
-
-      await loadHistory();
-
-    }
-  );
-
-
-/* =========================================================
-   REFRESH HISTORY
-========================================================= */
-
-document
-  .getElementById(
-    "refreshHistory"
-  )
-  .addEventListener(
-    "click",
-    loadHistory
-  );
-
-
-/* =========================================================
-   DATE CHANGE
-========================================================= */
-
-document
-  .getElementById(
-    "sheetDate"
-  )
-  .addEventListener(
-    "change",
-    async () => {
-
-      const date =
-        document.getElementById(
-          "sheetDate"
-        ).value ||
-        today();
-
-
-      const shift =
-        document.getElementById(
-          "shift"
-        ).value ||
-        "A";
-
-
-      clearValues();
-
-
-      await loadRecord(
-        date,
-        shift
-      );
-
-    }
-  );
-
-
-/* =========================================================
-   SHIFT CHANGE
-========================================================= */
-
-document
-  .getElementById(
-    "shift"
-  )
-  .addEventListener(
-    "change",
-    async () => {
-
-      const date =
-        document.getElementById(
-          "sheetDate"
-        ).value ||
-        today();
-
-
-      const shift =
-        document.getElementById(
-          "shift"
-        ).value ||
-        "A";
-
-
-      clearValues();
-
-
-      await loadRecord(
-        date,
-        shift
-      );
-
-    }
-  );
-
-
-/* =========================================================
-   COMPLETE BUTTON
-========================================================= */
-
-document
-  .getElementById(
-    "finishBtn"
-  )
-  .addEventListener(
-    "click",
-    async () => {
-
-      const values =
-        getValues();
-
-
-      const filled =
-        values.filter(
-          value =>
-            value !== ""
-        ).length;
-
-
-      if(
-        filled < 42
-      ){
-
-        const ok =
-          confirm(
-            `Only ${filled}/42 values are filled.\n\nDo you still want to complete this sheet?`
-          );
-
-
-        if(!ok){
-
-          return;
-
-        }
-
-      }
-
-
-      await saveSheet(
-        false
-      );
-
-
-      const status =
-        document.getElementById(
-          "sheetStatus"
-        );
-
-
-      status.textContent =
-        "● COMPLETE";
-
-
-      status.classList.add(
-        "complete"
-      );
-
-
-      showToastMessage(
-        `✅ Check sheet completed — ${filled}/42 values saved`
-      );
-
-    }
-  );
-
-
-/* =========================================================
-   PRINT
-========================================================= */
-
-document
-  .getElementById(
-    "printBtn"
-  )
-  .addEventListener(
-    "click",
-    () => {
-
-      const values =
-        getValues();
-
-
-      if(
-        values.every(
-          value =>
-            value === ""
-        )
-      ){
-
-        showToastMessage(
-          "Please fill at least one value first.",
-          true
-        );
-
-        return;
-
-      }
-
-
-      window.print();
-
-    }
-  );
-
-
-/* =========================================================
-   CLEAR BUTTON
-========================================================= */
-
-document
-  .getElementById(
-    "clearBtn"
-  )
-  .addEventListener(
-    "click",
-    () => {
-
-      const ok =
-        confirm(
-          "Create a new blank check sheet?"
-        );
-
-
-      if(ok){
-
-        blankSheet();
-
-
-        showToastMessage(
-          "📝 New blank sheet ready"
-        );
-
-      }
-
-    }
-  );
-
-
-/* =========================================================
-   FIREBASE ERROR MESSAGES
-========================================================= */
-
-function friendlyError(
-  error
-){
-
-  const code =
-    error?.code || "";
-
-
-  const map = {
-
-    "auth/invalid-email":
-      "Invalid email address.",
-
-    "auth/user-not-found":
-      "User not found. Please create an account first.",
-
-    "auth/wrong-password":
-      "Incorrect password.",
-
-    "auth/invalid-credential":
-      "Email or password is incorrect.",
-
-    "auth/email-already-in-use":
-      "This email is already registered. Please login.",
-
-    "auth/weak-password":
-      "Password must be at least 6 characters.",
-
-    "auth/api-key-not-valid":
-      "Firebase API key is not valid.",
-
-    "auth/network-request-failed":
-      "Network error. Check your internet connection.",
-
-    "auth/operation-not-allowed":
-      "Email/Password Authentication is disabled in Firebase.",
-
-    "auth/too-many-requests":
-      "Too many attempts. Please wait and try again.",
-
-    "permission-denied":
-      "Firestore permission denied. Check Firebase Firestore Rules.",
-
-    "unavailable":
-      "Firebase service is temporarily unavailable."
+    $("authMsg").textContent =
+      "";
 
   };
 
 
-  return (
-    map[code] ||
-    error?.message ||
-    "Something went wrong."
-  );
+$("signupTab").onclick =
+  () => {
 
-}
+    $("signupTab")
+      .classList
+      .add("active");
 
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
-function escapeHTML(
-  value
-){
-
-  return String(value)
-
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
-
-}
+    $("loginTab")
+      .classList
+      .remove("active");
 
 
-/* =========================================================
-   FORMAT DATE TIME
-========================================================= */
+    $("signupBox")
+      .classList
+      .remove("hidden");
 
-function formatDateTime(
-  value
-){
-
-  if(!value){
-
-    return "";
-
-  }
+    $("loginBox")
+      .classList
+      .add("hidden");
 
 
-  try{
+    $("authMsg").textContent =
+      "";
 
-    const d =
-      new Date(value);
+  };
 
 
-    if(
-      Number.isNaN(
-        d.getTime()
-      )
-    ){
+/* ================= ENTER KEY ================= */
 
-      return value;
+$("loginPassword").onkeydown =
+  e => {
+
+    if(e.key === "Enter")
+      loginUser();
+
+  };
+
+
+$("signupPassword").onkeydown =
+  e => {
+
+    if(e.key === "Enter")
+      signupUser();
+
+  };
+
+
+/* ================= LOGOUT ================= */
+
+$("logoutBtn").onclick =
+  () => signOut(auth);
+
+
+/* ================= NEW SHEET ================= */
+
+$("newBtn").onclick =
+  () => {
+
+    clearSheet();
+
+    $("sheetDate").value =
+      today();
+
+    $("sheetShift").value =
+      "A";
+
+  };
+
+
+/* ================= HISTORY ================= */
+
+$("historyBtn").onclick =
+  () => {
+
+    $("historyPanel")
+      .classList
+      .remove("hidden");
+
+    $("refreshHistory")
+      .classList
+      .remove("hidden");
+
+    loadHistory();
+
+  };
+
+
+$("refreshHistory").onclick =
+  loadHistory;
+
+
+$("closeHistory").onclick =
+  () => {
+
+    $("historyPanel")
+      .classList
+      .add("hidden");
+
+    $("refreshHistory")
+      .classList
+      .add("hidden");
+
+  };
+
+
+/* ================= SAVE BUTTON ================= */
+
+$("saveBtn").onclick =
+  async () => {
+
+    try{
+
+      await saveRecord();
+
+    }catch(e){
+
+      console.error(e);
+
+      msg(
+        "saveMsg",
+        firebaseError(e),
+        "error"
+      );
 
     }
 
-
-    return d.toLocaleString();
-
-  }
-  catch{
-
-    return value;
-
-  }
-
-}
+  };
 
 
-/* =========================================================
-   TOAST
-========================================================= */
+/* ================= FINISH & PRINT ================= */
 
-function showToastMessage(
-  message,
-  error = false
-){
+$("finishBtn").onclick =
+  async () => {
 
-  const toast =
-    document.getElementById(
-      "toast"
+    try{
+
+      await saveRecord();
+
+      setTimeout(
+        () => window.print(),
+        300
+      );
+
+    }catch(e){
+
+      console.error(e);
+
+      msg(
+        "saveMsg",
+        firebaseError(e),
+        "error"
+      );
+
+    }
+
+  };
+
+
+/* ================= DATE / SHIFT ================= */
+
+$("sheetDate").onchange =
+  () =>
+    loadRecord(
+      $("sheetDate").value,
+      $("sheetShift").value
     );
 
 
-  toast.textContent =
-    message;
+$("sheetShift").onchange =
+  () =>
+    loadRecord(
+      $("sheetDate").value,
+      $("sheetShift").value
+    );
 
 
-  toast.style.borderColor =
-    error
+/* ================= AUTO SAVE ================= */
 
-      ? "rgba(255,90,110,.35)"
+document.addEventListener(
+  "input",
+  e => {
 
-      : "rgba(41,229,138,.25)";
+    if(
+      e.target.matches(
+        "[data-v],#checkedBy,#verifiedBy"
+      )
+    ){
+
+      clearTimeout(timer);
 
 
-  toast.classList.add(
-    "show"
-  );
+      timer =
+        setTimeout(
+          async () => {
+
+            try{
+
+              await saveRecord(true);
+
+              msg(
+                "saveMsg",
+                "Auto-saved ✓",
+                "success"
+              );
+
+            }catch(error){
+
+              console.error(error);
+
+              msg(
+                "saveMsg",
+                firebaseError(error),
+                "error"
+              );
+
+            }
+
+          },
+          1200
+        );
+
+    }
+
+  }
+);
 
 
-  setTimeout(
-    () => {
+/* ================= AUTH STATE ================= */
 
-      toast.classList.remove(
-        "show"
+onAuthStateChanged(
+  auth,
+  current => {
+
+    user =
+      current;
+
+
+    if(current){
+
+      $("auth")
+        .style
+        .display =
+        "none";
+
+
+      $("app")
+        .style
+        .display =
+        "block";
+
+
+      $("userLabel")
+        .textContent =
+        current.email
+        || "Logged in";
+
+
+      loadRecord(
+        $("sheetDate").value,
+        $("sheetShift").value
       );
 
-    },
-    3000
-  );
 
-}
+    }else{
 
-
-/* =========================================================
-   INITIAL
-========================================================= */
-
-document
-  .getElementById(
-    "sheetDate"
-  )
-  .value =
-    today();
+      $("auth")
+        .style
+        .display =
+        "block";
 
 
-setAuthMode(
-  "login"
+      $("app")
+        .style
+        .display =
+        "none";
+
+    }
+
+  }
 );
 
 
-console.log(
-  "MIXER-4 TSS APP READY"
-);
+/* ================= START ================= */
+
+buildSheet();
+
+$("sheetDate").value =
+  today();
 
 </script>
 
