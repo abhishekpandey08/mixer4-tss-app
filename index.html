@@ -12,20 +12,36 @@ content="width=device-width, initial-scale=1.0">
 
 <style>
 
+/* =========================================================
+   GLOBAL
+========================================================= */
+
 *{
 box-sizing:border-box;
 }
 
+html{
+scroll-behavior:smooth;
+}
+
 :root{
+
 --blue:#2563eb;
+--blue2:#3b82f6;
 --purple:#7c3aed;
+--purple2:#9333ea;
 --cyan:#0891b2;
 --green:#16a34a;
+--green2:#059669;
 --orange:#f59e0b;
 --red:#dc2626;
+
 --dark:#172033;
+--dark2:#0f172a;
 --muted:#64748b;
+
 --border:#dbe4f0;
+
 }
 
 body{
@@ -35,59 +51,243 @@ margin:0;
 font-family:
 system-ui,
 -apple-system,
-Segoe UI,
+BlinkMacSystemFont,
+"Segoe UI",
 Roboto,
 Arial,
 sans-serif;
 
 min-height:100vh;
 
+color:var(--dark);
+
+overflow-x:hidden;
+
 background:
 linear-gradient(
 135deg,
 #eef2ff,
 #ecfeff,
-#fff7ed
+#fff7ed,
+#f5f3ff
 );
 
-color:var(--dark);
+background-size:400% 400%;
+
+animation:
+backgroundMove 16s ease infinite;
 
 }
 
-/* HEADER */
+@keyframes backgroundMove{
+
+0%{
+background-position:0% 50%;
+}
+
+50%{
+background-position:100% 50%;
+}
+
+100%{
+background-position:0% 50%;
+}
+
+}
+
+
+/* =========================================================
+   ANIMATED BACKGROUND
+========================================================= */
+
+body::before,
+body::after{
+
+content:"";
+
+position:fixed;
+
+border-radius:50%;
+
+pointer-events:none;
+
+z-index:-1;
+
+filter:blur(5px);
+
+}
+
+body::before{
+
+width:330px;
+height:330px;
+
+top:100px;
+left:-150px;
+
+background:
+radial-gradient(
+circle,
+#7c3aed35,
+transparent 70%
+);
+
+animation:
+floatBlob1 10s ease-in-out infinite;
+
+}
+
+body::after{
+
+width:380px;
+height:380px;
+
+right:-180px;
+bottom:50px;
+
+background:
+radial-gradient(
+circle,
+#0891b235,
+transparent 70%
+);
+
+animation:
+floatBlob2 13s ease-in-out infinite;
+
+}
+
+@keyframes floatBlob1{
+
+0%,100%{
+transform:translate(0,0) scale(1);
+}
+
+50%{
+transform:translate(90px,70px) scale(1.25);
+}
+
+}
+
+@keyframes floatBlob2{
+
+0%,100%{
+transform:translate(0,0) scale(1);
+}
+
+50%{
+transform:translate(-80px,-90px) scale(1.2);
+}
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
 
 header{
+
+position:relative;
+
+overflow:hidden;
 
 background:
 linear-gradient(
 135deg,
 #2563eb,
 #7c3aed,
-#0891b2
+#0891b2,
+#2563eb
 );
+
+background-size:300% 300%;
 
 color:white;
 
-padding:22px 16px;
+padding:25px 16px;
 
 box-shadow:
-0 8px 30px #312e8140;
+0 10px 40px #312e8150;
 
 animation:
-headerDrop .7s ease;
+headerGradient 8s ease infinite,
+headerDrop .8s ease;
+
+}
+
+@keyframes headerGradient{
+
+0%{
+background-position:0% 50%;
+}
+
+50%{
+background-position:100% 50%;
+}
+
+100%{
+background-position:0% 50%;
+}
 
 }
 
 @keyframes headerDrop{
 
 from{
+
 opacity:0;
-transform:translateY(-30px);
+
+transform:
+translateY(-50px);
+
 }
 
 to{
+
 opacity:1;
-transform:translateY(0);
+
+transform:
+translateY(0);
+
+}
+
+}
+
+
+/* HEADER LIGHT EFFECT */
+
+header::before{
+
+content:"";
+
+position:absolute;
+
+width:220px;
+height:220px;
+
+border-radius:50%;
+
+top:-100px;
+right:10%;
+
+background:#ffffff20;
+
+filter:blur(3px);
+
+animation:
+headerOrb 6s ease-in-out infinite;
+
+}
+
+@keyframes headerOrb{
+
+0%,100%{
+transform:translate(0,0);
+}
+
+50%{
+transform:translate(-100px,60px);
 }
 
 }
@@ -98,27 +298,51 @@ max-width:1000px;
 
 margin:auto;
 
+position:relative;
+
+z-index:2;
+
 }
 
 header h1{
 
 margin:0;
 
-font-size:24px;
+font-size:25px;
+
+letter-spacing:.3px;
+
+animation:
+titleGlow 3s ease-in-out infinite;
+
+}
+
+@keyframes titleGlow{
+
+0%,100%{
+text-shadow:0 0 0 transparent;
+}
+
+50%{
+text-shadow:0 0 18px #ffffff80;
+}
 
 }
 
 header p{
 
-margin:5px 0 0;
+margin:6px 0 0;
 
-opacity:.9;
+opacity:.92;
 
 font-size:13px;
 
 }
 
-/* CONTAINER */
+
+/* =========================================================
+   CONTAINER
+========================================================= */
 
 .container{
 
@@ -130,14 +354,23 @@ padding:18px;
 
 }
 
-/* CARD */
+
+/* =========================================================
+   CARD
+========================================================= */
 
 .card{
 
-background:
-rgba(255,255,255,.92);
+position:relative;
 
-backdrop-filter:blur(10px);
+background:
+rgba(255,255,255,.91);
+
+backdrop-filter:
+blur(15px);
+
+-webkit-backdrop-filter:
+blur(15px);
 
 border-radius:22px;
 
@@ -146,12 +379,26 @@ padding:20px;
 margin:15px 0;
 
 box-shadow:
-0 10px 35px #33415522;
+0 12px 40px #33415525;
 
-border:1px solid white;
+border:1px solid #ffffffaa;
 
 animation:
-cardIn .5s ease;
+cardIn .65s cubic-bezier(.2,.8,.2,1);
+
+transition:
+transform .35s ease,
+box-shadow .35s ease;
+
+}
+
+.card:hover{
+
+transform:
+translateY(-3px);
+
+box-shadow:
+0 20px 50px #33415530;
 
 }
 
@@ -162,8 +409,8 @@ from{
 opacity:0;
 
 transform:
-translateY(20px)
-scale(.98);
+translateY(30px)
+scale(.96);
 
 }
 
@@ -179,7 +426,10 @@ scale(1);
 
 }
 
-/* AUTH */
+
+/* =========================================================
+   AUTH
+========================================================= */
 
 .auth{
 
@@ -194,27 +444,44 @@ margin:
 
 text-align:center;
 
-font-size:32px;
+font-size:35px;
 
-font-weight:900;
+font-weight:950;
 
 background:
 linear-gradient(
 90deg,
 #2563eb,
 #7c3aed,
-#0891b2
+#0891b2,
+#2563eb
 );
+
+background-size:250% auto;
 
 -webkit-background-clip:text;
 
+background-clip:text;
+
 color:transparent;
 
-margin-bottom:5px;
+animation:
+logoMove 4s linear infinite;
 
 }
 
-/* INPUT */
+@keyframes logoMove{
+
+to{
+background-position:250% center;
+}
+
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
 
 input,
 select{
@@ -232,9 +499,20 @@ font-size:15px;
 
 outline:none;
 
-background:white;
+background:#ffffff;
 
-transition:.2s;
+transition:
+.25s ease;
+
+}
+
+input:hover,
+select:hover{
+
+border-color:#93c5fd;
+
+transform:
+translateY(-1px);
 
 }
 
@@ -244,13 +522,24 @@ select:focus{
 border-color:var(--blue);
 
 box-shadow:
-0 0 0 4px #2563eb20;
+0 0 0 4px #2563eb20,
+0 6px 20px #2563eb12;
+
+transform:
+translateY(-2px);
 
 }
 
-/* BUTTON */
+
+/* =========================================================
+   BUTTON
+========================================================= */
 
 button{
+
+position:relative;
+
+overflow:hidden;
 
 border:0;
 
@@ -260,7 +549,7 @@ border-radius:12px;
 
 font-size:15px;
 
-font-weight:750;
+font-weight:800;
 
 cursor:pointer;
 
@@ -273,27 +562,87 @@ linear-gradient(
 #7c3aed
 );
 
-box-shadow:
-0 5px 16px #2563eb35;
+background-size:200% 200%;
 
-transition:.2s;
+box-shadow:
+0 6px 18px #2563eb35;
+
+transition:
+transform .25s ease,
+box-shadow .25s ease;
+
+animation:
+buttonGradient 5s ease infinite;
+
+}
+
+@keyframes buttonGradient{
+
+0%{
+background-position:0% 50%;
+}
+
+50%{
+background-position:100% 50%;
+}
+
+100%{
+background-position:0% 50%;
+}
+
+}
+
+button::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+
+left:-100%;
+
+width:60%;
+
+height:100%;
+
+background:
+linear-gradient(
+90deg,
+transparent,
+#ffffff55,
+transparent
+);
+
+transform:
+skewX(-20deg);
+
+transition:
+left .6s ease;
+
+}
+
+button:hover::before{
+
+left:140%;
 
 }
 
 button:hover{
 
 transform:
-translateY(-2px);
+translateY(-3px)
+scale(1.01);
 
 box-shadow:
-0 9px 22px #2563eb40;
+0 12px 28px #2563eb45;
 
 }
 
 button:active{
 
 transform:
-scale(.97);
+scale(.96);
 
 }
 
@@ -309,11 +658,17 @@ transform:none;
 
 button.secondary{
 
-background:#e8eef8;
+background:
+linear-gradient(
+135deg,
+#e8eef8,
+#f8fafc
+);
 
 color:#172033;
 
-box-shadow:none;
+box-shadow:
+0 4px 12px #64748b18;
 
 }
 
@@ -337,9 +692,10 @@ linear-gradient(
 #b91c1c
 );
 
-}
 
-/* AUTH TABS */
+/* =========================================================
+   AUTH TABS
+========================================================= */
 
 .tabs{
 
@@ -357,7 +713,10 @@ flex:1;
 
 }
 
-/* FORM */
+
+/* =========================================================
+   FORM
+========================================================= */
 
 .grid{
 
@@ -379,7 +738,7 @@ display:block;
 
 font-size:14px;
 
-font-weight:750;
+font-weight:800;
 
 margin-bottom:6px;
 
@@ -391,7 +750,10 @@ margin-bottom:15px;
 
 }
 
-/* NAV */
+
+/* =========================================================
+   NAV
+========================================================= */
 
 .nav{
 
@@ -409,7 +771,10 @@ flex:1;
 
 }
 
-/* USER */
+
+/* =========================================================
+   USER
+========================================================= */
 
 .userBox{
 
@@ -423,9 +788,9 @@ gap:12px;
 
 .avatar{
 
-width:48px;
+width:50px;
 
-height:48px;
+height:50px;
 
 border-radius:50%;
 
@@ -448,74 +813,146 @@ font-size:22px;
 
 font-weight:900;
 
+box-shadow:
+0 0 0 5px #2563eb15,
+0 8px 25px #2563eb35;
+
+animation:
+avatarPulse 3s ease-in-out infinite;
+
 }
 
-/* SECTION TITLE */
+@keyframes avatarPulse{
+
+0%,100%{
+transform:scale(1);
+box-shadow:
+0 0 0 5px #2563eb15,
+0 8px 25px #2563eb35;
+}
+
+50%{
+transform:scale(1.08);
+box-shadow:
+0 0 0 9px #2563eb10,
+0 10px 30px #2563eb45;
+}
+
+}
+
+
+/* =========================================================
+   SHIFT INFO
+========================================================= */
+
+.shiftInfo{
+
+margin-top:4px;
+
+font-size:12px;
+
+font-weight:750;
+
+color:#4338ca;
+
+padding:7px 10px;
+
+border-radius:9px;
+
+background:
+linear-gradient(
+90deg,
+#eef2ff,
+#ecfeff
+);
+
+animation:
+shiftPulse 2.5s ease-in-out infinite;
+
+}
+
+@keyframes shiftPulse{
+
+0%,100%{
+opacity:.75;
+}
+
+50%{
+opacity:1;
+}
+
+}
+
+
+/* =========================================================
+   SECTION TITLE
+========================================================= */
 
 .sectionTitle{
+
+position:relative;
+
+overflow:hidden;
 
 margin-top:25px;
 
 margin-bottom:12px;
 
-padding:12px 14px;
+padding:13px 15px;
 
-border-radius:12px;
+border-radius:13px;
 
 background:
 linear-gradient(
 135deg,
 #eef2ff,
-#ecfeff
+#ecfeff,
+#f5f3ff
 );
+
+background-size:200% 200%;
 
 border-left:5px solid var(--purple);
 
 font-size:16px;
 
-font-weight:850;
+font-weight:900;
 
 color:#312e81;
 
-}
-
-/* CHECK POINT */
-
-.point{
-
-padding:14px;
-
-margin:10px 0;
-
-border-radius:15px;
-
-border:1px solid var(--border);
-
-background:
-linear-gradient(
-90deg,
-#f8faff,
-white
-);
-
-border-left:
-5px solid var(--blue);
-
-transition:.2s;
+box-shadow:
+0 5px 18px #6366f118;
 
 animation:
-pointIn .35s ease;
+sectionGlow 5s ease infinite,
+sectionSlide .55s ease;
 
 }
 
-@keyframes pointIn{
+@keyframes sectionGlow{
+
+0%{
+background-position:0% 50%;
+}
+
+50%{
+background-position:100% 50%;
+}
+
+100%{
+background-position:0% 50%;
+}
+
+}
+
+@keyframes sectionSlide{
 
 from{
 
 opacity:0;
 
 transform:
-translateX(-15px);
+translateX(-20px);
 
 }
 
@@ -530,15 +967,119 @@ translateX(0);
 
 }
 
+.sectionTitle::after{
+
+content:"";
+
+position:absolute;
+
+top:0;
+
+left:-100%;
+
+width:50%;
+
+height:100%;
+
+background:
+linear-gradient(
+90deg,
+transparent,
+#ffffff90,
+transparent
+);
+
+animation:
+sectionShine 4s ease-in-out infinite;
+
+}
+
+@keyframes sectionShine{
+
+0%{
+left:-100%;
+}
+
+55%,100%{
+left:150%;
+}
+
+}
+
+
+/* =========================================================
+   CHECK POINT
+========================================================= */
+
+.point{
+
+padding:14px;
+
+margin:11px 0;
+
+border-radius:16px;
+
+border:1px solid var(--border);
+
+background:
+linear-gradient(
+90deg,
+#f8faff,
+#ffffff
+);
+
+border-left:
+5px solid var(--blue);
+
+transition:
+transform .3s ease,
+box-shadow .3s ease,
+border-color .3s ease;
+
+animation:
+pointIn .45s ease both;
+
+}
+
 .point:hover{
 
 transform:
-translateX(3px);
+translateX(6px)
+translateY(-2px);
 
 box-shadow:
-0 5px 20px #2563eb18;
+0 8px 25px #2563eb1c;
+
+border-color:#bfdbfe;
 
 }
+
+@keyframes pointIn{
+
+from{
+
+opacity:0;
+
+transform:
+translateX(-20px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:
+translateX(0);
+
+}
+
+}
+
+
+/* =========================================================
+   POINT HEADER
+========================================================= */
 
 .pointHeader{
 
@@ -558,45 +1099,16 @@ margin-bottom:10px;
 
 color:#2563eb;
 
-font-weight:900;
+font-weight:950;
+
+font-size:14px;
 
 }
 
-.pointLabel{
 
-font-weight:750;
-
-line-height:1.4;
-
-}
-
-.status{
-
-font-size:11px;
-
-padding:5px 9px;
-
-border-radius:20px;
-
-background:#eef2ff;
-
-color:#4338ca;
-
-font-weight:700;
-
-white-space:nowrap;
-
-}
-
-.status.saved{
-
-background:#dcfce7;
-
-color:#166534;
-
-}
-
-/* TWO SIDE POINT */
+/* =========================================================
+   TWO SIDE POINT
+========================================================= */
 
 .pointGrid{
 
@@ -613,11 +1125,27 @@ gap:12px;
 
 padding:12px;
 
-border-radius:12px;
+border-radius:13px;
 
-background:#ffffff;
+background:
+rgba(255,255,255,.9);
 
-border:1px solid #e2e8f0;
+border:
+1px solid #e2e8f0;
+
+transition:
+transform .25s ease,
+box-shadow .25s ease;
+
+}
+
+.sidePoint:hover{
+
+transform:
+translateY(-3px);
+
+box-shadow:
+0 7px 18px #64748b18;
 
 }
 
@@ -625,25 +1153,74 @@ border:1px solid #e2e8f0;
 
 font-size:12px;
 
-font-weight:800;
+font-weight:850;
 
 color:#475569;
 
 margin-bottom:7px;
 
-}
-
-@media(max-width:650px){
-
-.pointGrid{
-
-grid-template-columns:1fr;
+line-height:1.4;
 
 }
 
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status{
+
+font-size:10px;
+
+padding:5px 8px;
+
+border-radius:20px;
+
+background:#eef2ff;
+
+color:#4338ca;
+
+font-weight:800;
+
+white-space:nowrap;
+
+transition:.25s;
+
 }
 
-/* HISTORY */
+.status.saved{
+
+background:#dcfce7;
+
+color:#166534;
+
+animation:
+statusPop .35s ease;
+
+}
+
+@keyframes statusPop{
+
+0%{
+transform:scale(.7);
+opacity:.3;
+}
+
+70%{
+transform:scale(1.12);
+}
+
+100%{
+transform:scale(1);
+opacity:1;
+}
+
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
 
 .history{
 
@@ -659,7 +1236,8 @@ padding:16px;
 
 border-radius:16px;
 
-background:white;
+background:
+rgba(255,255,255,.94);
 
 border:
 1px solid var(--border);
@@ -667,19 +1245,51 @@ border:
 box-shadow:
 0 4px 15px #33415510;
 
-transition:.2s;
+transition:
+transform .3s ease,
+box-shadow .3s ease;
+
+animation:
+historyIn .45s ease;
 
 }
 
 .historyItem:hover{
 
 transform:
-translateY(-2px);
+translateY(-4px);
 
 box-shadow:
-0 8px 22px #33415518;
+0 10px 25px #33415520;
 
 }
+
+@keyframes historyIn{
+
+from{
+
+opacity:0;
+
+transform:
+translateY(15px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:
+translateY(0);
+
+}
+
+}
+
+
+/* =========================================================
+   BADGES
+========================================================= */
 
 .badge{
 
@@ -691,7 +1301,7 @@ border-radius:20px;
 
 font-size:11px;
 
-font-weight:750;
+font-weight:800;
 
 background:#eef2ff;
 
@@ -709,19 +1319,25 @@ color:#166534;
 
 }
 
-/* MESSAGE */
+
+/* =========================================================
+   MESSAGE
+========================================================= */
 
 .message{
 
 margin-top:12px;
 
-padding:10px;
+padding:11px;
 
-border-radius:10px;
+border-radius:11px;
 
 font-size:13px;
 
 display:none;
+
+animation:
+messageIn .4s ease;
 
 }
 
@@ -747,7 +1363,34 @@ color:#991b1b;
 
 }
 
-/* LOADING */
+@keyframes messageIn{
+
+from{
+
+opacity:0;
+
+transform:
+translateY(-8px)
+scale(.97);
+
+}
+
+to{
+
+opacity:1;
+
+transform:
+translateY(0)
+scale(1);
+
+}
+
+}
+
+
+/* =========================================================
+   LOADER
+========================================================= */
 
 .loader{
 
@@ -778,7 +1421,58 @@ transform:rotate(360deg);
 
 }
 
-/* HIDDEN */
+
+/* =========================================================
+   COMPLETION BOX
+========================================================= */
+
+.completedBox{
+
+margin-top:15px;
+
+padding:14px;
+
+border-radius:14px;
+
+background:
+linear-gradient(
+135deg,
+#ecfdf5,
+#dcfce7
+);
+
+border:
+1px solid #86efac;
+
+color:#166534;
+
+font-size:13px;
+
+font-weight:750;
+
+animation:
+completedGlow 2.5s ease-in-out infinite;
+
+}
+
+@keyframes completedGlow{
+
+0%,100%{
+box-shadow:
+0 4px 15px #16a34a12;
+}
+
+50%{
+box-shadow:
+0 8px 28px #16a34a30;
+}
+
+}
+
+
+/* =========================================================
+   HIDDEN
+========================================================= */
 
 .hidden{
 
@@ -786,7 +1480,20 @@ display:none !important;
 
 }
 
-/* RESPONSIVE */
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:650px){
+
+.pointGrid{
+
+grid-template-columns:1fr;
+
+}
+
+}
 
 @media(max-width:600px){
 
@@ -820,11 +1527,14 @@ z-index:20;
 
 background:#ffffffdd;
 
-backdrop-filter:blur(10px);
+backdrop-filter:blur(12px);
 
 padding:7px;
 
 border-radius:15px;
+
+box-shadow:
+0 5px 25px #33415525;
 
 }
 
@@ -833,6 +1543,37 @@ border-radius:15px;
 font-size:12px;
 
 padding:11px 7px;
+
+}
+
+.userBox{
+
+flex-wrap:wrap;
+
+}
+
+.userBox button{
+
+margin-left:auto !important;
+
+}
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+*{
+
+animation-duration:.01ms !important;
+
+animation-iteration-count:1 !important;
+
+transition-duration:.01ms !important;
 
 }
 
@@ -850,10 +1591,12 @@ padding:11px 7px;
 
 <div class="headerInner">
 
-<h1>⚙️ MIXER-4 TSS Daily Check Sheet</h1>
+<h1>
+⚙️ MIXER-4 TSS Daily Check Sheet
+</h1>
 
 <p>
-Cloud Monitoring • Secure Login • Auto Save • Shared History
+☁️ Cloud Monitoring • 🔐 Secure Login • 💾 Auto Save • 📚 Shared History
 </p>
 
 </div>
@@ -864,7 +1607,9 @@ Cloud Monitoring • Secure Login • Auto Save • Shared History
 <div class="container">
 
 
-<!-- AUTH -->
+<!-- =====================================================
+     AUTH
+===================================================== -->
 
 <section
 id="auth"
@@ -878,7 +1623,6 @@ MIXER-4
 <h2 style="text-align:center">
 TSS Control System
 </h2>
-
 
 <div class="tabs">
 
@@ -906,7 +1650,9 @@ class="secondary"
 
 <div class="field">
 
-<label>Email</label>
+<label>
+Email
+</label>
 
 <input
 id="loginEmail"
@@ -920,7 +1666,9 @@ placeholder="Enter your email"
 
 <div class="field">
 
-<label>Password</label>
+<label>
+Password
+</label>
 
 <input
 id="loginPassword"
@@ -937,9 +1685,7 @@ id="loginButton"
 type="button"
 style="width:100%"
 >
-
 🔐 Login
-
 </button>
 
 </div>
@@ -954,7 +1700,9 @@ class="hidden"
 
 <div class="field">
 
-<label>Email</label>
+<label>
+Email
+</label>
 
 <input
 id="signupEmail"
@@ -968,7 +1716,9 @@ placeholder="Enter email"
 
 <div class="field">
 
-<label>Password</label>
+<label>
+Password
+</label>
 
 <input
 id="signupPassword"
@@ -985,9 +1735,7 @@ id="signupButton"
 type="button"
 style="width:100%"
 >
-
 ➕ Create Account
-
 </button>
 
 </div>
@@ -1002,7 +1750,9 @@ class="message"
 </section>
 
 
-<!-- APP -->
+<!-- =====================================================
+     APP
+===================================================== -->
 
 <section
 id="app"
@@ -1029,7 +1779,7 @@ User
 <div
 style="font-size:12px;color:#64748b"
 >
-Logged in successfully
+🟢 Logged in successfully
 </div>
 
 </div>
@@ -1070,7 +1820,9 @@ type="button"
 </div>
 
 
-<!-- SHEET -->
+<!-- =====================================================
+     SHEET
+===================================================== -->
 
 <section
 id="sheetView"
@@ -1085,9 +1837,13 @@ class="card"
 <div class="grid">
 
 
+<!-- DATE -->
+
 <div class="field">
 
-<label>Date</label>
+<label>
+📅 Date
+</label>
 
 <input
 id="sheetDate"
@@ -1097,28 +1853,51 @@ type="date"
 </div>
 
 
+<!-- SHIFT -->
+
 <div class="field">
 
-<label>Shift</label>
+<label>
+🕐 Shift
+</label>
 
 <select id="sheetShift">
 
-<option>A</option>
+<option value="A">
+A Shift — 07:00 AM to 03:00 PM
+</option>
 
-<option>B</option>
+<option value="B">
+B Shift — 03:00 PM to 11:00 PM
+</option>
 
-<option>C</option>
+<option value="C">
+C Shift — 11:00 PM to 07:00 AM
+</option>
 
-<option>General</option>
+<option value="General">
+General Shift — 09:30 AM to 06:00 PM
+</option>
 
 </select>
+
+<div
+id="shiftTiming"
+class="shiftInfo"
+>
+⏱️ A Shift Timing: 07:00 AM → 03:00 PM
+</div>
 
 </div>
 
 
+<!-- MACHINE -->
+
 <div class="field">
 
-<label>Area / Machine</label>
+<label>
+🏭 Area / Machine
+</label>
 
 <input
 id="sheetMachine"
@@ -1128,18 +1907,44 @@ value="MIXER-4 / TSS UNIT"
 </div>
 
 
+<!-- FILLED BY -->
+
+<div class="field">
+
+<label>
+👷 Filled By / Operator Name
+</label>
+
+<input
+id="filledBy"
+type="text"
+placeholder="Enter your full name"
+autocomplete="name"
+>
+
+</div>
+
+
 </div>
 
 
 <p
-style="color:#64748b;font-size:13px"
+style="
+color:#64748b;
+font-size:13px;
+"
 >
-💡 Enter temperature / pressure / observation values. Data is automatically saved to Firebase Cloud.
+
+💡 Values automatically save to Firebase Cloud.
+Complete Sheet karne par completion date & time automatically record hoga.
+
 </p>
 
 
 <div id="points"></div>
 
+
+<!-- BUTTONS -->
 
 <div
 style="
@@ -1170,6 +1975,13 @@ type="button"
 
 
 <div
+id="completionInfo"
+class="completedBox hidden"
+>
+</div>
+
+
+<div
 id="saveMessage"
 class="message"
 ></div>
@@ -1178,7 +1990,9 @@ class="message"
 </section>
 
 
-<!-- HISTORY -->
+<!-- =====================================================
+     HISTORY
+===================================================== -->
 
 <section
 id="historyView"
@@ -1210,9 +2024,14 @@ type="button"
 
 
 <p
-style="font-size:13px;color:#64748b"
+style="
+font-size:13px;
+color:#64748b;
+"
 >
-All logged-in users can see previous check sheets and the values filled in them.
+
+All logged-in users can see previous check sheets and the filled values.
+
 </p>
 
 
@@ -1235,9 +2054,9 @@ Loading...
 <script type="module">
 
 
-/* =========================================
+/* =========================================================
    FIREBASE IMPORT
-========================================= */
+========================================================= */
 
 import {
 initializeApp
@@ -1262,8 +2081,8 @@ getFirestore,
 collection,
 doc,
 setDoc,
-getDocs,
 getDoc,
+getDocs,
 query,
 orderBy,
 serverTimestamp
@@ -1272,9 +2091,9 @@ from
 "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 
-/* =========================================
+/* =========================================================
    FIREBASE CONFIG
-========================================= */
+========================================================= */
 
 const firebaseConfig={
 
@@ -1299,9 +2118,9 @@ appId:
 };
 
 
-/* =========================================
-   INITIALIZE FIREBASE
-========================================= */
+/* =========================================================
+   INIT
+========================================================= */
 
 const firebaseApp=
 initializeApp(firebaseConfig);
@@ -1313,18 +2132,18 @@ const db=
 getFirestore(firebaseApp);
 
 
-/* =========================================
+/* =========================================================
    SHORTCUT
-========================================= */
+========================================================= */
 
 const $=
 id=>
 document.getElementById(id);
 
 
-/* =========================================
+/* =========================================================
    VARIABLES
-========================================= */
+========================================================= */
 
 let currentUser=null;
 
@@ -1335,15 +2154,38 @@ Array(42).fill("");
 
 let saveTimer=null;
 
+let completedAtLocal="";
 
-/* =========================================
+
+/* =========================================================
+   SHIFT TIMINGS
+========================================================= */
+
+const shiftTimings={
+
+A:
+"07:00 AM → 03:00 PM",
+
+B:
+"03:00 PM → 11:00 PM",
+
+C:
+"11:00 PM → 07:00 AM",
+
+General:
+"09:30 AM → 06:00 PM"
+
+};
+
+
+/* =========================================================
    EXACT 42 CHECK POINTS
-   DATE/TIME REMOVED
-========================================= */
+========================================================= */
 
 const sections=[
 
 {
+
 title:
 "MIXER-4 TSS GEARBOX & BEARING TEMPERATURE MONITORING",
 
@@ -1517,9 +2359,9 @@ rows:[
 ];
 
 
-/* =========================================
+/* =========================================================
    DATE
-========================================= */
+========================================================= */
 
 $("sheetDate").value=
 new Date()
@@ -1527,9 +2369,31 @@ new Date()
 .slice(0,10);
 
 
-/* =========================================
-   BUILD CHECK SHEET
-========================================= */
+/* =========================================================
+   SHIFT DISPLAY
+========================================================= */
+
+function updateShiftTiming(){
+
+const shift=
+$("sheetShift").value;
+
+$("shiftTiming").textContent=
+`⏱️ ${shift} Shift Timing: ${shiftTimings[shift]}`;
+
+}
+
+$("sheetShift").addEventListener(
+"change",
+updateShiftTiming
+);
+
+updateShiftTiming();
+
+
+/* =========================================================
+   BUILD SHEET
+========================================================= */
 
 function buildSheet(){
 
@@ -1570,11 +2434,12 @@ point.className=
 
 
 let leftIndex=null;
+
 let rightIndex=null;
 
 
-/* IMPORTANT:
-   Blank cells do NOT consume an index
+/*
+   Blank cells DO NOT consume an index.
 */
 
 if(left){
@@ -1599,7 +2464,7 @@ let html=`
 <div>
 
 <span class="pointNumber">
-Point ${sr}
+⚙️ Point ${sr}
 </span>
 
 </div>
@@ -1607,6 +2472,7 @@ Point ${sr}
 </div>
 
 <div class="pointGrid">
+
 `;
 
 
@@ -1691,7 +2557,6 @@ Not filled
 html+=`
 
 </div>
-
 `;
 
 
@@ -1707,14 +2572,12 @@ container.appendChild(point);
 }
 
 
-/* BUILD */
-
 buildSheet();
 
 
-/* =========================================
+/* =========================================================
    AUTH MESSAGE
-========================================= */
+========================================================= */
 
 function authMessage(
 text,
@@ -1734,9 +2597,9 @@ type;
 }
 
 
-/* =========================================
+/* =========================================================
    SAVE MESSAGE
-========================================= */
+========================================================= */
 
 function saveMessage(
 text,
@@ -1756,9 +2619,9 @@ type;
 }
 
 
-/* =========================================
+/* =========================================================
    LOGIN TAB
-========================================= */
+========================================================= */
 
 $("loginTab").onclick=()=>{
 
@@ -1781,9 +2644,9 @@ $("signupTab")
 };
 
 
-/* =========================================
+/* =========================================================
    SIGNUP TAB
-========================================= */
+========================================================= */
 
 $("signupTab").onclick=()=>{
 
@@ -1806,9 +2669,9 @@ $("loginTab")
 };
 
 
-/* =========================================
+/* =========================================================
    CREATE ACCOUNT
-========================================= */
+========================================================= */
 
 async function signupUser(){
 
@@ -1903,9 +2766,9 @@ $("signupButton").onclick=
 signupUser;
 
 
-/* =========================================
+/* =========================================================
    LOGIN
-========================================= */
+========================================================= */
 
 async function loginUser(){
 
@@ -2009,9 +2872,9 @@ window.signupUser=
 signupUser;
 
 
-/* =========================================
+/* =========================================================
    LOGOUT
-========================================= */
+========================================================= */
 
 $("logoutButton").onclick=
 async()=>{
@@ -2031,9 +2894,9 @@ console.error(error);
 };
 
 
-/* =========================================
+/* =========================================================
    CLEAR SHEET
-========================================= */
+========================================================= */
 
 function clearSheet(){
 
@@ -2041,6 +2904,9 @@ currentRecordId=null;
 
 currentValues=
 Array(42).fill("");
+
+completedAtLocal="";
+
 
 $("sheetDate").value=
 new Date()
@@ -2052,6 +2918,16 @@ $("sheetShift").value=
 
 $("sheetMachine").value=
 "MIXER-4 / TSS UNIT";
+
+$("filledBy").value="";
+
+
+$("completionInfo")
+.classList
+.add("hidden");
+
+$("completionInfo")
+.textContent="";
 
 
 for(let i=0;i<42;i++){
@@ -2080,12 +2956,14 @@ status.className=
 
 }
 
+updateShiftTiming();
+
 }
 
 
-/* =========================================
+/* =========================================================
    NEW SHEET
-========================================= */
+========================================================= */
 
 $("newSheetButton").onclick=()=>{
 
@@ -2100,16 +2978,21 @@ $("sheetView")
 .remove("hidden");
 
 saveMessage(
-"New blank check sheet ready.",
+"✨ New blank check sheet ready.",
 "ok"
 );
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 
 };
 
 
-/* =========================================
+/* =========================================================
    INPUT CHANGE
-========================================= */
+========================================================= */
 
 for(let i=0;i<42;i++){
 
@@ -2134,7 +3017,7 @@ $(`status-${i}`);
 if(currentValues[i]){
 
 status.textContent=
-"Saved";
+"✓ Filled";
 
 status.className=
 "status saved";
@@ -2157,9 +3040,54 @@ scheduleSave();
 }
 
 
-/* =========================================
+/* =========================================================
+   NAME / MACHINE / SHIFT / DATE CHANGE
+========================================================= */
+
+$("filledBy").addEventListener(
+"input",
+scheduleSave
+);
+
+$("sheetMachine").addEventListener(
+"input",
+scheduleSave
+);
+
+$("sheetDate").addEventListener(
+"change",
+()=>{
+
+/*
+   New date means new record.
+*/
+
+currentRecordId=null;
+
+scheduleSave();
+
+}
+);
+
+$("sheetShift").addEventListener(
+"change",
+()=>{
+
+/*
+   New shift means new record.
+*/
+
+currentRecordId=null;
+
+scheduleSave();
+
+}
+);
+
+
+/* =========================================================
    AUTO SAVE
-========================================= */
+========================================================= */
 
 function scheduleSave(){
 
@@ -2168,15 +3096,15 @@ clearTimeout(saveTimer);
 saveTimer=
 setTimeout(
 saveSheet,
-600
+700
 );
 
 }
 
 
-/* =========================================
+/* =========================================================
    SAVE SHEET
-========================================= */
+========================================================= */
 
 async function saveSheet(){
 
@@ -2197,11 +3125,6 @@ return;
 try{
 
 if(!currentRecordId){
-
-/*
-   Record ID:
-   Date + Shift
-*/
 
 currentRecordId=
 `${$("sheetDate").value}_${$("sheetShift").value}`;
@@ -2225,8 +3148,16 @@ $("sheetDate").value,
 shift:
 $("sheetShift").value,
 
+shiftTiming:
+shiftTimings[
+$("sheetShift").value
+],
+
 machine:
 $("sheetMachine").value,
+
+filledBy:
+$("filledBy").value.trim(),
 
 values:
 currentValues,
@@ -2258,7 +3189,7 @@ merge:true
 );
 
 saveMessage(
-"☁️ Automatically saved to Firebase.",
+"☁️ Automatically saved to Firebase Cloud.",
 "ok"
 );
 
@@ -2281,9 +3212,9 @@ error.message,
 }
 
 
-/* =========================================
+/* =========================================================
    COMPLETE SHEET
-========================================= */
+========================================================= */
 
 $("completeButton").onclick=
 async()=>{
@@ -2300,13 +3231,16 @@ return;
 }
 
 
-await saveSheet();
+const filled=
+currentValues
+.filter(v=>v)
+.length;
 
 
-if(!currentRecordId){
+if(filled===0){
 
 saveMessage(
-"Please enter at least one value.",
+"⚠️ Please enter at least one check value.",
 "error"
 );
 
@@ -2315,7 +3249,75 @@ return;
 }
 
 
+const operatorName=
+$("filledBy")
+.value
+.trim();
+
+
+if(!operatorName){
+
+saveMessage(
+"⚠️ Please enter Filled By / Operator Name.",
+"error"
+);
+
+$("filledBy").focus();
+
+return;
+
+}
+
+
+const button=
+$("completeButton");
+
+button.disabled=true;
+
+button.innerHTML=
+'<span class="loader"></span> Completing...';
+
+
 try{
+
+await saveSheet();
+
+
+if(!currentRecordId){
+
+currentRecordId=
+`${$("sheetDate").value}_${$("sheetShift").value}`;
+
+}
+
+
+/*
+   EXACT COMPLETION DATE/TIME
+   FROM USER'S BROWSER
+*/
+
+const now=
+new Date();
+
+completedAtLocal=
+now.toLocaleString(
+"en-IN",
+{
+dateStyle:"medium",
+timeStyle:"medium",
+hour12:true
+}
+);
+
+
+/*
+   ISO timestamp is also saved
+   for reliable sorting/reference.
+*/
+
+const completedAtISO=
+now.toISOString();
+
 
 await setDoc(
 
@@ -2333,8 +3335,22 @@ status:
 checkedBy:
 currentUser.email,
 
+filledBy:
+operatorName,
+
 completedAt:
 serverTimestamp(),
+
+completedAtISO:
+completedAtISO,
+
+completedAtDisplay:
+completedAtLocal,
+
+shiftTiming:
+shiftTimings[
+$("sheetShift").value
+],
 
 updatedAt:
 serverTimestamp()
@@ -2348,9 +3364,32 @@ merge:true
 );
 
 
+$("completionInfo")
+.classList
+.remove("hidden");
+
+$("completionInfo").innerHTML=
+`
+✅ <b>Check Sheet Completed</b><br>
+👷 Filled By: ${operatorName}<br>
+📅 Completed On: ${completedAtLocal}<br>
+🕐 Shift: ${$("sheetShift").value} — ${shiftTimings[$("sheetShift").value]}
+`;
+
+
 saveMessage(
-"✅ CHECK SHEET COMPLETED & SAVED.",
+"🎉 CHECK SHEET COMPLETED & SAVED SUCCESSFULLY!",
 "ok"
+);
+
+
+/*
+   Refresh history
+*/
+
+setTimeout(
+loadHistory,
+500
 );
 
 }
@@ -2369,12 +3408,21 @@ error.message,
 
 }
 
+finally{
+
+button.disabled=false;
+
+button.textContent=
+"✅ Complete Sheet";
+
+}
+
 };
 
 
-/* =========================================
+/* =========================================================
    HISTORY BUTTON
-========================================= */
+========================================================= */
 
 $("historyButton").onclick=
 async()=>{
@@ -2389,20 +3437,25 @@ $("historyView")
 
 await loadHistory();
 
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
 };
 
 
-/* =========================================
+/* =========================================================
    REFRESH
-========================================= */
+========================================================= */
 
 $("refreshButton").onclick=
 loadHistory;
 
 
-/* =========================================
+/* =========================================================
    POINT LABEL MAP
-========================================= */
+========================================================= */
 
 function getPointLabels(){
 
@@ -2437,9 +3490,9 @@ const pointLabels=
 getPointLabels();
 
 
-/* =========================================
+/* =========================================================
    LOAD HISTORY
-========================================= */
+========================================================= */
 
 async function loadHistory(){
 
@@ -2504,11 +3557,8 @@ d[`p${i+1}`]||""
 );
 
 
-const item=
-document.createElement("div");
-
-item.className=
-"historyItem";
+const filledCount=
+values.filter(v=>v).length;
 
 
 /*
@@ -2527,9 +3577,10 @@ valueHTML+=`
 
 <div
 style="
-padding:9px;
+padding:10px;
 border-bottom:1px solid #eee;
 font-size:13px;
+animation:historyIn .3s ease;
 "
 >
 
@@ -2565,6 +3616,18 @@ No values filled.
 }
 
 
+const item=
+document.createElement("div");
+
+item.className=
+"historyItem";
+
+
+const completedDisplay=
+d.completedAtDisplay||
+"-";
+
+
 item.innerHTML=`
 
 <div>
@@ -2584,9 +3647,27 @@ Shift ${d.shift||"-"}
 
 <div
 style="
+margin-top:8px;
+font-size:12px;
+font-weight:750;
+color:#4338ca;
+"
+>
+
+⏱️
+${d.shiftTiming||
+shiftTimings[d.shift]||
+"-"}
+
+</div>
+
+
+<div
+style="
 font-size:13px;
 color:#64748b;
-margin-top:5px;
+margin-top:8px;
+line-height:1.7;
 "
 >
 
@@ -2594,7 +3675,20 @@ margin-top:5px;
 
 <br>
 
-👤 ${d.checkedBy||d.updatedBy||"Unknown"}
+👷 Filled By:
+<b>
+${d.filledBy||"Not specified"}
+</b>
+
+<br>
+
+👤 Account:
+${d.checkedBy||d.updatedBy||"Unknown"}
+
+<br>
+
+🕐 Completed:
+${completedDisplay}
 
 </div>
 
@@ -2609,7 +3703,7 @@ ${d.status||"Draft"}
 
 <span class="badge green">
 
-${values.filter(v=>v).length}/42 Filled
+${filledCount}/42 Filled
 
 </span>
 
@@ -2693,9 +3787,9 @@ ${error.message}
 }
 
 
-/* =========================================
+/* =========================================================
    DOWNLOAD
-========================================= */
+========================================================= */
 
 $("downloadButton").onclick=()=>{
 
@@ -2728,11 +3822,18 @@ input.value.trim()
 );
 
 
+const operator=
+$("filledBy")
+.value
+.trim()||
+"Not specified";
+
+
 let text=
 "MIXER-4 TSS DAILY CHECK SHEET\n";
 
 text+=
-"============================================\n\n";
+"================================================\n\n";
 
 
 text+=
@@ -2746,12 +3847,42 @@ $("sheetShift").value+
 "\n";
 
 text+=
+"Shift Timing: "+
+shiftTimings[
+$("sheetShift").value
+]+
+"\n";
+
+text+=
 "Machine: "+
 $("sheetMachine").value+
 "\n";
 
 text+=
-"Checked By: "+
+"Filled By: "+
+operator+
+"\n";
+
+
+if(completedAtLocal){
+
+text+=
+"Completed On: "+
+completedAtLocal+
+"\n";
+
+}
+
+else{
+
+text+=
+"Completed On: Not completed yet\n";
+
+}
+
+
+text+=
+"Account: "+
 currentUser.email+
 "\n\n";
 
@@ -2760,7 +3891,7 @@ text+=
 "FILLED CHECK VALUES\n";
 
 text+=
-"--------------------------------------------\n";
+"------------------------------------------------\n";
 
 
 values.forEach(
@@ -2781,7 +3912,7 @@ text+=
 
 
 text+=
-"\n============================================\n";
+"\n================================================\n";
 
 text+=
 "Generated by MIXER-4 TSS Control System";
@@ -2820,9 +3951,9 @@ URL.revokeObjectURL(url);
 };
 
 
-/* =========================================
+/* =========================================================
    AUTH STATE
-========================================= */
+========================================================= */
 
 onAuthStateChanged(
 auth,
@@ -2853,7 +3984,9 @@ user.uid
 
 loadHistory();
 
-}else{
+}
+
+else{
 
 $("auth")
 .classList
